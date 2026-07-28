@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.className+=' js';</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practera | Turn Happy Patients Into 5-Star Reviews, Automatically</title>
+<meta name="description" content="Practera follows up with your patients after every visit, guides happy ones to leave a Google review, and routes concerns to your team before they go public. Built for dental and medical practices.">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Turn Every Happy Patient Into Your Next 5-Star Review">
+<meta property="og:description" content="An automated patient follow-up system for dental and medical practices. More reviews, fewer surprises, no extra work for your front desk.">
+<meta property="og:image" content="assets/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#2C5894">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7FAFC;
+    --surface:#FFFFFF;
+    --ink:#101B2D;
+    --ink-soft:#52657A;
+    --ink-faint:#8798AA;
+    --primary:#2C5894;
+    --primary-dark:#1E3F6C;
+    --primary-tint:#DEE7F2;
+    --primary-tint-2:#EEF2F8;
+    --teal:#299A94;
+    --teal-dark:#1F7B76;
+    --teal-tint:#DFF0EE;
+    --line:#E1E7EF;
+    --line-soft:#E9EEF5;
+    --wash-blue:#E8EFF7;
+    --wash-cool:#F0F4F9;
+    --good-soft:#EAF4EE;
+    --good-ink:#2E7D52;
+    --shadow-sm:0 1px 2px rgba(16,27,45,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{overflow-x:hidden;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--surface);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  h1,h2,h3,h4{margin:0;letter-spacing:-0.022em;color:var(--ink);}
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:60;
+    background:rgba(255,255,255,0.86);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid transparent;
+    transform:translateY(-100%);
+    transition:transform .28s ease, border-color .28s ease;
+  }
+  .site-header.visible{
+    transform:translateY(0);
+    border-bottom-color:var(--line);
+  }
+  .header-inner{
+    max-width:1120px;margin:0 auto;
+    padding:14px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{display:flex;align-items:center;gap:10px;}
+  .logo-mark{height:26px;width:auto;display:block;}
+  .logo-text{font-weight:700;font-size:19px;letter-spacing:-0.03em;color:var(--ink);}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-height:48px;
+    padding:14px 28px;
+    border-radius:999px;
+    font-weight:600;font-size:15px;letter-spacing:-0.01em;
+    transition:background .18s ease, transform .18s ease, box-shadow .18s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:var(--primary);color:#fff;
+    box-shadow:0 1px 2px rgba(30,63,108,.16), 0 8px 20px -8px rgba(44,88,148,.5);
+  }
+  .btn-primary:hover{
+    background:var(--primary-dark);
+    transform:translateY(-1px);
+    box-shadow:0 2px 5px rgba(30,63,108,.2), 0 12px 26px -8px rgba(44,88,148,.55);
+  }
+  .btn-primary:focus-visible{outline:2px solid var(--primary-dark);outline-offset:3px;}
+  .header-inner .btn{padding:10px 20px;font-size:14px;min-height:42px;}
+  @media(max-width:360px){.logo-text{display:none;}}
+  @media(max-width:430px){
+    .header-inner{padding:12px 16px;}
+    .header-inner .btn{padding:9px 15px;font-size:13px;}
+    .logo-text{font-size:17px;}
+    .logo-mark{height:23px;}
+  }
+
+  section{padding:92px 0;position:relative;}
+  @media (max-width:640px){section{padding:60px 0;}}
+
+  /* Alternating section bands */
+  .band-white{background:var(--surface);}
+  .band-tint{
+    background:linear-gradient(180deg,#FFFFFF 0%,var(--wash-cool) 22%,var(--wash-blue) 100%);
+    border-top:1px solid var(--line-soft);
+    border-bottom:1px solid var(--line);
+  }
+  .band-soft{
+    background:linear-gradient(180deg,var(--wash-blue) 0%,var(--wash-cool) 55%,#FFFFFF 100%);
+    border-top:1px solid var(--line);
+  }
+  .band-white + .band-white{border-top:1px solid var(--line-soft);}
+
+  .eyebrow{
+    display:inline-block;
+    font-size:12.5px;font-weight:600;
+    letter-spacing:.06em;text-transform:uppercase;
+    color:var(--primary-dark);
+    background:var(--primary-tint);
+    padding:7px 15px;border-radius:999px;
+    margin-bottom:26px;
+  }
+  .section-title{
+    font-size:clamp(25px,3.6vw,38px);
+    line-height:1.16;font-weight:700;
+    text-align:center;
+    text-wrap:balance;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    padding:120px 0 104px;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse 80% 62% at 24% 4%, rgba(44,88,148,0.13) 0%, rgba(44,88,148,0) 60%),
+      radial-gradient(ellipse 70% 58% at 78% 10%, rgba(41,154,148,0.12) 0%, rgba(41,154,148,0) 62%),
+      linear-gradient(180deg,#F3F7FC 0%,#F9FBFD 58%,#FFFFFF 100%);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .hero-bg{
+    position:absolute;inset:0;z-index:0;
+    display:flex;align-items:center;justify-content:center;
+    pointer-events:none;
+  }
+  .hero-bg svg{width:100%;max-width:1200px;height:auto;}
+  .hero-fade{
+    position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(ellipse 62% 58% at 50% 46%, rgba(248,251,253,.95) 0%, rgba(248,251,253,.74) 45%, rgba(248,251,253,0) 78%);
+  }
+  .hero-content{position:relative;z-index:2;text-align:center;max-width:800px;margin:0 auto;}
+  .hero-mark{height:62px;width:auto;display:block;margin:0 auto 28px;}
+  @media(max-width:640px){.hero-mark{height:52px;margin-bottom:22px;}}
+  .hero h1{font-size:clamp(30px,5.4vw,56px);line-height:1.08;font-weight:700;letter-spacing:-0.032em;text-wrap:balance;}
+  .hero .sub{
+    margin:26px auto 0;max-width:610px;
+    font-size:18.5px;line-height:1.62;color:var(--ink-soft);
+  }
+  .hero-cta{margin-top:38px;}
+  @media(max-width:640px){
+    .hero{padding:84px 0 72px;}
+    .hero .sub{font-size:16.5px;margin-top:20px;}
+    .hero-cta{margin-top:30px;}
+    .hero-cta .btn{width:100%;max-width:340px;}
+  }
+  .hero-note{margin-top:16px;font-size:13.5px;color:var(--ink-faint);font-weight:500;}
+
+  /* ---------- Solution ---------- */
+  .lead-in{
+    max-width:660px;margin:22px auto 52px;
+    text-align:center;
+    font-size:17.5px;line-height:1.7;color:var(--ink-soft);
+  }
+  .lead-in strong{color:var(--ink);font-weight:600;}
+  .solution-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:26px;
+  }
+  @media(max-width:860px){.solution-grid{grid-template-columns:1fr;}}
+  .sol-card{
+    background:linear-gradient(180deg,#FFFFFF 0%,#F7F9FD 100%);
+    border:1px solid var(--line-soft);
+    border-radius:18px;
+    padding:30px 26px;
+    box-shadow:0 1px 2px rgba(16,27,45,.04), 0 14px 30px -20px rgba(30,63,108,.28);
+  }
+  .sol-icon{
+    width:44px;height:44px;border-radius:12px;
+    background:var(--primary-tint);color:var(--primary-dark);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:20px;
+  }
+  .sol-icon-teal{background:var(--teal-tint);color:var(--teal-dark);}
+  .sol-card h3{font-size:18px;font-weight:600;margin-bottom:10px;letter-spacing:-0.015em;}
+  .sol-card p{font-size:15px;line-height:1.65;color:var(--ink-soft);}
+  .closing-line{
+    margin-top:48px;text-align:center;
+    font-size:clamp(18px,2.4vw,23px);
+    line-height:1.42;font-weight:600;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+    max-width:640px;margin-left:auto;margin-right:auto;
+  }
+  .closing-line em{font-style:normal;color:var(--teal-dark);}
+
+  /* ---------- Calculator ---------- */
+  .calc-section{
+    background:
+      radial-gradient(ellipse 66% 58% at 50% 100%, rgba(41,154,148,0.10) 0%, rgba(41,154,148,0) 70%),
+      linear-gradient(180deg,#FFFFFF 0%,#F2F5FA 30%,#E8EEF7 100%);
+    border-top:1px solid var(--line-soft);
+    border-bottom:1px solid var(--line);
+  }
+  .calc-explainer{
+    max-width:560px;margin:20px auto 46px;
+    text-align:center;font-size:16.5px;line-height:1.65;color:var(--ink-soft);
+  }
+  .calc-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:40px;
+    max-width:620px;margin:0 auto;
+    box-shadow:0 1px 2px rgba(16,27,45,.05), 0 18px 44px -22px rgba(30,63,108,.30);
+  }
+  @media(max-width:520px){.calc-card{padding:28px 22px;}}
+  .slider-group{margin-bottom:34px;}
+  .slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;gap:16px;}
+  @media(max-width:430px){
+    .slider-label{flex-direction:column;align-items:flex-start;gap:4px;}
+    .slider-label .lbl{font-size:14px;}
+  }
+  .slider-label .lbl{font-weight:600;font-size:14.5px;}
+  .slider-value{font-weight:700;font-size:16px;color:var(--teal-dark);font-variant-numeric:tabular-nums;}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;
+    width:100%;height:6px;border-radius:999px;
+    background:var(--line);outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:22px;height:22px;border-radius:50%;
+    background:var(--teal);border:3px solid #fff;
+    box-shadow:0 1px 4px rgba(16,27,45,.28);cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:22px;height:22px;border-radius:50%;
+    background:var(--teal);border:3px solid #fff;
+    box-shadow:0 1px 4px rgba(16,27,45,.28);cursor:pointer;
+  }
+  input[type=range]:focus-visible{outline:2px solid var(--primary-dark);outline-offset:4px;}
+  .calc-result{
+    margin-top:34px;padding-top:30px;
+    border-top:1px dashed var(--line);
+    text-align:center;
+  }
+  .calc-result-label{
+    font-size:12.5px;font-weight:600;letter-spacing:.055em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;
+  }
+  .calc-result-value{
+    font-size:clamp(36px,6.4vw,54px);
+    font-weight:700;letter-spacing:-0.035em;
+    color:var(--teal-dark);line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .calc-disclaimer{margin-top:16px;font-size:12.5px;color:var(--ink-faint);line-height:1.5;}
+
+  /* ---------- What's Included ---------- */
+  .included-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;
+    margin:48px 0;
+  }
+  @media(max-width:720px){.included-grid{grid-template-columns:1fr;}}
+  .inc-item{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:20px 22px;
+    background:linear-gradient(180deg,#FCFDFE 0%,#F5F8FC 100%);
+    border:1px solid var(--line-soft);
+    border-radius:14px;
+  }
+  .inc-check{
+    flex-shrink:0;width:25px;height:25px;border-radius:50%;
+    background:var(--teal-tint);color:var(--teal-dark);
+    display:flex;align-items:center;justify-content:center;margin-top:2px;
+  }
+  .inc-item-wide{grid-column:1 / -1;background:linear-gradient(180deg,#F7FBFA 0%,#EEF7F5 100%);border-color:#D7E9E5;}
+  @media(max-width:720px){.inc-item-wide{grid-column:auto;}}
+  .inc-item h4{font-size:15.5px;font-weight:600;margin-bottom:5px;letter-spacing:-0.012em;}
+  .inc-item p{font-size:14.5px;line-height:1.55;color:var(--ink-soft);}
+  .center-cta{text-align:center;}
+  @media(max-width:640px){.center-cta .btn{width:100%;max-width:340px;}}
+
+  /* ---------- Founder ---------- */
+  .founder-section{
+    background:linear-gradient(180deg,#FFFFFF 0%,#FAFCFE 100%);
+    border-top:1px solid var(--line-soft);
+  }
+  .founder-card{
+    max-width:820px;margin:0 auto;
+    display:grid;
+    grid-template-columns:180px 1fr;
+    gap:38px;
+    align-items:center;
+    background:linear-gradient(180deg,#FFFFFF 0%,#F6F9FD 100%);
+    border:1px solid var(--line-soft);
+    border-radius:22px;
+    padding:38px;
+    box-shadow:0 1px 2px rgba(16,27,45,.04), 0 18px 40px -26px rgba(30,63,108,.30);
+  }
+  @media(max-width:680px){
+    .founder-card{grid-template-columns:1fr;gap:24px;text-align:center;padding:30px 24px;}
+  }
+  .founder-photo{
+    width:180px;height:180px;
+    border-radius:20px;
+    object-fit:cover;
+    display:block;
+    background:#FFFFFF;
+    border:1px solid var(--line-soft);
+    box-shadow:0 1px 2px rgba(16,27,45,.05);
+  }
+  @media(max-width:680px){
+    .founder-photo{width:132px;height:132px;margin:0 auto;border-radius:18px;}
+  }
+  .founder-name{font-size:18px;font-weight:700;letter-spacing:-0.018em;margin-bottom:2px;}
+  .founder-role{font-size:14px;font-weight:500;color:var(--teal-dark);margin-bottom:16px;}
+  .founder-body p{font-size:15.5px;line-height:1.72;color:var(--ink-soft);margin-bottom:14px;}
+  .founder-body p:last-child{margin-bottom:0;}
+
+  /* ---------- FAQ ---------- */
+  .faq-section{
+    background:linear-gradient(180deg,#FFFFFF 0%,#F5F8FC 40%,#EEF2F8 100%);
+    border-top:1px solid var(--line-soft);
+    border-bottom:1px solid var(--line);
+  }
+  .faq-list{max-width:720px;margin:44px auto 0;}
+  .faq-item{border-bottom:1px solid #DFE6F0;}
+  .faq-item:first-child{border-top:1px solid #DFE6F0;}
+  .faq-q{
+    width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;
+    padding:23px 4px;text-align:left;
+    font-size:16px;font-weight:600;letter-spacing:-0.012em;color:var(--ink);
+  }
+  .faq-icon{
+    flex-shrink:0;width:24px;height:24px;border-radius:50%;
+    border:1.5px solid #CFD9E7;color:var(--primary-dark);
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;font-weight:600;line-height:1;
+    transition:transform .22s ease, background .22s ease, color .22s ease, border-color .22s ease;
+  }
+  .faq-item.open .faq-icon{
+    background:var(--primary);color:#fff;border-color:var(--primary);
+    transform:rotate(45deg);
+  }
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .faq-a-inner{padding:0 4px 24px;font-size:15px;line-height:1.7;color:var(--ink-soft);max-width:640px;}
+
+  /* ---------- Final CTA ---------- */
+  .final-wrap{
+    padding:92px 24px;
+    background:linear-gradient(180deg,#EEF2F8 0%,#F7F9FC 60%,#FFFFFF 100%);
+  }
+  @media(max-width:640px){.final-wrap{padding:60px 20px;}}
+  .final-cta{
+    max-width:1120px;margin:0 auto;
+    text-align:center;
+    background:
+      radial-gradient(ellipse 60% 80% at 82% 4%, rgba(41,154,148,0.42) 0%, rgba(41,154,148,0) 62%),
+      radial-gradient(ellipse 70% 90% at 50% 0%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 60%),
+      linear-gradient(168deg,#356AAB 0%,#2C5894 46%,#1B3A62 100%);
+    border-radius:28px;
+    padding:64px 28px;
+    box-shadow:0 24px 60px -28px rgba(27,58,98,.55);
+  }
+  @media(max-width:640px){.final-cta{padding:46px 16px;border-radius:20px;}}
+  .final-cta h2{color:#fff;font-size:clamp(27px,4.2vw,40px);line-height:1.12;margin-bottom:18px;letter-spacing:-0.03em;}
+  .final-cta p{
+    color:rgba(255,255,255,.84);
+    font-size:16.5px;line-height:1.65;
+    max-width:560px;margin:0 auto 32px;
+  }
+  .final-cta .btn-primary{background:#fff;color:var(--primary-dark);box-shadow:0 6px 18px -6px rgba(0,0,0,.28);}
+  .final-cta .btn-primary:hover{background:#EDF1F8;color:var(--primary-dark);}
+
+  /* ---------- Cal.com inline embed ---------- */
+  #book{scroll-margin-top:78px;}
+  .cal-shell{
+    position:relative;
+    background:#FFFFFF;
+    border-radius:18px;
+    overflow:hidden;
+    margin:6px auto 0;
+    max-width:940px;
+    min-height:620px;
+    box-shadow:0 18px 44px -22px rgba(0,0,0,.45);
+  }
+  #cal-inline{width:100%;min-height:620px;position:relative;z-index:2;}
+  #cal-inline iframe{width:100%!important;min-height:620px;border:0;display:block;}
+  .cal-state{
+    position:absolute;inset:0;z-index:3;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:14px;padding:32px 24px;text-align:center;
+    background:#FFFFFF;
+  }
+  .cal-state[hidden]{display:none;}
+  .cal-spinner{
+    width:26px;height:26px;border-radius:50%;
+    border:2.5px solid var(--line);
+    border-top-color:var(--primary);
+    animation:calSpin .8s linear infinite;
+  }
+  @keyframes calSpin{to{transform:rotate(360deg);}}
+  .cal-state p{font-size:14.5px;color:var(--ink-soft);max-width:340px;line-height:1.6;}
+  .cal-state .btn{margin-top:4px;}
+  @media (prefers-reduced-motion:reduce){.cal-spinner{animation:none;}}
+  .cal-fallback{
+    margin-top:18px!important;
+    font-size:13px;
+    color:rgba(255,255,255,.72)!important;
+  }
+  .cal-fallback a{color:#fff;text-decoration:underline;text-underline-offset:2px;}
+  @media(max-width:820px){
+    .cal-shell{min-height:580px;border-radius:14px;}
+    #cal-inline,#cal-inline iframe{min-height:580px;}
+  }
+  @media(max-width:520px){
+    .cal-shell{min-height:540px;margin-left:-8px;margin-right:-8px;}
+    #cal-inline,#cal-inline iframe{min-height:540px;}
+  }
+
+  footer{
+    padding:38px 24px;
+    text-align:center;
+    font-size:13px;
+    color:var(--ink-faint);
+    background:var(--surface);
+    border-top:1px solid var(--line-soft);
+  }
+  .footer-mark{height:28px;width:auto;display:block;margin:0 auto 14px;opacity:.85;}
+  .footer-legal{margin-top:10px;display:flex;gap:10px;justify-content:center;align-items:center;font-size:12.5px;}
+  .footer-legal a{color:var(--ink-faint);text-decoration:underline;text-underline-offset:2px;}
+  .footer-legal a:hover{color:var(--ink-soft);}
+  .footer-legal span{color:#C3CDD8;}
+
+  /* ---------- Scroll reveal ---------- */
+  .js .reveal{
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity .75s cubic-bezier(.22,.61,.36,1), transform .75s cubic-bezier(.22,.61,.36,1);
+    will-change:opacity, transform;
+  }
+  .js .reveal.in{opacity:1;transform:none;}
+
+  /* staggered children */
+  .js .solution-grid .sol-card:nth-child(2){transition-delay:.09s;}
+  .js .solution-grid .sol-card:nth-child(3){transition-delay:.18s;}
+  .js .included-grid .inc-item:nth-child(2){transition-delay:.05s;}
+  .js .included-grid .inc-item:nth-child(3){transition-delay:.10s;}
+  .js .included-grid .inc-item:nth-child(4){transition-delay:.15s;}
+  .js .included-grid .inc-item:nth-child(5){transition-delay:.20s;}
+  .js .included-grid .inc-item:nth-child(6){transition-delay:.25s;}
+  .js .included-grid .inc-item:nth-child(7){transition-delay:.30s;}
+  .js .faq-list .faq-item:nth-child(2){transition-delay:.05s;}
+  .js .faq-list .faq-item:nth-child(3){transition-delay:.10s;}
+  .js .faq-list .faq-item:nth-child(4){transition-delay:.15s;}
+  .js .faq-list .faq-item:nth-child(5){transition-delay:.20s;}
+  .js .faq-list .faq-item:nth-child(6){transition-delay:.25s;}
+  .js .faq-list .faq-item:nth-child(7){transition-delay:.30s;}
+
+  /* hero enters on load rather than on scroll */
+  .js .hero-lift{
+    opacity:0;
+    transform:translateY(18px);
+    animation:heroIn .85s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  .js .hero-lift:nth-of-type(1){animation-delay:.05s;}
+  .js .hero-mark{animation-delay:0s;}
+  .js .eyebrow.hero-lift{animation-delay:.12s;}
+  .js h1.hero-lift{animation-delay:.20s;}
+  .js .sub.hero-lift{animation-delay:.30s;}
+  .js .hero-cta.hero-lift{animation-delay:.40s;}
+  .js .hero-note.hero-lift{animation-delay:.48s;}
+  @keyframes heroIn{to{opacity:1;transform:none;}}
+
+  /* hero dotfield breathes in behind everything */
+  .js .hero-bg{opacity:0;animation:bgIn 1.4s ease forwards;}
+  @keyframes bgIn{to{opacity:1;}}
+
+  @media (prefers-reduced-motion:reduce){
+    .js .reveal,.js .hero-lift,.js .hero-bg{
+      opacity:1!important;transform:none!important;animation:none!important;
+    }
+    *{transition:none!important;animation:none!important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <div class="logo">
+      <img class="logo-mark" src="assets/logo.png" alt="">
+      <span class="logo-text">Practera</span>
+    </div>
+    <a class="btn btn-primary" href="#book">Book Your Free Assessment</a>
+  </div>
+</header>
+
+<!-- 1. HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg" aria-hidden="true"><svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" id="dotField"></svg></div>
+  <div class="hero-fade" aria-hidden="true"></div>
+  <div class="wrap hero-content">
+    <img class="hero-mark hero-lift" src="assets/logo.png" alt="Practera">
+    <div class="eyebrow hero-lift">For Dental &amp; Medical Practice Owners</div>
+    <h1 class="hero-lift">Turn Every Happy Patient Into Your Next 5-Star Review — Automatically.</h1>
+    <p class="sub hero-lift">Your reviews decide who books before you ever meet them. Practera asks every patient for one after every visit, and tells you the moment someone isn't happy — without a single reminder from your front desk.</p>
+    <div class="hero-cta hero-lift">
+      <a class="btn btn-primary" href="#book">Book Your Free Assessment</a>
+    </div>
+    <div class="hero-note hero-lift">Free, no-obligation call · 30 minutes</div>
+  </div>
+</section>
+
+<!-- 2. SOLUTION -->
+<section class="band-white">
+  <div class="wrap">
+    <h2 class="section-title reveal">Your Best Patients Are Leaving Happy —<br>And Leaving Silently.</h2>
+    <p class="lead-in reveal">Think about your last 30 patients. How many left a Google review? <strong>That gap is where your growth quietly leaks out</strong> — not because your care is lacking, but because no one owns the follow-up. Practera owns it.</p>
+
+    <div class="solution-grid">
+      <div class="sol-card reveal">
+        <div class="sol-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
+        </div>
+        <h3>We Reach Out Immediately</h3>
+        <p>The moment an appointment ends, Practera follows up with the patient automatically. No reminders, no manual tracking, no one falling through the cracks.</p>
+      </div>
+
+      <div class="sol-card reveal">
+        <div class="sol-icon sol-icon-teal">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7.5-3.8 7.5-9.4V5.4L12 2.6 4.5 5.4v6.2C4.5 17.2 12 21 12 21z"/><polyline points="9 11.5 11.2 13.7 15.2 9.7"/></svg>
+        </div>
+        <h3>You Hear It Before Google Does</h3>
+        <p>Alongside the invitation, every patient gets a private line to tell you how the visit really went. If something went wrong, you're alerted within hours — while you can still pick up the phone and fix it.</p>
+      </div>
+
+      <div class="sol-card reveal">
+        <div class="sol-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 3 14.6 8.6 20.5 9.4 16.2 13.6 17.3 19.5 12 16.7 6.7 19.5 7.8 13.6 3.5 9.4 9.4 8.6 12 3"/></svg>
+        </div>
+        <h3>We Remove the Friction</h3>
+        <p>Leaving a review takes seconds, not minutes. Every patient is invited the same way, so your rating reflects your whole practice — not just whoever felt strongly enough to go looking.</p>
+      </div>
+    </div>
+
+    <p class="closing-line reveal">New patients don't call the practice with the best care. <em>They call the one they trust most.</em></p>
+  </div>
+</section>
+
+<!-- 3. REPUTATION CALCULATOR -->
+<section class="calc-section">
+  <div class="wrap">
+    <h2 class="section-title reveal">How Many Reviews Is Your Practice Missing Every Month?</h2>
+    <p class="calc-explainer reveal">Most practices capture only a fraction of the reviews their happy patients would gladly leave. Use the sliders to see what closing that gap looks like for you.</p>
+
+    <div class="calc-card reveal">
+      <div class="slider-group">
+        <div class="slider-label">
+          <span class="lbl">Patients you see per month</span>
+          <span class="slider-value" id="patientsVal">150</span>
+        </div>
+        <input type="range" id="patientsSlider" min="50" max="500" step="10" value="150" aria-label="Patients you see per month">
+      </div>
+
+      <div class="slider-group" style="margin-bottom:0;">
+        <div class="slider-label">
+          <span class="lbl">Patients who currently leave a review</span>
+          <span class="slider-value" id="rateVal">10%</span>
+        </div>
+        <input type="range" id="rateSlider" min="5" max="40" step="1" value="10" aria-label="Patients who currently leave a review">
+      </div>
+
+      <div class="calc-result">
+        <div class="calc-result-label">Estimated Additional 5-Star Reviews Per Month</div>
+        <div class="calc-result-value" id="resultVal" aria-live="polite">+23 reviews/month</div>
+        <p class="calc-disclaimer">Directional estimate based on consistent automated follow-up after every visit. Actual results vary by practice, patient mix, and how reviews are handled today.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. WHAT'S INCLUDED -->
+<section class="band-white">
+  <div class="wrap">
+    <h2 class="section-title reveal">Your Complete Reputation Growth System</h2>
+
+    <div class="included-grid">
+      <div class="inc-item reveal">
+        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Done-For-You Automation Setup</h4><p>A complete follow-up workflow built around your practice's existing process.</p></div>
+      </div>
+      <div class="inc-item reveal">
+        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Automated Review Invitations</h4><p>A friendly, well-timed invitation after every appointment — sent to every patient, the same way.</p></div>
+      </div>
+      <div class="inc-item reveal">
+        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Private Feedback Channel</h4><p>A direct line for patients to tell you what went wrong, so concerns reach you in hours rather than weeks.</p></div>
+      </div>
+      <div class="inc-item reveal">
+        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Instant Problem Alerts</h4><p>You're notified the moment a patient flags something, while it's still early enough to make it right.</p></div>
+      </div>
+      <div class="inc-item reveal">
+        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Runs Inside Tools You Already Use</h4><p>No new platform to adopt. We configure everything through the patient communication tools you already have.</p></div>
+      </div>
+      <div class="inc-item reveal">
+        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Performance Reporting</h4><p>Clear visibility into review activity and feedback trends.</p></div>
+      </div>
+      <div class="inc-item inc-item-wide reveal">
+        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Compliant By Design</h4><p>Every patient is invited the same way. No screening, no filtering, no incentives — nothing that puts your Google listing at risk.</p></div>
+      </div>
+    </div>
+
+    <div class="center-cta reveal">
+      <a class="btn btn-primary" href="#book">Book Your Free Assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- 5. WHO YOU'RE BOOKING WITH -->
+<section class="founder-section">
+  <div class="wrap">
+    <h2 class="section-title reveal">Who You're Booking the Call With</h2>
+    <div class="founder-card reveal" style="margin-top:44px;">
+      <img class="founder-photo" src="assets/founder.jpg" alt="Mohammed Salih, founder of Practera">
+      <div class="founder-body">
+        <div class="founder-name">Mohammed Salih</div>
+        <div class="founder-role">Founder, Practera</div>
+        <p>I kept noticing the same pattern — good businesses held back by one small thing nobody had time to own. Here it's the few minutes after a patient leaves. It isn't hard to fix. It just has to happen every time, which is the part people can't do and software can.</p>
+        <p>The assessment is 30 minutes. We'll look at how your practice handles patient feedback today and whether this would actually help. If it wouldn't, I'll tell you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. FAQ -->
+<section class="faq-section">
+  <div class="wrap">
+    <h2 class="section-title reveal">Frequently Asked Questions</h2>
+    <div class="faq-list">
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>How is this different from just asking patients for reviews myself?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Consistency. Your front desk is busy with scheduling, billing, and patient care, so follow-up gets missed. Practera never forgets, never skips a patient, and runs after every single visit.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>How do you protect my practice's reputation?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">By making sure you're never the last to know. Every patient gets a private way to tell you how their visit went, and you're alerted the moment someone raises a problem — usually within hours of them leaving. That's the window where a phone call still changes the outcome. Most practices don't find out until it's already on Google, weeks later.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>How long until I start seeing more reviews?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">The system goes live once setup is complete, so the first follow-ups go out after your very next appointment. From there it runs continuously, and every request, response, and posted review shows up in your reporting.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>Do you filter out the patients who might leave a bad review?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No — and it's worth knowing why, because plenty of tools do. Screening patients and inviting only the happy ones is called review gating. Google's policy prohibits selectively soliciting positive reviews, and the FTC's 2024 rule covers review suppression. Listings have been penalised for it. Every one of your patients gets the same invitation. We also never write, generate, or incentivise a review — every one comes from a real patient after a real visit.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>Will this annoy my patients?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">It's one short message after an appointment, sent in your practice's name and written to sound like your practice — not a marketing campaign. Patients can opt out in a single tap, and anyone who does is never contacted again.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>What happens when a patient reports a problem?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Your team is alerted immediately, so you can reach out while the visit is still fresh. Patients are free to leave a public review either way — the difference is that you get the chance to make it right first. A practice that responds well to a problem often ends up looking better than one that never had a visible one.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>Does this mean adopting a new system, and what about patient data?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No new platform. We build and configure your follow-up automation to run through the patient communication tools you already use, so nothing changes about how your practice operates. We're happy to walk through your specific setup, including how data flows, on your free assessment call.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 7. FINAL CTA -->
+<div class="final-wrap" id="book">
+  <div class="final-cta reveal">
+    <h2>Stop Losing Growth to Silence.</h2>
+    <p>Every day without a follow-up system is another batch of happy patients who said nothing, and another problem you heard about too late. The assessment is free. If it's a fit, you'll get a proposal built around your practice — you decide from there.</p>
+    <div class="cal-shell">
+      <div id="cal-inline" aria-label="Booking calendar"></div>
+      <div class="cal-state" id="calLoading">
+        <div class="cal-spinner" aria-hidden="true"></div>
+        <p>Loading available times…</p>
+      </div>
+      <div class="cal-state" id="calError" hidden>
+        <p>The calendar couldn't load in this browser — an extension or network setting may be blocking it.</p>
+        <a class="btn btn-primary" href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Book Your Free Assessment</a>
+      </div>
+    </div>
+    <p class="cal-fallback">Calendar not loading? <a href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Open the booking page</a></p>
+  </div>
+</div>
+
+<footer>
+  <img class="footer-mark" src="assets/logo.png" alt="">
+  <div>© <span id="year">2026</span> Practera. All Rights Reserved.</div>
+  <div class="footer-legal">
+    <a href="privacy.html">Privacy Policy</a>
+    <span aria-hidden="true">·</span>
+    <a href="terms.html">Terms</a>
+  </div>
+</footer>
+
+<script>
+// Hero dot field — pale outlines (patients who said nothing) vs filled blue (reviews actually left)
+(function(){
+  const svg=document.getElementById('dotField');
+  const cols=24,rows=8,W=1200,H=420;
+  const sx=W/cols, sy=H/rows;
+  let seed=11, out='';
+  const rand=()=>{seed=(seed*9301+49297)%233280;return seed/233280;};
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const x=(sx*c+sx/2).toFixed(1), y=(sy*r+sy/2).toFixed(1);
+      const filled=rand()<0.15;
+      const teal=rand()<0.42;
+      out+=filled
+        ? `<circle cx="${x}" cy="${y}" r="5" fill="${teal?'#299A94':'#2C5894'}" opacity="0.82"/>`
+        : `<circle cx="${x}" cy="${y}" r="3.4" fill="none" stroke="#BAC8DC" stroke-width="1.4" opacity="0.55"/>`;
+    }
+  }
+  svg.innerHTML=out;
+})();
+
+// Sticky header appears 100px past the hero
+(function(){
+  const header=document.getElementById('siteHeader');
+  const hero=document.getElementById('hero');
+  function onScroll(){
+    // Reveal once the hero CTA has scrolled out of reach.
+    header.classList.toggle('visible', window.scrollY > hero.offsetHeight * 0.7);
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  onScroll();
+})();
+
+// Reputation calculator
+(function(){
+  const p=document.getElementById('patientsSlider'),
+        r=document.getElementById('rateSlider'),
+        pv=document.getElementById('patientsVal'),
+        rv=document.getElementById('rateVal'),
+        res=document.getElementById('resultVal');
+  function update(){
+    const patients=parseInt(p.value,10), rate=parseInt(r.value,10);
+    pv.textContent=patients;
+    rv.textContent=rate+'%';
+    // Practera lifts the review rate by up to 15 percentage points, capped at a
+    // realistic 45% ceiling. Always yields a positive (and smaller) lift for
+    // practices that already collect reviews well.
+    const current=rate/100;
+    const improved=Math.min(0.45, current+0.15);
+    const est=Math.max(1,Math.round(patients*(improved-current)));
+    res.textContent='+'+est+(est===1?' review/month':' reviews/month');
+  }
+  p.addEventListener('input',update);
+  r.addEventListener('input',update);
+  update();
+})();
+
+// Scroll reveal
+(function(){
+  const items=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    items.forEach(el=>el.classList.add('in'));
+    return;
+  }
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.12, rootMargin:'0px 0px -6% 0px'});
+  items.forEach(el=>io.observe(el));
+})();
+
+// Footer year
+document.getElementById('year').textContent=new Date().getFullYear();
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item=>{
+  const q=item.querySelector('.faq-q'), a=item.querySelector('.faq-a');
+  q.addEventListener('click',()=>{
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o=>{
+      if(o!==item){
+        o.classList.remove('open');
+        o.querySelector('.faq-a').style.maxHeight=null;
+        o.querySelector('.faq-q').setAttribute('aria-expanded','false');
+      }
+    });
+    if(open){
+      item.classList.remove('open');
+      a.style.maxHeight=null;
+      q.setAttribute('aria-expanded','false');
+    }else{
+      item.classList.add('open');
+      a.style.maxHeight=a.scrollHeight+'px';
+      q.setAttribute('aria-expanded','true');
+    }
+  });
+});
+</script>
+
+<!-- Cal.com embed -->
+<script type="text/javascript">
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+
+Cal("init", { origin: "https://cal.com" });
+
+Cal("inline", {
+  elementOrSelector: "#cal-inline",
+  calLink: "mosalih/free-assessment",
+  layout: "month_view"
+});
+
+Cal("ui", {
+  theme: "light",
+  hideEventTypeDetails: false,
+  layout: "month_view",
+  styles: { branding: { brandColor: "#2C5894" } }
+});
+
+// Layered fallback: official embed -> plain iframe -> direct link.
+// The booking step is the whole point of this page, so it must never look broken.
+(function(){
+  const host    = document.getElementById('cal-inline');
+  const loading = document.getElementById('calLoading');
+  const error   = document.getElementById('calError');
+  if(!host || !loading || !error) return;
+
+  let settled = false;
+  const hasFrame = () => !!host.querySelector('iframe');
+
+  function succeed(){
+    if(settled) return;
+    settled = true;
+    loading.hidden = true;
+    error.hidden = true;
+  }
+  function fail(){
+    if(settled) return;
+    settled = true;
+    loading.hidden = true;
+    error.hidden = false;
+  }
+
+  // Watch for the embed script injecting its iframe
+  const mo = new MutationObserver(() => { if(hasFrame()){ succeed(); mo.disconnect(); } });
+  mo.observe(host, { childList:true, subtree:true });
+  if(hasFrame()) succeed();
+
+  // Tier 2 — if the embed script hasn't rendered in 5s, drop in a plain iframe
+  setTimeout(() => {
+    if(settled || hasFrame()) return;
+    const frame = document.createElement('iframe');
+    frame.src = 'https://cal.com/mosalih/free-assessment?embed=true&layout=month_view&theme=light';
+    frame.title = 'Book your free assessment';
+    frame.loading = 'lazy';
+    frame.setAttribute('frameborder','0');
+    frame.addEventListener('load', succeed);
+    frame.addEventListener('error', fail);
+    host.appendChild(frame);
+  }, 5000);
+
+  // Tier 3 — if nothing has rendered at all by 11s, show the direct link
+  setTimeout(() => { if(!settled && !hasFrame()) fail(); }, 11000);
+})();
+</script>
+
+</body>
+</html>
