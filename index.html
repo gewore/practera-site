@@ -18,9 +18,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F7FAFC;
-    --surface:#FFFFFF;
-    --ink:#101B2D;
+    --bg:#F0F4F8;
+    --page:#F0F4F8;      /* large surfaces — easier on the eye than pure white */
+    --surface:#FFFFFF;   /* cards only — now reads as raised */
+    --ink:#152337;
     --ink-soft:#52657A;
     --ink-faint:#8798AA;
     --primary:#2C5894;
@@ -33,7 +34,7 @@
     --line:#E1E7EF;
     --line-soft:#E9EEF5;
     --wash-blue:#E8EFF7;
-    --wash-cool:#F0F4F9;
+    --wash-cool:#E8EEF4;
     --good-soft:#EAF4EE;
     --good-ink:#2E7D52;
     --shadow-sm:0 1px 2px rgba(16,27,45,0.06);
@@ -43,7 +44,7 @@
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--surface);
+    background:var(--page);
     color:var(--ink);
     font-family:'Inter',system-ui,-apple-system,sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -61,7 +62,7 @@
     position:fixed;
     top:0;left:0;right:0;
     z-index:60;
-    background:rgba(255,255,255,0.86);
+    background:rgba(240,244,248,0.90);
     backdrop-filter:blur(14px);
     border-bottom:1px solid transparent;
     transform:translateY(-100%);
@@ -112,7 +113,7 @@
   @media (max-width:640px){section{padding:60px 0;}}
 
   /* Alternating section bands */
-  .band-white{background:var(--surface);}
+  .band-white{background:var(--page);}
   .band-tint{
     background:linear-gradient(180deg,#FFFFFF 0%,var(--wash-cool) 22%,var(--wash-blue) 100%);
     border-top:1px solid var(--line-soft);
@@ -148,7 +149,7 @@
     background:
       radial-gradient(ellipse 80% 62% at 24% 4%, rgba(44,88,148,0.13) 0%, rgba(44,88,148,0) 60%),
       radial-gradient(ellipse 70% 58% at 78% 10%, rgba(41,154,148,0.12) 0%, rgba(41,154,148,0) 62%),
-      linear-gradient(180deg,#F3F7FC 0%,#F9FBFD 58%,#FFFFFF 100%);
+      linear-gradient(180deg,#E7EEF5 0%,#EDF2F7 58%,#F0F4F8 100%);
     border-bottom:1px solid var(--line-soft);
   }
   .hero-bg{
@@ -190,7 +191,7 @@
   }
   @media(max-width:860px){.solution-grid{grid-template-columns:1fr;}}
   .sol-card{
-    background:linear-gradient(180deg,#FFFFFF 0%,#F7F9FD 100%);
+    background:#FFFFFF;
     border:1px solid var(--line-soft);
     border-radius:18px;
     padding:30px 26px;
@@ -219,7 +220,7 @@
   .calc-section{
     background:
       radial-gradient(ellipse 66% 58% at 50% 100%, rgba(41,154,148,0.10) 0%, rgba(41,154,148,0) 70%),
-      linear-gradient(180deg,#FFFFFF 0%,#F2F5FA 30%,#E8EEF7 100%);
+      linear-gradient(180deg,#F0F4F8 0%,#E5ECF4 30%,#DBE5F0 100%);
     border-top:1px solid var(--line-soft);
     border-bottom:1px solid var(--line);
   }
@@ -287,7 +288,7 @@
   .inc-item{
     display:flex;gap:14px;align-items:flex-start;
     padding:20px 22px;
-    background:linear-gradient(180deg,#FCFDFE 0%,#F5F8FC 100%);
+    background:#FFFFFF;
     border:1px solid var(--line-soft);
     border-radius:14px;
   }
@@ -305,7 +306,7 @@
 
   /* ---------- Founder ---------- */
   .founder-section{
-    background:linear-gradient(180deg,#FFFFFF 0%,#FAFCFE 100%);
+    background:linear-gradient(180deg,#F0F4F8 0%,#F3F7FA 100%);
     border-top:1px solid var(--line-soft);
   }
   .founder-card{
@@ -314,7 +315,7 @@
     grid-template-columns:180px 1fr;
     gap:38px;
     align-items:center;
-    background:linear-gradient(180deg,#FFFFFF 0%,#F6F9FD 100%);
+    background:#FFFFFF;
     border:1px solid var(--line-soft);
     border-radius:22px;
     padding:38px;
@@ -342,7 +343,7 @@
 
   /* ---------- FAQ ---------- */
   .faq-section{
-    background:linear-gradient(180deg,#FFFFFF 0%,#F5F8FC 40%,#EEF2F8 100%);
+    background:linear-gradient(180deg,#F0F4F8 0%,#E8EEF5 40%,#DEE7F1 100%);
     border-top:1px solid var(--line-soft);
     border-bottom:1px solid var(--line);
   }
@@ -371,7 +372,7 @@
   /* ---------- Final CTA ---------- */
   .final-wrap{
     padding:92px 24px;
-    background:linear-gradient(180deg,#EEF2F8 0%,#F7F9FC 60%,#FFFFFF 100%);
+    background:linear-gradient(180deg,#DEE7F1 0%,#E8EEF4 60%,#F0F4F8 100%);
   }
   @media(max-width:640px){.final-wrap{padding:60px 20px;}}
   .final-cta{
@@ -446,7 +447,7 @@
     text-align:center;
     font-size:13px;
     color:var(--ink-faint);
-    background:var(--surface);
+    background:var(--page);
     border-top:1px solid var(--line-soft);
   }
   .footer-mark{height:28px;width:auto;display:block;margin:0 auto 14px;opacity:.85;}
