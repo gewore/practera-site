@@ -5,11 +5,11 @@
 <script>document.documentElement.className+=' js';</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Practera | Turn Happy Patients Into 5-Star Reviews, Automatically</title>
-<meta name="description" content="Practera follows up with your patients after every visit, guides happy ones to leave a Google review, and routes concerns to your team before they go public. Built for dental and medical practices.">
+<meta name="description" content="Practera asks every patient for a Google review after every visit, alerts you the moment someone isn't happy, and drafts privacy-safe replies to your reviews. Built for dental and medical practices.">
 <link rel="icon" type="image/png" href="assets/logo.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Turn Every Happy Patient Into Your Next 5-Star Review">
-<meta property="og:description" content="An automated patient follow-up system for dental and medical practices. More reviews, fewer surprises, no extra work for your front desk.">
+<meta property="og:title" content="We Turn Your Happy Patients Into Your Next New Ones">
+<meta property="og:description" content="Before anyone books, they compare you to the practice down the road. Practera asks every patient for a review after every visit, automatically.">
 <meta property="og:image" content="assets/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#2C5894">
@@ -127,12 +127,18 @@
 
   .eyebrow{
     display:inline-block;
+    max-width:100%;
+    text-align:center;
+    line-height:1.5;
     font-size:12.5px;font-weight:600;
     letter-spacing:.06em;text-transform:uppercase;
     color:var(--primary-dark);
     background:var(--primary-tint);
     padding:7px 15px;border-radius:999px;
     margin-bottom:26px;
+  }
+  @media(max-width:430px){
+    .eyebrow{font-size:11.5px;letter-spacing:.045em;padding:7px 13px;}
   }
   .section-title{
     font-size:clamp(25px,3.6vw,38px);
@@ -474,12 +480,16 @@
   .js .included-grid .inc-item:nth-child(5){transition-delay:.20s;}
   .js .included-grid .inc-item:nth-child(6){transition-delay:.25s;}
   .js .included-grid .inc-item:nth-child(7){transition-delay:.30s;}
+  .js .included-grid .inc-item:nth-child(8){transition-delay:.35s;}
+  .js .included-grid .inc-item:nth-child(9){transition-delay:.40s;}
   .js .faq-list .faq-item:nth-child(2){transition-delay:.05s;}
   .js .faq-list .faq-item:nth-child(3){transition-delay:.10s;}
   .js .faq-list .faq-item:nth-child(4){transition-delay:.15s;}
   .js .faq-list .faq-item:nth-child(5){transition-delay:.20s;}
   .js .faq-list .faq-item:nth-child(6){transition-delay:.25s;}
   .js .faq-list .faq-item:nth-child(7){transition-delay:.30s;}
+  .js .faq-list .faq-item:nth-child(8){transition-delay:.35s;}
+  .js .faq-list .faq-item:nth-child(9){transition-delay:.40s;}
 
   /* hero enters on load rather than on scroll */
   .js .hero-lift{
@@ -527,9 +537,9 @@
   <div class="hero-fade" aria-hidden="true"></div>
   <div class="wrap hero-content">
     <img class="hero-mark hero-lift" src="assets/logo.png" alt="Practera">
-    <div class="eyebrow hero-lift">For Dental &amp; Medical Practice Owners</div>
-    <h1 class="hero-lift">Turn Every Happy Patient Into Your Next 5-Star Review — Automatically.</h1>
-    <p class="sub hero-lift">Your reviews decide who books before you ever meet them. Practera asks every patient for one after every visit, and tells you the moment someone isn't happy — without a single reminder from your front desk.</p>
+    <div class="eyebrow hero-lift">For Dental &amp; Medical Practices Across Canada</div>
+    <h1 class="hero-lift">We Turn Your Happy Patients Into Your Next New Ones.</h1>
+    <p class="sub hero-lift">Before anyone books, they compare you to the practice down the road — and reviews are the comparison. Practera asks every patient for one after every visit, automatically, so the practice they choose is yours. Set up, written, and managed for you.</p>
     <div class="hero-cta hero-lift">
       <a class="btn btn-primary" href="#book">Book Your Free Assessment</a>
     </div>
@@ -541,7 +551,7 @@
 <section class="band-white">
   <div class="wrap">
     <h2 class="section-title reveal">Your Best Patients Are Leaving Happy —<br>And Leaving Silently.</h2>
-    <p class="lead-in reveal">Think about your last 30 patients. How many left a Google review? <strong>That gap is where your growth quietly leaks out</strong> — not because your care is lacking, but because no one owns the follow-up. Practera owns it.</p>
+    <p class="lead-in reveal">Think about your last 30 patients. How many left a Google review? <strong>That gap is where your growth quietly leaks out</strong> — not because your care is lacking, but because no one owns the follow-up. You're not short on happy patients. You're short on happy patients who were asked.</p>
 
     <div class="solution-grid">
       <div class="sol-card reveal">
@@ -629,11 +639,19 @@
       </div>
       <div class="inc-item reveal">
         <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>Runs Inside Tools You Already Use</h4><p>No new platform to adopt. We configure everything through the patient communication tools you already have.</p></div>
+        <div><h4>We Work With What You've Got</h4><p>Most practices already pay for a tool that could do this — it has just never been set up. If you don't have one, we'll get you on the right platform under your own account.</p></div>
+      </div>
+      <div class="inc-item reveal">
+        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Managed Every Month</h4><p>We watch the responses, adjust the messages when they stop landing, and flag anything left unanswered. If it breaks, we notice before you do.</p></div>
       </div>
       <div class="inc-item reveal">
         <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div><h4>Performance Reporting</h4><p>Clear visibility into review activity and feedback trends.</p></div>
+      </div>
+      <div class="inc-item inc-item-wide reveal">
+        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div><h4>Review Responses, Drafted For You</h4><p>Every new review gets a reply written to stay on the right side of patient privacy rules. You approve it, we post it. Two minutes a week instead of an angry twenty.</p></div>
       </div>
       <div class="inc-item inc-item-wide reveal">
         <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -690,6 +708,11 @@
       </div>
 
       <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>Can you handle replying to reviews as well?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Yes, and it's worth doing carefully. Two dental practices have been fined by the Office for Civil Rights over how they replied to online reviews &mdash; $10,000 and $23,000 &mdash; for mentioning patient names, treatment, or insurance in a public response. The safe reply is narrow: thank the person, or invite them to call the office. Even &ldquo;thanks for coming in&rdquo; is a problem, because it confirms publicly that someone is a patient. We draft each reply to stay inside that line, and you approve it before anything is posted.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
         <button class="faq-q" aria-expanded="false"><span>Will this annoy my patients?</span><span class="faq-icon">+</span></button>
         <div class="faq-a"><div class="faq-a-inner">It's one short message after an appointment, sent in your practice's name and written to sound like your practice — not a marketing campaign. Patients can opt out in a single tap, and anyone who does is never contacted again.</div></div>
       </div>
@@ -700,8 +723,13 @@
       </div>
 
       <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false"><span>Does this mean adopting a new system, and what about patient data?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">No new platform. We build and configure your follow-up automation to run through the patient communication tools you already use, so nothing changes about how your practice operates. We're happy to walk through your specific setup, including how data flows, on your free assessment call.</div></div>
+        <button class="faq-q" aria-expanded="false"><span>What am I actually paying for each month?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Setting it up is the first part. After that it's the watching &mdash; checking messages are actually sending, that replies are being answered, and adjusting the wording when response rates drop. Software gets switched on and then forgotten about. The monthly work is what stops that, and you get a report each month showing exactly what went out and what came back.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" aria-expanded="false"><span>Do I have to switch systems, and what happens to patient data?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Usually not. Most practices already pay for a patient communication tool that can do this, and we configure it inside what you've got &mdash; nothing changes about how your practice operates. If you don't have one, we'll recommend a platform and set it up under your own account, so you own it and you keep it. We never take patient records out of your systems, and we're happy to walk through exactly how data moves on your free assessment call.</div></div>
       </div>
 
     </div>
