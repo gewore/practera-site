@@ -537,37 +537,53 @@ section{padding:96px 0;position:relative;}
 .callsec .eyebrow{color:#8FD6CD;}
 .call-shell{
   position:relative;margin-top:40px;
-  background:#fff;border-radius:20px;overflow:hidden;
-  min-height:620px;
-  box-shadow:0 30px 62px -30px rgba(0,0,0,.6);
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:20px;overflow:hidden;
+  min-height:560px;                     /* placeholder height while loading only */
+  box-shadow:0 30px 62px -34px rgba(0,0,0,.55);
+  transition:min-height .25s ease;
 }
-#cal-embed{width:100%;min-height:620px;position:relative;z-index:2;}
-#cal-embed iframe{width:100%!important;min-height:620px;border:0;display:block;}
+/* once Cal reports its real height, stop forcing a box around it */
+.call-shell.loaded{min-height:0;}
+.call-shell.loaded #cal-embed,
+.call-shell.loaded #cal-embed iframe{min-height:0;height:auto;}
+#cal-embed{width:100%;min-height:560px;position:relative;z-index:2;}
+#cal-embed iframe{width:100%!important;min-height:560px;border:0;display:block;}
+/* Cal injects its own wrapper — make sure it can't add its own white gutter */
+#cal-embed > div{background:transparent!important;}
 .cal-state{
   position:absolute;inset:0;z-index:3;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:14px;padding:32px 24px;text-align:center;background:#fff;
+  gap:14px;padding:32px 24px;text-align:center;
+  background:linear-gradient(180deg,rgba(16,43,66,.96) 0%,rgba(10,26,43,.96) 100%);
 }
 .cal-state[hidden]{display:none;}
 .cal-spin{
   width:26px;height:26px;border-radius:50%;
-  border:2.5px solid var(--line);border-top-color:var(--teal);
+  border:2.5px solid rgba(255,255,255,.16);border-top-color:var(--teal);
   animation:calspin .8s linear infinite;
 }
 @keyframes calspin{to{transform:rotate(360deg);}}
-.cal-state p{font-size:14.5px;color:var(--slate);max-width:340px;line-height:1.6;}
+.cal-state p{font-size:14.5px;color:rgba(255,255,255,.72);max-width:340px;line-height:1.6;}
 .call-fine{
   margin-top:18px;font-family:var(--mono);font-size:11px;line-height:1.7;
   color:rgba(255,255,255,.45);
 }
 .call-fine a{color:var(--teal);text-decoration:underline;text-underline-offset:3px;}
 @media(max-width:820px){
-  .call-shell{min-height:580px;border-radius:14px;}
-  #cal-embed,#cal-embed iframe{min-height:580px;}
+  .call-shell{min-height:540px;border-radius:14px;}
+  #cal-embed,#cal-embed iframe{min-height:540px;}
+  .call-shell.loaded,
+  .call-shell.loaded #cal-embed,
+  .call-shell.loaded #cal-embed iframe{min-height:0;}
 }
 @media(max-width:520px){
-  .call-shell{min-height:540px;margin-left:-8px;margin-right:-8px;}
-  #cal-embed,#cal-embed iframe{min-height:540px;}
+  .call-shell{min-height:500px;margin-left:-6px;margin-right:-6px;}
+  #cal-embed,#cal-embed iframe{min-height:500px;}
+  .call-shell.loaded,
+  .call-shell.loaded #cal-embed,
+  .call-shell.loaded #cal-embed iframe{min-height:0;}
 }
 @media(prefers-reduced-motion:reduce){.cal-spin{animation:none;}}
 
@@ -1506,7 +1522,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
       </div>
       <div class="cal-state" id="calErr" hidden>
         <p>The calendar couldn&rsquo;t load in this browser &mdash; an extension or network setting may be blocking it.</p>
-        <a class="btn btn-dark" href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Open the booking page</a>
+        <a class="btn btn-primary" href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Open the booking page</a>
       </div>
     </div>
     <p class="call-fine r">No charge, no obligation. Prefer email? <a href="mailto:salih@practera.ai">salih@practera.ai</a></p>
@@ -1724,7 +1740,24 @@ document.querySelectorAll('.q').forEach(q=>{
 
 Cal("init", { origin: "https://cal.com" });
 Cal("inline", { elementOrSelector: "#cal-embed", calLink: "mosalih/free-assessment", layout: "month_view" });
-Cal("ui", { theme: "light", hideEventTypeDetails: false, layout: "month_view", styles: { branding: { brandColor: "#2FBBAD" } } });
+Cal("ui", {
+  theme: "dark",
+  hideEventTypeDetails: true,
+  layout: "month_view",
+  cssVarsPerTheme: {
+    dark: {
+      "cal-brand": "#2FBBAD",
+      "cal-bg": "transparent",
+      "cal-bg-emphasis": "rgba(255,255,255,0.06)",
+      "cal-border": "rgba(255,255,255,0.12)",
+      "cal-border-emphasis": "rgba(255,255,255,0.2)",
+      "cal-text": "#FFFFFF",
+      "cal-text-emphasis": "#FFFFFF",
+      "cal-text-subtle": "rgba(255,255,255,0.62)"
+    }
+  },
+  styles: { branding: { brandColor: "#2FBBAD" } }
+});
 
 /* Layered fallback: embed -> plain iframe -> direct link. Booking must never look broken. */
 (function(){
@@ -1734,7 +1767,13 @@ Cal("ui", { theme: "light", hideEventTypeDetails: false, layout: "month_view", s
   if(!host||!load||!err) return;
   let settled=false;
   const hasFrame=()=>!!host.querySelector('iframe');
-  const ok=()=>{ if(settled)return; settled=true; load.hidden=true; err.hidden=true; };
+  const shell=host.closest('.call-shell');
+  const ok=()=>{
+    if(settled)return; settled=true;
+    load.hidden=true; err.hidden=true;
+    /* let the card shrink to whatever Cal actually needs */
+    setTimeout(()=>shell && shell.classList.add('loaded'), 600);
+  };
   const no=()=>{ if(settled)return; settled=true; load.hidden=true; err.hidden=false; };
 
   const mo=new MutationObserver(()=>{ if(hasFrame()){ ok(); mo.disconnect(); } });
@@ -1744,7 +1783,7 @@ Cal("ui", { theme: "light", hideEventTypeDetails: false, layout: "month_view", s
   setTimeout(()=>{
     if(settled||hasFrame()) return;
     const f=document.createElement('iframe');
-    f.src='https://cal.com/mosalih/free-assessment?embed=true&layout=month_view&theme=light';
+    f.src='https://cal.com/mosalih/free-assessment?embed=true&layout=month_view&theme=dark';
     f.title='Book a 30-minute call'; f.loading='lazy'; f.setAttribute('frameborder','0');
     f.addEventListener('load', ok); f.addEventListener('error', no);
     host.appendChild(f);
