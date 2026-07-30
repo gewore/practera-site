@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thanks — Practera</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0A1A2B;--ink-2:#102B42;--teal:#2FBBAD;--teal-deep:#1E8B80;}
+*{box-sizing:border-box;}
+body{
+  margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:40px 24px;text-align:center;
+  font-family:'Instrument Sans',system-ui,sans-serif;color:#fff;
+  background:
+    radial-gradient(ellipse 60% 55% at 20% 0%, rgba(61,130,220,.3) 0%, rgba(61,130,220,0) 60%),
+    radial-gradient(ellipse 50% 50% at 85% 12%, rgba(47,187,173,.24) 0%, rgba(47,187,173,0) 60%),
+    linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
+}
+.card{max-width:520px;}
+img.logo{height:40px;width:auto;margin-bottom:32px;}
+.tick{
+  width:60px;height:60px;border-radius:50%;margin:0 auto 26px;
+  background:rgba(47,187,173,.15);border:1.5px solid var(--teal);
+  display:flex;align-items:center;justify-content:center;
+}
+.tick svg{width:28px;height:28px;color:var(--teal);}
+h1{
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:700;
+  font-size:clamp(28px,5vw,38px);letter-spacing:-0.03em;line-height:1.12;margin:0 0 16px;
+}
+p{font-size:16.5px;line-height:1.65;color:rgba(255,255,255,.7);margin:0 0 12px;}
+.fine{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:rgba(255,255,255,.42);margin-top:28px;}
+a.back{
+  display:inline-flex;align-items:center;gap:8px;margin-top:30px;
+  padding:13px 24px;border-radius:12px;min-height:46px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+  color:#fff;text-decoration:none;font-weight:600;font-size:15px;
+}
+a.back:hover{background:rgba(255,255,255,.14);}
+</style>
+</head>
+<body>
+  <div class="card">
+    <img class="logo" src="assets/logo.png" alt="Practera">
+    <div class="tick">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h1>Got it. Talk soon.</h1>
+    <p>Your details are in. I'll be in touch within one business day to get your seven days set up.</p>
+    <p>If you'd rather get it moving now, book a time and we'll do the setup on the call.</p>
+    <a class="back" href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Book a 30-minute call</a>
+    <p class="fine">— MOHAMMED, PRACTERA</p>
+  </div>
+</body>
+</html>

@@ -2,939 +2,1596 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script>document.documentElement.className+=' js';</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Practera | Turn Happy Patients Into 5-Star Reviews, Automatically</title>
-<meta name="description" content="Practera asks every patient for a Google review after every visit, alerts you the moment someone isn't happy, and drafts privacy-safe replies to your reviews. Built for dental and medical practices.">
+<title>Practera — Stop Losing Patients to a Ringing Phone</title>
+<meta name="description" content="Practera answers the calls your front desk can't, asks every patient for a review, and puts every message in one inbox. Built for dental and medical practices. Start a walkthrough.">
 <link rel="icon" type="image/png" href="assets/logo.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="We Turn Your Happy Patients Into Your Next New Ones">
-<meta property="og:description" content="Before anyone books, they compare you to the practice down the road. Practera asks every patient for a review after every visit, automatically.">
+<meta property="og:title" content="Your Phone Is the Most Expensive Thing in Your Practice">
+<meta property="og:description" content="Every call that rings out is a patient who booked somewhere else. Practera answers them, brings dormant patients back, and builds your reviews. One login, run for you.">
 <meta property="og:image" content="assets/logo.png">
-<meta name="twitter:card" content="summary">
-<meta name="theme-color" content="#2C5894">
+<meta name="theme-color" content="#0A1A2B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#F0F4F8;
-    --page:#F0F4F8;      /* large surfaces — easier on the eye than pure white */
-    --surface:#FFFFFF;   /* cards only — now reads as raised */
-    --ink:#152337;
-    --ink-soft:#52657A;
-    --ink-faint:#8798AA;
-    --primary:#2C5894;
-    --primary-dark:#1E3F6C;
-    --primary-tint:#DEE7F2;
-    --primary-tint-2:#EEF2F8;
-    --teal:#299A94;
-    --teal-dark:#1F7B76;
-    --teal-tint:#DFF0EE;
-    --line:#E1E7EF;
-    --line-soft:#E9EEF5;
-    --wash-blue:#E8EFF7;
-    --wash-cool:#E8EEF4;
-    --good-soft:#EAF4EE;
-    --good-ink:#2E7D52;
-    --shadow-sm:0 1px 2px rgba(16,27,45,0.06);
-  }
-  *{box-sizing:border-box;}
-  html,body{overflow-x:hidden;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--page);
-    color:var(--ink);
-    font-family:'Inter',system-ui,-apple-system,sans-serif;
-    -webkit-font-smoothing:antialiased;
-    line-height:1.5;
-  }
-  h1,h2,h3,h4{margin:0;letter-spacing:-0.022em;color:var(--ink);}
-  p{margin:0;}
-  a{color:inherit;text-decoration:none;}
-  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+:root{
+  --ink:#0A1A2B;
+  --ink-2:#102B42;
+  --blue:#3D82DC;
+  --blue-deep:#2A62AC;
+  --teal:#2FBBAD;
+  --teal-deep:#1E8B80;
+  --paper:#F2F6FA;
+  --white:#FFFFFF;
+  --slate:#56697D;
+  --slate-light:#8598AB;
+  --line:#DCE5EE;
+  --line-dark:rgba(255,255,255,.12);
 
-  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  --display:'Bricolage Grotesque',system-ui,sans-serif;
+  --body:'Instrument Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;}
+html,body{overflow-x:hidden;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--display);margin:0;letter-spacing:-0.03em;line-height:1.08;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px;}
+@media(max-width:600px){.wrap{padding:0 20px;}}
 
-  /* ---------- Header ---------- */
-  .site-header{
-    position:fixed;
-    top:0;left:0;right:0;
-    z-index:60;
-    background:rgba(240,244,248,0.90);
-    backdrop-filter:blur(14px);
-    border-bottom:1px solid transparent;
-    transform:translateY(-100%);
-    transition:transform .28s ease, border-color .28s ease;
-  }
-  .site-header.visible{
-    transform:translateY(0);
-    border-bottom-color:var(--line);
-  }
-  .header-inner{
-    max-width:1120px;margin:0 auto;
-    padding:14px 24px;
-    display:flex;align-items:center;justify-content:space-between;
-  }
-  .logo{display:flex;align-items:center;gap:10px;}
-  .logo-mark{height:26px;width:auto;display:block;}
-  .logo-text{font-weight:700;font-size:19px;letter-spacing:-0.03em;color:var(--ink);}
+/* ---------------- buttons ---------------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:48px;padding:14px 26px;border-radius:12px;
+  font-family:var(--body);font-weight:600;font-size:15.5px;
+  letter-spacing:-0.01em;transition:transform .16s ease, box-shadow .16s ease, background .16s ease;
+  white-space:nowrap;
+}
+.btn-primary{
+  background:linear-gradient(180deg,var(--teal) 0%,var(--teal-deep) 100%);
+  color:#04211E;
+  box-shadow:0 1px 0 rgba(255,255,255,.25) inset, 0 8px 22px -10px rgba(47,187,173,.75);
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.25) inset, 0 12px 28px -10px rgba(47,187,173,.9);}
+.btn-ghost{background:rgba(255,255,255,.07);color:#fff;border:1px solid var(--line-dark);}
+.btn-ghost:hover{background:rgba(255,255,255,.13);}
+.btn-dark{background:var(--ink);color:#fff;}
+.btn-dark:hover{background:var(--ink-2);transform:translateY(-1px);}
+.btn:focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
 
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;
-    min-height:48px;
-    padding:14px 28px;
-    border-radius:999px;
-    font-weight:600;font-size:15px;letter-spacing:-0.01em;
-    transition:background .18s ease, transform .18s ease, box-shadow .18s ease;
-    white-space:nowrap;
-  }
-  .btn-primary{
-    background:var(--primary);color:#fff;
-    box-shadow:0 1px 2px rgba(30,63,108,.16), 0 8px 20px -8px rgba(44,88,148,.5);
-  }
-  .btn-primary:hover{
-    background:var(--primary-dark);
-    transform:translateY(-1px);
-    box-shadow:0 2px 5px rgba(30,63,108,.2), 0 12px 26px -8px rgba(44,88,148,.55);
-  }
-  .btn-primary:focus-visible{outline:2px solid var(--primary-dark);outline-offset:3px;}
-  .header-inner .btn{padding:10px 20px;font-size:14px;min-height:42px;}
-  @media(max-width:360px){.logo-text{display:none;}}
-  @media(max-width:430px){
-    .header-inner{padding:12px 16px;}
-    .header-inner .btn{padding:9px 15px;font-size:13px;}
-    .logo-text{font-size:17px;}
-    .logo-mark{height:23px;}
-  }
+/* ---------------- nav ---------------- */
+.nav{
+  position:sticky;top:0;z-index:80;
+  background:rgba(10,26,43,.72);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-dark);
+}
+.nav-in{
+  max-width:1140px;margin:0 auto;padding:15px 28px;
+  display:flex;align-items:center;gap:32px;
+}
+.brand{display:flex;align-items:center;gap:9px;}
+.brand img{height:25px;width:auto;display:block;}
+.brand span{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:-0.035em;}
+.nav-links{display:flex;gap:26px;margin-left:8px;}
+.nav-links a{
+  font-size:14.5px;font-weight:500;color:rgba(255,255,255,.66);
+  transition:color .15s ease;
+}
+.nav-links a:hover{color:#fff;}
+.nav-cta{margin-left:auto;display:flex;gap:10px;align-items:center;}
+.nav-cta .btn{min-height:42px;padding:10px 18px;font-size:14.5px;}
+@media(max-width:860px){.nav-links{display:none;}}
+@media(max-width:480px){
+  .nav-in{padding:13px 18px;gap:12px;}
+  .brand span{display:none;}
+  .nav-cta .btn-ghost{display:none;}
+}
 
-  section{padding:92px 0;position:relative;}
-  @media (max-width:640px){section{padding:60px 0;}}
+/* ---------------- hero ---------------- */
+.hero{
+  position:relative;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% -5%, rgba(61,130,220,.34) 0%, rgba(61,130,220,0) 60%),
+    radial-gradient(ellipse 60% 55% at 88% 8%, rgba(47,187,173,.26) 0%, rgba(47,187,173,0) 62%),
+    linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 62%,#1B3D57 100%);
+  padding:76px 0 130px;
+  overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:110px;
+  background:linear-gradient(180deg,rgba(242,246,250,0) 0%,var(--paper) 100%);
+  pointer-events:none;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 20%,#000 0%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 20%,#000 0%,transparent 75%);
+  pointer-events:none;
+}
+.hero-in{position:relative;z-index:2;}
+.tag{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:#9FDBD3;
+  background:rgba(47,187,173,.11);
+  border:1px solid rgba(47,187,173,.28);
+  padding:7px 14px;border-radius:999px;margin-bottom:26px;
+}
+.tag i{width:6px;height:6px;border-radius:50%;background:var(--teal);display:block;
+  box-shadow:0 0 0 0 rgba(47,187,173,.7);animation:blip 2.4s ease-out infinite;}
+@keyframes blip{
+  0%{box-shadow:0 0 0 0 rgba(47,187,173,.6);}
+  70%{box-shadow:0 0 0 9px rgba(47,187,173,0);}
+  100%{box-shadow:0 0 0 0 rgba(47,187,173,0);}
+}
+.hero h1{
+  font-size:clamp(36px,5.4vw,66px);
+  font-weight:700;color:#fff;max-width:15ch;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(100deg,var(--teal) 20%,#7FD9CF 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{
+  margin-top:24px;max-width:52ch;
+  font-size:18px;line-height:1.62;color:rgba(255,255,255,.7);
+}
+.hero-btns{margin-top:36px;display:flex;gap:12px;flex-wrap:wrap;}
+.hero-fine{
+  margin-top:18px;font-family:var(--mono);font-size:12px;
+  color:rgba(255,255,255,.42);letter-spacing:.02em;
+}
 
-  /* Alternating section bands */
-  .band-white{background:var(--page);}
-  .band-tint{
-    background:linear-gradient(180deg,#FFFFFF 0%,var(--wash-cool) 22%,var(--wash-blue) 100%);
-    border-top:1px solid var(--line-soft);
-    border-bottom:1px solid var(--line);
-  }
-  .band-soft{
-    background:linear-gradient(180deg,var(--wash-blue) 0%,var(--wash-cool) 55%,#FFFFFF 100%);
-    border-top:1px solid var(--line);
-  }
-  .band-white + .band-white{border-top:1px solid var(--line-soft);}
+/* ---------------- SIGNATURE: live thread ---------------- */
+.stage{
+  position:relative;z-index:2;
+  margin-top:66px;
+  display:grid;grid-template-columns:300px 1fr;gap:34px;align-items:start;
+}
+@media(max-width:900px){.stage{grid-template-columns:1fr;gap:26px;max-width:420px;}}
 
-  .eyebrow{
-    display:inline-block;
-    max-width:100%;
-    text-align:center;
-    line-height:1.5;
-    font-size:12.5px;font-weight:600;
-    letter-spacing:.06em;text-transform:uppercase;
-    color:var(--primary-dark);
-    background:var(--primary-tint);
-    padding:7px 15px;border-radius:999px;
-    margin-bottom:26px;
-  }
-  @media(max-width:430px){
-    .eyebrow{font-size:11.5px;letter-spacing:.045em;padding:7px 13px;}
-  }
-  .section-title{
-    font-size:clamp(25px,3.6vw,38px);
-    line-height:1.16;font-weight:700;
-    text-align:center;
-    text-wrap:balance;
-  }
+.phone{
+  background:linear-gradient(180deg,#16324B 0%,#0E2438 100%);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:26px;padding:14px;
+  box-shadow:0 30px 60px -28px rgba(0,0,0,.7);
+}
+.phone-top{
+  display:flex;align-items:center;gap:8px;
+  padding:4px 6px 12px;border-bottom:1px solid var(--line-dark);margin-bottom:12px;
+}
+.phone-top .dot{width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--teal));flex-shrink:0;}
+.phone-top b{font-size:13.5px;color:#fff;font-weight:600;font-family:var(--body);}
+.phone-top small{display:block;font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.4);}
+.thread{display:flex;flex-direction:column;gap:9px;min-height:250px;}
+.bub{
+  max-width:88%;padding:10px 13px;border-radius:14px;
+  font-size:13.5px;line-height:1.5;
+  opacity:0;
+  animation:bubbleIn 14s cubic-bezier(.22,.61,.36,1) infinite;
+}
+.bub .t{display:block;font-family:var(--mono);font-size:9.5px;opacity:.55;margin-top:5px;}
+.bub.them{align-self:flex-start;background:rgba(255,255,255,.09);color:rgba(255,255,255,.9);border-bottom-left-radius:5px;}
+.bub.us{align-self:flex-end;background:linear-gradient(180deg,var(--teal) 0%,var(--teal-deep) 100%);color:#042320;border-bottom-right-radius:5px;}
+.bub.sys{
+  align-self:center;max-width:100%;text-align:center;
+  background:none;padding:2px 0;
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;color:rgba(255,255,255,.34);
+}
+.bub:nth-child(1){animation-delay:0s;}
+.bub:nth-child(2){animation-delay:1.6s;}
+.bub:nth-child(3){animation-delay:3.4s;}
+.bub:nth-child(4){animation-delay:5.4s;}
+.bub:nth-child(5){animation-delay:7.2s;}
+@keyframes bubbleIn{
+  0%{opacity:0;transform:translateY(9px) scale(.985);}
+  3.5%{opacity:1;transform:none;}
+  62%{opacity:1;transform:none;}
+  68%{opacity:0;transform:translateY(-5px);}
+  100%{opacity:0;}
+}
 
-  /* ---------- Hero ---------- */
-  .hero{
-    position:relative;
-    padding:120px 0 104px;
-    overflow:hidden;
-    background:
-      radial-gradient(ellipse 80% 62% at 24% 4%, rgba(44,88,148,0.13) 0%, rgba(44,88,148,0) 60%),
-      radial-gradient(ellipse 70% 58% at 78% 10%, rgba(41,154,148,0.12) 0%, rgba(41,154,148,0) 62%),
-      linear-gradient(180deg,#E7EEF5 0%,#EDF2F7 58%,#F0F4F8 100%);
-    border-bottom:1px solid var(--line-soft);
-  }
-  .hero-bg{
-    position:absolute;inset:0;z-index:0;
-    display:flex;align-items:center;justify-content:center;
-    pointer-events:none;
-  }
-  .hero-bg svg{width:100%;max-width:1200px;height:auto;}
-  .hero-fade{
-    position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:radial-gradient(ellipse 62% 58% at 50% 46%, rgba(248,251,253,.95) 0%, rgba(248,251,253,.74) 45%, rgba(248,251,253,0) 78%);
-  }
-  .hero-content{position:relative;z-index:2;text-align:center;max-width:800px;margin:0 auto;}
-  .hero-mark{height:62px;width:auto;display:block;margin:0 auto 28px;}
-  @media(max-width:640px){.hero-mark{height:52px;margin-bottom:22px;}}
-  .hero h1{font-size:clamp(30px,5.4vw,56px);line-height:1.08;font-weight:700;letter-spacing:-0.032em;text-wrap:balance;}
-  .hero .sub{
-    margin:26px auto 0;max-width:610px;
-    font-size:18.5px;line-height:1.62;color:var(--ink-soft);
-  }
-  .hero-cta{margin-top:38px;}
-  @media(max-width:640px){
-    .hero{padding:84px 0 72px;}
-    .hero .sub{font-size:16.5px;margin-top:20px;}
-    .hero-cta{margin-top:30px;}
-    .hero-cta .btn{width:100%;max-width:340px;}
-  }
-  .hero-note{margin-top:16px;font-size:13.5px;color:var(--ink-faint);font-weight:500;}
+.panel{
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 30px 60px -34px rgba(0,0,0,.6);
+}
+.panel-bar{
+  display:flex;align-items:center;gap:9px;
+  padding:13px 18px;border-bottom:1px solid var(--line-dark);
+  background:rgba(255,255,255,.03);
+}
+.panel-bar .w{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18);}
+.panel-bar span{
+  margin-left:6px;font-family:var(--mono);font-size:11px;
+  color:rgba(255,255,255,.48);letter-spacing:.04em;
+}
+.panel-body{padding:20px;}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;}
+.stat{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+  border-radius:13px;padding:14px 15px;
+}
+.stat u{
+  display:block;text-decoration:none;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:7px;
+}
+.stat b{
+  font-family:var(--display);font-size:27px;font-weight:700;
+  color:#fff;letter-spacing:-0.03em;display:block;line-height:1;
+}
+.stat b.up{color:var(--teal);}
+.feed{display:flex;flex-direction:column;gap:9px;}
+.feed-row{
+  display:flex;align-items:center;gap:11px;
+  padding:11px 13px;border-radius:11px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  font-size:13px;color:rgba(255,255,255,.82);
+}
+.feed-row .pip{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.feed-row .pip.g{background:var(--teal);}
+.feed-row .pip.b{background:var(--blue);}
+.feed-row .pip.a{background:#E0A33C;}
+.feed-row time{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.36);}
+.feed-row.live{animation:rowIn .6s cubic-bezier(.22,.61,.36,1) both;}
+.feed-row:nth-child(1).live{animation-delay:.5s;}
+.feed-row:nth-child(2).live{animation-delay:.75s;}
+.feed-row:nth-child(3).live{animation-delay:1s;}
+.feed-row:nth-child(4).live{animation-delay:1.25s;}
+@keyframes rowIn{from{opacity:0;transform:translateX(-10px);}to{opacity:1;transform:none;}}
+@media(max-width:520px){.stat-row{grid-template-columns:1fr 1fr;}.stat-row .stat:last-child{display:none;}}
 
-  /* ---------- Solution ---------- */
-  .lead-in{
-    max-width:660px;margin:22px auto 52px;
-    text-align:center;
-    font-size:17.5px;line-height:1.7;color:var(--ink-soft);
-  }
-  .lead-in strong{color:var(--ink);font-weight:600;}
-  .solution-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:26px;
-  }
-  @media(max-width:860px){.solution-grid{grid-template-columns:1fr;}}
-  .sol-card{
-    background:#FFFFFF;
-    border:1px solid var(--line-soft);
-    border-radius:18px;
-    padding:30px 26px;
-    box-shadow:0 1px 2px rgba(16,27,45,.04), 0 14px 30px -20px rgba(30,63,108,.28);
-  }
-  .sol-icon{
-    width:44px;height:44px;border-radius:12px;
-    background:var(--primary-tint);color:var(--primary-dark);
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:20px;
-  }
-  .sol-icon-teal{background:var(--teal-tint);color:var(--teal-dark);}
-  .sol-card h3{font-size:18px;font-weight:600;margin-bottom:10px;letter-spacing:-0.015em;}
-  .sol-card p{font-size:15px;line-height:1.65;color:var(--ink-soft);}
-  .closing-line{
-    margin-top:48px;text-align:center;
-    font-size:clamp(18px,2.4vw,23px);
-    line-height:1.42;font-weight:600;
-    letter-spacing:-0.02em;
-    color:var(--ink);
-    max-width:640px;margin-left:auto;margin-right:auto;
-  }
-  .closing-line em{font-style:normal;color:var(--teal-dark);}
+/* ---------------- sections ---------------- */
+section{padding:96px 0;position:relative;}
+@media(max-width:640px){section{padding:64px 0;}}
+.eyebrow{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--teal-deep);
+  margin-bottom:16px;
+}
+.h2{font-size:clamp(28px,3.8vw,44px);font-weight:700;max-width:22ch;}
+.lede{margin-top:18px;max-width:56ch;font-size:17.5px;line-height:1.65;color:var(--slate);}
 
-  /* ---------- Calculator ---------- */
-  .calc-section{
-    background:
-      radial-gradient(ellipse 66% 58% at 50% 100%, rgba(41,154,148,0.10) 0%, rgba(41,154,148,0) 70%),
-      linear-gradient(180deg,#F0F4F8 0%,#E5ECF4 30%,#DBE5F0 100%);
-    border-top:1px solid var(--line-soft);
-    border-bottom:1px solid var(--line);
-  }
-  .calc-explainer{
-    max-width:560px;margin:20px auto 46px;
-    text-align:center;font-size:16.5px;line-height:1.65;color:var(--ink-soft);
-  }
-  .calc-card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:24px;
-    padding:40px;
-    max-width:620px;margin:0 auto;
-    box-shadow:0 1px 2px rgba(16,27,45,.05), 0 18px 44px -22px rgba(30,63,108,.30);
-  }
-  @media(max-width:520px){.calc-card{padding:28px 22px;}}
-  .slider-group{margin-bottom:34px;}
-  .slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;gap:16px;}
-  @media(max-width:430px){
-    .slider-label{flex-direction:column;align-items:flex-start;gap:4px;}
-    .slider-label .lbl{font-size:14px;}
-  }
-  .slider-label .lbl{font-weight:600;font-size:14.5px;}
-  .slider-value{font-weight:700;font-size:16px;color:var(--teal-dark);font-variant-numeric:tabular-nums;}
-  input[type=range]{
-    -webkit-appearance:none;appearance:none;
-    width:100%;height:6px;border-radius:999px;
-    background:var(--line);outline:none;
-  }
-  input[type=range]::-webkit-slider-thumb{
-    -webkit-appearance:none;
-    width:22px;height:22px;border-radius:50%;
-    background:var(--teal);border:3px solid #fff;
-    box-shadow:0 1px 4px rgba(16,27,45,.28);cursor:pointer;
-  }
-  input[type=range]::-moz-range-thumb{
-    width:22px;height:22px;border-radius:50%;
-    background:var(--teal);border:3px solid #fff;
-    box-shadow:0 1px 4px rgba(16,27,45,.28);cursor:pointer;
-  }
-  input[type=range]:focus-visible{outline:2px solid var(--primary-dark);outline-offset:4px;}
-  .calc-result{
-    margin-top:34px;padding-top:30px;
-    border-top:1px dashed var(--line);
-    text-align:center;
-  }
-  .calc-result-label{
-    font-size:12.5px;font-weight:600;letter-spacing:.055em;
-    text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;
-  }
-  .calc-result-value{
-    font-size:clamp(36px,6.4vw,54px);
-    font-weight:700;letter-spacing:-0.035em;
-    color:var(--teal-dark);line-height:1;
-    font-variant-numeric:tabular-nums;
-  }
-  .calc-disclaimer{margin-top:16px;font-size:12.5px;color:var(--ink-faint);line-height:1.5;}
+/* features */
+.feat{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:56px;align-items:center;
+  padding:52px 0;border-top:1px solid var(--line);
+}
+.feat:first-of-type{border-top:0;padding-top:12px;}
+.feat.flip .feat-art{order:-1;}
+@media(max-width:880px){
+  .feat{grid-template-columns:1fr;gap:32px;padding:38px 0;}
+  .feat.flip .feat-art{order:0;}
+}
+.feat h3{font-size:clamp(23px,2.6vw,30px);font-weight:700;margin-bottom:14px;}
+.feat p{font-size:16.5px;line-height:1.68;color:var(--slate);}
+.feat ul{margin:20px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;}
+.feat li{position:relative;padding-left:26px;font-size:15.5px;color:var(--ink);}
+.feat li::before{
+  content:"";position:absolute;left:0;top:7px;width:13px;height:13px;border-radius:50%;
+  background:rgba(47,187,173,.16);box-shadow:inset 0 0 0 2px var(--teal-deep);
+}
+.feat-art{
+  background:linear-gradient(180deg,#fff 0%,#EDF3F8 100%);
+  border:1px solid var(--line);border-radius:20px;
+  padding:26px;min-height:250px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 1px 2px rgba(10,26,43,.04),0 22px 44px -28px rgba(10,26,43,.28);
+  overflow:hidden;
+}
 
-  /* ---------- What's Included ---------- */
-  .included-grid{
-    display:grid;grid-template-columns:1fr 1fr;gap:18px;
-    margin:48px 0;
-  }
-  @media(max-width:720px){.included-grid{grid-template-columns:1fr;}}
-  .inc-item{
-    display:flex;gap:14px;align-items:flex-start;
-    padding:20px 22px;
-    background:#FFFFFF;
-    border:1px solid var(--line-soft);
-    border-radius:14px;
-  }
-  .inc-check{
-    flex-shrink:0;width:25px;height:25px;border-radius:50%;
-    background:var(--teal-tint);color:var(--teal-dark);
-    display:flex;align-items:center;justify-content:center;margin-top:2px;
-  }
-  .inc-item-wide{grid-column:1 / -1;background:linear-gradient(180deg,#F7FBFA 0%,#EEF7F5 100%);border-color:#D7E9E5;}
-  @media(max-width:720px){.inc-item-wide{grid-column:auto;}}
-  .inc-item h4{font-size:15.5px;font-weight:600;margin-bottom:5px;letter-spacing:-0.012em;}
-  .inc-item p{font-size:14.5px;line-height:1.55;color:var(--ink-soft);}
-  .center-cta{text-align:center;}
-  @media(max-width:640px){.center-cta .btn{width:100%;max-width:340px;}}
+/* art: review counter */
+.rev{width:100%;text-align:center;}
+.stars{display:flex;justify-content:center;gap:5px;margin-bottom:18px;}
+.stars svg{width:26px;height:26px;color:#DDE5ED;}
+.stars svg.on{color:#F0B429;animation:pop .5s cubic-bezier(.34,1.56,.64,1) both;}
+.stars svg:nth-child(1).on{animation-delay:.1s;}
+.stars svg:nth-child(2).on{animation-delay:.2s;}
+.stars svg:nth-child(3).on{animation-delay:.3s;}
+.stars svg:nth-child(4).on{animation-delay:.4s;}
+.stars svg:nth-child(5).on{animation-delay:.5s;}
+@keyframes pop{0%{transform:scale(.4);opacity:0;}100%{transform:scale(1);opacity:1;}}
+.rev-num{font-family:var(--display);font-size:56px;font-weight:800;letter-spacing:-0.04em;line-height:1;}
+.rev-lab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-light);margin-top:10px;}
+.rev-bar{margin-top:22px;height:7px;border-radius:99px;background:#E3EAF1;overflow:hidden;}
+.rev-bar i{display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--blue),var(--teal));}
+.rev-bar.go i{animation:fill 1.6s cubic-bezier(.22,.61,.36,1) .3s both;}
+@keyframes fill{to{width:82%;}}
 
-  /* ---------- Founder ---------- */
-  .founder-section{
-    background:linear-gradient(180deg,#F0F4F8 0%,#F3F7FA 100%);
-    border-top:1px solid var(--line-soft);
-  }
-  .founder-card{
-    max-width:820px;margin:0 auto;
-    display:grid;
-    grid-template-columns:180px 1fr;
-    gap:38px;
-    align-items:center;
-    background:#FFFFFF;
-    border:1px solid var(--line-soft);
-    border-radius:22px;
-    padding:38px;
-    box-shadow:0 1px 2px rgba(16,27,45,.04), 0 18px 40px -26px rgba(30,63,108,.30);
-  }
-  @media(max-width:680px){
-    .founder-card{grid-template-columns:1fr;gap:24px;text-align:center;padding:30px 24px;}
-  }
-  .founder-photo{
-    width:180px;height:180px;
-    border-radius:20px;
-    object-fit:cover;
-    display:block;
-    background:#E9F0F6;
-    border:1px solid #D8E3EE;
-    box-shadow:0 1px 2px rgba(16,27,45,.05);
-  }
-  @media(max-width:680px){
-    .founder-photo{width:132px;height:132px;margin:0 auto;border-radius:18px;}
-  }
-  .founder-name{font-size:18px;font-weight:700;letter-spacing:-0.018em;margin-bottom:2px;}
-  .founder-role{font-size:14px;font-weight:500;color:var(--teal-dark);margin-bottom:16px;}
-  .founder-body p{font-size:15.5px;line-height:1.72;color:var(--ink-soft);margin-bottom:14px;}
-  .founder-body p:last-child{margin-bottom:0;}
+/* art: reactivation */
+.wake{width:100%;}
+.wake-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px;}
+.wake-head span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate-light);max-width:14ch;line-height:1.5;}
+.wake-num{font-family:var(--display);font-size:46px;font-weight:800;letter-spacing:-0.04em;line-height:1;}
+.wake-dots{
+  display:grid;grid-template-columns:repeat(14,1fr);gap:5px;
+  padding:16px;background:#fff;border:1px solid var(--line);border-radius:12px;
+}
+.wake-dots i{
+  aspect-ratio:1;border-radius:50%;background:#DDE5ED;display:block;
+  opacity:0;transform:scale(.5);
+}
+.wake-dots.go i{animation:dotIn .4s cubic-bezier(.34,1.56,.64,1) both;}
+.wake-dots i.on{background:linear-gradient(135deg,var(--blue),var(--teal));}
+@keyframes dotIn{to{opacity:1;transform:none;}}
+.wake-foot{display:flex;gap:20px;margin-top:14px;font-size:12px;color:var(--slate);}
+.wake-foot i.k{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;}
+.wake-foot i.k.g{background:linear-gradient(135deg,var(--blue),var(--teal));}
+.wake-foot i.k.d{background:#DDE5ED;}
 
-  /* ---------- FAQ ---------- */
-  .faq-section{
-    background:linear-gradient(180deg,#F0F4F8 0%,#E8EEF5 40%,#DEE7F1 100%);
-    border-top:1px solid var(--line-soft);
-    border-bottom:1px solid var(--line);
-  }
-  .faq-list{max-width:720px;margin:44px auto 0;}
-  .faq-item{border-bottom:1px solid #DFE6F0;}
-  .faq-item:first-child{border-top:1px solid #DFE6F0;}
-  .faq-q{
-    width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;
-    padding:23px 4px;text-align:left;
-    font-size:16px;font-weight:600;letter-spacing:-0.012em;color:var(--ink);
-  }
-  .faq-icon{
-    flex-shrink:0;width:24px;height:24px;border-radius:50%;
-    border:1.5px solid #CFD9E7;color:var(--primary-dark);
-    display:flex;align-items:center;justify-content:center;
-    font-size:15px;font-weight:600;line-height:1;
-    transition:transform .22s ease, background .22s ease, color .22s ease, border-color .22s ease;
-  }
-  .faq-item.open .faq-icon{
-    background:var(--primary);color:#fff;border-color:var(--primary);
-    transform:rotate(45deg);
-  }
-  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
-  .faq-a-inner{padding:0 4px 24px;font-size:15px;line-height:1.7;color:var(--ink-soft);max-width:640px;}
+/* full bundle grid */
+.bundle{background:var(--white);border-top:1px solid var(--line);}
+.bundle-grid{
+  margin-top:44px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+}
+@media(max-width:940px){.bundle-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.bundle-grid{grid-template-columns:1fr;}}
+.bcard{
+  background:linear-gradient(180deg,#fff 0%,#F6FAFC 100%);
+  border:1px solid var(--line);border-radius:16px;padding:24px;
+  box-shadow:0 1px 2px rgba(10,26,43,.03);
+}
+.bcard h4{
+  font-family:var(--display);font-size:17.5px;font-weight:700;
+  letter-spacing:-0.02em;margin-bottom:14px;display:flex;align-items:center;gap:10px;
+}
+.bcard h4 span{
+  width:28px;height:28px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(47,187,173,.13);color:var(--teal-deep);
+}
+.bcard h4 svg{width:15px;height:15px;}
+.bcard ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;}
+.bcard li{
+  position:relative;padding-left:18px;
+  font-size:14.5px;line-height:1.55;color:var(--slate);
+}
+.bcard li::before{
+  content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;
+  background:var(--teal);opacity:.55;
+}
+.bundle-note{
+  margin-top:30px;font-family:var(--mono);font-size:11.5px;line-height:1.7;
+  color:var(--slate-light);max-width:70ch;
+}
 
-  /* ---------- Final CTA ---------- */
-  .final-wrap{
-    padding:92px 24px;
-    background:linear-gradient(180deg,#DEE7F1 0%,#E8EEF4 60%,#F0F4F8 100%);
-  }
-  @media(max-width:640px){.final-wrap{padding:60px 20px;}}
-  .final-cta{
-    max-width:1120px;margin:0 auto;
-    text-align:center;
-    background:
-      radial-gradient(ellipse 60% 80% at 82% 4%, rgba(41,154,148,0.42) 0%, rgba(41,154,148,0) 62%),
-      radial-gradient(ellipse 70% 90% at 50% 0%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 60%),
-      linear-gradient(168deg,#356AAB 0%,#2C5894 46%,#1B3A62 100%);
-    border-radius:28px;
-    padding:64px 28px;
-    box-shadow:0 24px 60px -28px rgba(27,58,98,.55);
-  }
-  @media(max-width:640px){.final-cta{padding:46px 16px;border-radius:20px;}}
-  .final-cta h2{color:#fff;font-size:clamp(27px,4.2vw,40px);line-height:1.12;margin-bottom:18px;letter-spacing:-0.03em;}
-  .final-cta p{
-    color:rgba(255,255,255,.84);
-    font-size:16.5px;line-height:1.65;
-    max-width:560px;margin:0 auto 32px;
-  }
-  .final-cta .btn-primary{background:#fff;color:var(--primary-dark);box-shadow:0 6px 18px -6px rgba(0,0,0,.28);}
-  .final-cta .btn-primary:hover{background:#EDF1F8;color:var(--primary-dark);}
+/* art: inbox */
+.inbox{width:100%;display:flex;flex-direction:column;gap:10px;}
+.chan{
+  display:flex;align-items:center;gap:12px;padding:13px 15px;
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  font-size:14px;font-weight:500;
+}
+.chan .ic{
+  width:30px;height:30px;border-radius:9px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;
+}
+.chan small{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--slate-light);}
+.chan.in{animation:rowIn .55s cubic-bezier(.22,.61,.36,1) both;}
+.chan:nth-child(1).in{animation-delay:.1s;}
+.chan:nth-child(2).in{animation-delay:.25s;}
+.chan:nth-child(3).in{animation-delay:.4s;}
+.chan:nth-child(4).in{animation-delay:.55s;}
 
-  /* ---------- Cal.com inline embed ---------- */
-  #book{scroll-margin-top:78px;}
-  .cal-shell{
-    position:relative;
-    background:#FFFFFF;
-    border-radius:18px;
-    overflow:hidden;
-    margin:6px auto 0;
-    max-width:940px;
-    min-height:620px;
-    box-shadow:0 18px 44px -22px rgba(0,0,0,.45);
-  }
-  #cal-inline{width:100%;min-height:620px;position:relative;z-index:2;}
-  #cal-inline iframe{width:100%!important;min-height:620px;border:0;display:block;}
-  .cal-state{
-    position:absolute;inset:0;z-index:3;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:14px;padding:32px 24px;text-align:center;
-    background:#FFFFFF;
-  }
-  .cal-state[hidden]{display:none;}
-  .cal-spinner{
-    width:26px;height:26px;border-radius:50%;
-    border:2.5px solid var(--line);
-    border-top-color:var(--primary);
-    animation:calSpin .8s linear infinite;
-  }
-  @keyframes calSpin{to{transform:rotate(360deg);}}
-  .cal-state p{font-size:14.5px;color:var(--ink-soft);max-width:340px;line-height:1.6;}
-  .cal-state .btn{margin-top:4px;}
-  @media (prefers-reduced-motion:reduce){.cal-spinner{animation:none;}}
-  .cal-fallback{
-    margin-top:18px!important;
-    font-size:13px;
-    color:rgba(255,255,255,.72)!important;
-  }
-  .cal-fallback a{color:#fff;text-decoration:underline;text-underline-offset:2px;}
-  @media(max-width:820px){
-    .cal-shell{min-height:580px;border-radius:14px;}
-    #cal-inline,#cal-inline iframe{min-height:580px;}
-  }
-  @media(max-width:520px){
-    .cal-shell{min-height:540px;margin-left:-8px;margin-right:-8px;}
-    #cal-inline,#cal-inline iframe{min-height:540px;}
-  }
+/* art: reply guard */
+.guard{width:100%;}
+.guard-card{
+  background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px;
+  font-size:14px;line-height:1.6;
+}
+.guard-card + .guard-card{margin-top:12px;}
+.guard-card.bad{border-color:#F0CFC7;background:#FDF4F2;}
+.guard-card.good{border-color:#C6E6DF;background:#F1FAF8;}
+.guard-lab{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:8px;display:flex;align-items:center;gap:7px;
+}
+.guard-card.bad .guard-lab{color:#B4553F;}
+.guard-card.good .guard-lab{color:var(--teal-deep);}
 
-  footer{
-    padding:38px 24px;
-    text-align:center;
-    font-size:13px;
-    color:var(--ink-faint);
-    background:var(--page);
-    border-top:1px solid var(--line-soft);
-  }
-  .footer-mark{height:28px;width:auto;display:block;margin:0 auto 14px;opacity:.85;}
-  .footer-legal{margin-top:10px;display:flex;gap:10px;justify-content:center;align-items:center;font-size:12.5px;}
-  .footer-legal a{color:var(--ink-faint);text-decoration:underline;text-underline-offset:2px;}
-  .footer-legal a:hover{color:var(--ink-soft);}
-  .footer-legal span{color:#C3CDD8;}
+/* art: call catch */
+.catch{width:100%;text-align:center;}
+.ring{
+  width:96px;height:96px;border-radius:50%;margin:0 auto 20px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,#fff,#EDF3F8);
+  border:1px solid var(--line);
+  position:relative;
+}
+.ring::before,.ring::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  border:1.5px solid var(--teal);opacity:0;
+  animation:pulse 2.6s ease-out infinite;
+}
+.ring::after{animation-delay:1.3s;}
+@keyframes pulse{
+  0%{transform:scale(1);opacity:.6;}
+  100%{transform:scale(1.55);opacity:0;}
+}
+.ring svg{width:34px;height:34px;color:var(--blue-deep);}
+.catch-flow{display:flex;flex-direction:column;gap:9px;text-align:left;}
+.catch-step{
+  display:flex;align-items:center;gap:11px;
+  background:#fff;border:1px solid var(--line);border-radius:11px;
+  padding:11px 14px;font-size:13.5px;
+}
+.catch-step b{font-family:var(--mono);font-size:10.5px;color:var(--teal-deep);}
 
-  /* ---------- Scroll reveal ---------- */
-  .js .reveal{
-    opacity:0;
-    transform:translateY(20px);
-    transition:opacity .75s cubic-bezier(.22,.61,.36,1), transform .75s cubic-bezier(.22,.61,.36,1);
-    will-change:opacity, transform;
-  }
-  .js .reveal.in{opacity:1;transform:none;}
+/* comparison */
+.cmp-wrap{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.cmp{
+  margin-top:40px;width:100%;border-collapse:separate;border-spacing:0;
+  background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  font-size:15px;
+}
+.cmp th,.cmp td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line);}
+.cmp thead th{
+  font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--slate);font-weight:500;background:#F7FAFC;
+}
+.cmp thead th.us{color:var(--ink);background:#EFF9F7;font-weight:700;}
+.cmp tbody th{font-weight:500;color:var(--ink);}
+.cmp td{text-align:center;color:var(--slate);}
+.cmp td.us{background:#F7FDFC;font-weight:600;color:var(--ink);}
+.cmp tr:last-child th,.cmp tr:last-child td{border-bottom:0;}
+.yes{color:var(--teal-deep);font-weight:700;}
+.no{color:var(--slate-light);}
+@media(max-width:700px){
+  .cmp{font-size:13.5px;}
+  .cmp th,.cmp td{padding:12px 10px;}
+}
 
-  /* staggered children */
-  .js .solution-grid .sol-card:nth-child(2){transition-delay:.09s;}
-  .js .solution-grid .sol-card:nth-child(3){transition-delay:.18s;}
-  .js .included-grid .inc-item:nth-child(2){transition-delay:.05s;}
-  .js .included-grid .inc-item:nth-child(3){transition-delay:.10s;}
-  .js .included-grid .inc-item:nth-child(4){transition-delay:.15s;}
-  .js .included-grid .inc-item:nth-child(5){transition-delay:.20s;}
-  .js .included-grid .inc-item:nth-child(6){transition-delay:.25s;}
-  .js .included-grid .inc-item:nth-child(7){transition-delay:.30s;}
-  .js .included-grid .inc-item:nth-child(8){transition-delay:.35s;}
-  .js .included-grid .inc-item:nth-child(9){transition-delay:.40s;}
-  .js .faq-list .faq-item:nth-child(2){transition-delay:.05s;}
-  .js .faq-list .faq-item:nth-child(3){transition-delay:.10s;}
-  .js .faq-list .faq-item:nth-child(4){transition-delay:.15s;}
-  .js .faq-list .faq-item:nth-child(5){transition-delay:.20s;}
-  .js .faq-list .faq-item:nth-child(6){transition-delay:.25s;}
-  .js .faq-list .faq-item:nth-child(7){transition-delay:.30s;}
-  .js .faq-list .faq-item:nth-child(8){transition-delay:.35s;}
-  .js .faq-list .faq-item:nth-child(9){transition-delay:.40s;}
+/* pricing */
+.price-card{
+  margin-top:44px;max-width:520px;
+  background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
+  border-radius:22px;padding:40px;color:#fff;
+  box-shadow:0 30px 60px -30px rgba(10,26,43,.55);
+}
+.price-card h3{font-size:24px;font-weight:700;margin-bottom:6px;}
+.price-card .sub{font-size:15px;color:rgba(255,255,255,.6);margin-bottom:26px;}
+.price-fig{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;}
+.price-fig b{font-family:var(--display);font-size:52px;font-weight:800;letter-spacing:-0.04em;line-height:1;}
+.price-fig span{font-family:var(--mono);font-size:13px;color:rgba(255,255,255,.55);}
+.price-setup{
+  font-size:14.5px;line-height:1.6;color:rgba(255,255,255,.72);
+  padding:14px 16px;margin:18px 0 16px;
+  background:rgba(47,187,173,.1);
+  border:1px solid rgba(47,187,173,.24);
+  border-radius:11px;
+}
+.price-setup b{color:#8FD6CD;font-weight:600;}
+.price-note{font-family:var(--mono);font-size:11px;line-height:1.7;color:rgba(255,255,255,.45);margin-bottom:28px;}
+.price-list{list-style:none;padding:0;margin:0 0 30px;display:flex;flex-direction:column;gap:11px;}
+.price-list li{position:relative;padding-left:26px;font-size:15px;color:rgba(255,255,255,.86);}
+.price-list li::before{
+  content:"";position:absolute;left:0;top:7px;width:13px;height:13px;border-radius:50%;
+  background:rgba(47,187,173,.2);box-shadow:inset 0 0 0 2px var(--teal);
+}
 
-  /* hero enters on load rather than on scroll */
-  .js .hero-lift{
-    opacity:0;
-    transform:translateY(18px);
-    animation:heroIn .85s cubic-bezier(.22,.61,.36,1) forwards;
-  }
-  .js .hero-lift:nth-of-type(1){animation-delay:.05s;}
-  .js .hero-mark{animation-delay:0s;}
-  .js .eyebrow.hero-lift{animation-delay:.12s;}
-  .js h1.hero-lift{animation-delay:.20s;}
-  .js .sub.hero-lift{animation-delay:.30s;}
-  .js .hero-cta.hero-lift{animation-delay:.40s;}
-  .js .hero-note.hero-lift{animation-delay:.48s;}
-  @keyframes heroIn{to{opacity:1;transform:none;}}
 
-  /* hero dotfield breathes in behind everything */
-  .js .hero-bg{opacity:0;animation:bgIn 1.4s ease forwards;}
-  @keyframes bgIn{to{opacity:1;}}
 
-  @media (prefers-reduced-motion:reduce){
-    .js .reveal,.js .hero-lift,.js .hero-bg{
-      opacity:1!important;transform:none!important;animation:none!important;
-    }
-    *{transition:none!important;animation:none!important;}
-    html{scroll-behavior:auto;}
-  }
+/* ---------------- touch / don't touch ---------------- */
+.touch{background:var(--white);border-top:1px solid var(--line);}
+.touch-grid{
+  margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:22px;
+}
+@media(max-width:760px){.touch-grid{grid-template-columns:1fr;}}
+.tcard{border-radius:18px;padding:28px;border:1px solid var(--line);}
+.tcard.no{background:linear-gradient(180deg,#fff 0%,#F6F9FC 100%);}
+.tcard.yes{background:linear-gradient(180deg,#F4FBF9 0%,#EAF6F3 100%);border-color:#C9E6DF;}
+.tcard h3{
+  font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-0.02em;
+  margin-bottom:16px;display:flex;align-items:center;gap:10px;
+}
+.tcard h3 i{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;font-style:normal;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:14px;font-weight:700;
+}
+.tcard.no h3 i{background:#EEF2F7;color:var(--slate);}
+.tcard.yes h3 i{background:rgba(47,187,173,.18);color:var(--teal-deep);}
+.tcard ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:11px;}
+.tcard li{position:relative;padding-left:18px;font-size:15px;line-height:1.6;color:var(--slate);}
+.tcard li::before{
+  content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;
+}
+.tcard.no li::before{background:var(--slate-light);opacity:.6;}
+.tcard.yes li::before{background:var(--teal);}
+.touch-foot{
+  margin-top:26px;padding:20px 22px;border-radius:14px;
+  background:var(--ink);color:rgba(255,255,255,.82);
+  font-size:15.5px;line-height:1.7;max-width:74ch;
+}
+.touch-foot b{color:#8FD6CD;font-weight:600;}
+
+/* ---------------- walkthrough video ---------------- */
+.watch{background:linear-gradient(180deg,var(--paper) 0%,#fff 100%);}
+.vid{
+  margin-top:40px;position:relative;
+  aspect-ratio:16/9;width:100%;
+  background:var(--ink);
+  border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  box-shadow:0 1px 2px rgba(10,26,43,.04),0 34px 66px -34px rgba(10,26,43,.4);
+}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
+.vid-note{
+  margin-top:16px;font-family:var(--mono);font-size:11px;line-height:1.7;
+  color:var(--slate-light);
+}
+
+/* ---------------- calculator ---------------- */
+.calc-sec{
+  background:linear-gradient(180deg,var(--paper) 0%,#fff 100%);
+  border-bottom:1px solid var(--line);
+}
+.calc-shell{
+  margin-top:44px;
+  display:grid;grid-template-columns:1fr 380px;gap:0;
+  background:#fff;border:1px solid var(--line);border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 1px 2px rgba(10,26,43,.04),0 30px 60px -34px rgba(10,26,43,.32);
+}
+@media(max-width:840px){.calc-shell{grid-template-columns:1fr;}}
+.calc-controls{padding:34px;}
+@media(max-width:520px){.calc-controls{padding:26px 22px;}}
+.sl{margin-bottom:30px;}
+.sl:last-child{margin-bottom:0;}
+.sl-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:13px;}
+.sl-top label{font-size:14.5px;font-weight:500;color:var(--ink);}
+.sl-val{
+  font-family:var(--mono);font-size:15px;font-weight:700;
+  color:var(--teal-deep);font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+@media(max-width:420px){.sl-top{flex-direction:column;align-items:flex-start;gap:4px;}}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:28px;               /* generous hit area, not a 6px strip */
+  background:transparent;outline:none;cursor:pointer;
+  display:block;margin:0;
+  touch-action:pan-y;
+}
+/* WebKit / Blink */
+input[type=range]::-webkit-slider-runnable-track{
+  height:6px;border-radius:99px;
+  background:linear-gradient(90deg,var(--teal) 0%,var(--teal) var(--p,25%),#E1E9F0 var(--p,25%),#E1E9F0 100%);
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:22px;height:22px;border-radius:50%;
+  background:#fff;border:3px solid var(--teal);
+  margin-top:-8px;                      /* centre the thumb on the 6px track */
+  box-shadow:0 2px 6px rgba(10,26,43,.22);
+  cursor:grab;
+}
+input[type=range]:active::-webkit-slider-thumb{cursor:grabbing;transform:scale(1.06);}
+/* Firefox */
+input[type=range]::-moz-range-track{
+  height:6px;border-radius:99px;background:#E1E9F0;
+}
+input[type=range]::-moz-range-progress{
+  height:6px;border-radius:99px;background:var(--teal);
+}
+input[type=range]::-moz-range-thumb{
+  width:22px;height:22px;border-radius:50%;
+  background:#fff;border:3px solid var(--teal);
+  box-shadow:0 2px 6px rgba(10,26,43,.22);cursor:grab;
+}
+input[type=range]:focus-visible{outline:2px solid var(--teal-deep);outline-offset:4px;}
+
+.calc-out{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(47,187,173,.2) 0%, rgba(47,187,173,0) 65%),
+    linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
+  padding:34px;display:flex;flex-direction:column;justify-content:center;
+  border-left:1px solid var(--line);
+}
+@media(max-width:840px){.calc-out{border-left:0;border-top:1px solid rgba(255,255,255,.1);}}
+.calc-out u{
+  display:block;text-decoration:none;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:12px;
+}
+.calc-money{
+  font-family:var(--display);font-weight:800;letter-spacing:-0.045em;line-height:.95;
+  font-size:clamp(42px,7.5vw,62px);color:#fff;font-variant-numeric:tabular-nums;
+}
+.calc-money small{font-size:.34em;font-weight:600;letter-spacing:0;color:rgba(255,255,255,.5);margin-left:6px;}
+.calc-people{
+  margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.14);
+  font-size:14.5px;line-height:1.5;color:rgba(255,255,255,.74);
+}
+.calc-people b{color:var(--teal);font-weight:700;font-family:var(--mono);}
+.calc-fine{
+  margin-top:20px;font-family:var(--mono);font-size:10.5px;line-height:1.7;
+  color:rgba(255,255,255,.4);
+}
+.calc-note{margin-top:20px;font-size:13px;line-height:1.65;color:var(--slate-light);max-width:64ch;}
+
+/* what it replaces */
+.replaces{margin-top:44px;max-width:560px;}
+.replaces-h{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:14px;}
+.rep-tbl{width:100%;border-collapse:collapse;font-size:15px;}
+.rep-tbl th{text-align:left;font-weight:500;color:var(--slate);padding:11px 0;border-bottom:1px solid var(--line);}
+.rep-tbl td{text-align:right;font-family:var(--mono);font-size:13.5px;color:var(--slate);padding:11px 0;border-bottom:1px solid var(--line);}
+.rep-tbl tr.tot th,.rep-tbl tr.tot td{color:var(--ink);font-weight:700;border-bottom:0;padding-top:15px;}
+.replaces-f{margin-top:14px;font-size:12.5px;line-height:1.65;color:var(--slate-light);}
+
+/* founder */
+.who{background:linear-gradient(180deg,#fff 0%,#F3F8FB 100%);border-top:1px solid var(--line);}
+.who-card{
+  margin-top:40px;max-width:840px;
+  display:grid;grid-template-columns:190px 1fr;gap:38px;align-items:center;
+  background:#fff;border:1px solid var(--line);border-radius:20px;padding:38px;
+  box-shadow:0 1px 2px rgba(10,26,43,.04),0 22px 44px -30px rgba(10,26,43,.26);
+}
+@media(max-width:700px){.who-card{grid-template-columns:1fr;gap:24px;text-align:center;padding:30px 24px;}}
+.who-card img{
+  width:190px;height:190px;border-radius:18px;object-fit:cover;display:block;
+  background:#E9F0F6;border:1px solid var(--line);
+}
+@media(max-width:700px){.who-card img{width:140px;height:140px;margin:0 auto;}}
+.who-name{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-0.02em;margin-bottom:3px;}
+.who-role{font-family:var(--mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:16px;}
+.who-body p{font-size:15.5px;line-height:1.72;color:var(--slate);margin-bottom:13px;}
+.who-body p:last-child{margin-bottom:0;}
+
+
+
+/* faq */
+.faq{max-width:800px;margin:40px auto 0;}
+.q{border-bottom:1px solid var(--line);}
+.q:first-child{border-top:1px solid var(--line);}
+.q button{
+  width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;
+  padding:22px 2px;text-align:left;
+  font-family:var(--display);font-size:17.5px;font-weight:600;letter-spacing:-0.02em;color:var(--ink);
+}
+.q i{
+  flex-shrink:0;width:24px;height:24px;border-radius:50%;
+  border:1.5px solid var(--line);color:var(--teal-deep);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:14px;font-style:normal;
+  transition:transform .22s ease,background .22s ease,color .22s ease,border-color .22s ease;
+}
+.q.open i{background:var(--teal-deep);color:#fff;border-color:var(--teal-deep);transform:rotate(45deg);}
+.q-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.q-a div{padding:0 2px 24px;font-size:15.5px;line-height:1.72;color:var(--slate);max-width:68ch;}
+
+/* form */
+.demo-wrap{
+  background:
+    radial-gradient(ellipse 60% 60% at 20% 0%, rgba(61,130,220,.28) 0%, rgba(61,130,220,0) 60%),
+    radial-gradient(ellipse 50% 50% at 85% 10%, rgba(47,187,173,.22) 0%, rgba(47,187,173,0) 60%),
+    linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
+  color:#fff;
+}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+@media(max-width:880px){.demo-grid{grid-template-columns:1fr;gap:36px;}}
+.demo-wrap .h2{color:#fff;}
+.demo-wrap .lede{color:rgba(255,255,255,.68);}
+.demo-wrap .eyebrow{color:#8FD6CD;}
+.demo-list{list-style:none;padding:0;margin:26px 0 0;display:flex;flex-direction:column;gap:12px;}
+.demo-list li{position:relative;padding-left:28px;font-size:15.5px;color:rgba(255,255,255,.84);}
+.demo-list li::before{
+  content:"";position:absolute;left:0;top:7px;width:14px;height:14px;border-radius:50%;
+  background:rgba(47,187,173,.22);box-shadow:inset 0 0 0 2px var(--teal);
+}
+form{
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:20px;padding:30px;
+  backdrop-filter:blur(8px);
+}
+.fld{margin-bottom:17px;}
+.fld label{
+  display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:8px;
+}
+.fld input,.fld select,.fld textarea{
+  width:100%;padding:13px 15px;border-radius:11px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.16);
+  color:#fff;font-family:var(--body);font-size:15px;
+  transition:border-color .15s ease,background .15s ease;
+}
+.fld textarea{min-height:88px;resize:vertical;}
+.fld input::placeholder,.fld textarea::placeholder{color:rgba(255,255,255,.32);}
+.fld input:focus,.fld select:focus,.fld textarea:focus{
+  outline:none;border-color:var(--teal);background:rgba(255,255,255,.1);
+}
+.fld select option{background:var(--ink);color:#fff;}
+.fld-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:520px){.fld-row{grid-template-columns:1fr;gap:0;}}
+form .btn{width:100%;margin-top:6px;}
+.form-fine{
+  margin-top:15px;font-family:var(--mono);font-size:11px;line-height:1.6;
+  color:rgba(255,255,255,.42);text-align:center;
+}
+.or{
+  margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);
+  text-align:center;font-size:14.5px;color:rgba(255,255,255,.6);
+}
+.or a{color:var(--teal);text-decoration:underline;text-underline-offset:3px;font-weight:600;}
+
+/* footer */
+footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
+.foot{display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:space-between;}
+.foot .brand span{font-size:17px;}
+.foot-links{display:flex;gap:22px;font-size:14px;}
+.foot-links a:hover{color:#fff;}
+.foot-fine{
+  margin-top:34px;padding-top:26px;border-top:1px solid var(--line-dark);
+  font-family:var(--mono);font-size:11.5px;line-height:1.8;
+  display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between;
+}
+
+/* reveal */
+.r{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1);}
+.r.in{opacity:1;transform:none;}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;}
+  html{scroll-behavior:auto;}
+  .r{opacity:1!important;transform:none!important;}
+  .bub{opacity:1!important;}
+  .rev-bar i{width:82%!important;}
+  .wake-dots i{opacity:1!important;transform:none!important;}
+  input[type=range]::-webkit-slider-runnable-track{background:#E1E9F0!important;}
+}
 </style>
 </head>
 <body>
 
-<header class="site-header" id="siteHeader">
-  <div class="header-inner">
-    <div class="logo">
-      <img class="logo-mark" src="assets/logo.png" alt="">
-      <span class="logo-text">Practera</span>
+<nav class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top">
+      <img src="assets/logo.png" alt="">
+      <span>Practera</span>
+    </a>
+    <div class="nav-links">
+      <a href="#cost">The cost</a>
+      <a href="#what">What it does</a>
+      <a href="#everything">Everything included</a>
+      <a href="#compare">Compare</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#who">Who runs it</a>
+      <a href="#faq">FAQ</a>
     </div>
-    <a class="btn btn-primary" href="#book">Book Your Free Assessment</a>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Book a call</a>
+      <a class="btn btn-primary" href="#demo">Get the walkthrough</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <div class="tag"><i aria-hidden="true"></i>For dental &amp; medical practices across Canada</div>
+    <h1>Your phone is the most <em>expensive thing</em> in your practice.</h1>
+    <p class="hero-sub">Every call that rings out is a patient who booked somewhere else &mdash; and you never find out it happened. Practera answers them, brings back the patients you stopped hearing from, and asks every visit for a review. One login, run for you.</p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="#demo">Get the walkthrough</a>
+      <a class="btn btn-ghost" href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Book a call instead</a>
+    </div>
+    <p class="hero-fine">2-minute walkthrough · No card · No obligation</p>
+
+    <!-- SIGNATURE -->
+    <div class="stage">
+      <div class="phone" aria-label="Example patient conversation">
+        <div class="phone-top">
+          <div class="dot" aria-hidden="true"></div>
+          <div>
+            <b>Your Practice</b>
+            <small>+1 (519) 555-0100</small>
+          </div>
+        </div>
+        <div class="thread">
+          <div class="bub sys">Call answered by Practera &mdash; 12:41 pm</div>
+          <div class="bub them">Hi, it's [Your Practice] following up on your call. Sending this so you have it in writing &mdash; what can we help with?<span class="t">12:41 pm</span></div>
+          <div class="bub us">Hi, I chipped a tooth. Do you have anything today?<span class="t">12:43 pm</span></div>
+          <div class="bub them">We can fit you in at 4:15 today. Shall I hold it for you?<span class="t">12:44 pm</span></div>
+          <div class="bub us">Yes please<span class="t">12:44 pm</span></div>
+        </div>
+      </div>
+
+      <div class="panel" aria-label="Example practice dashboard">
+        <div class="panel-bar">
+          <span class="w" aria-hidden="true"></span><span class="w" aria-hidden="true"></span><span class="w" aria-hidden="true"></span>
+          <span>practera · your practice</span>
+        </div>
+        <div class="panel-body">
+          <div class="stat-row">
+            <div class="stat"><u>Calls answered</u><b class="up">38</b></div>
+            <div class="stat"><u>New reviews</u><b class="up">24</b></div>
+            <div class="stat"><u>Avg rating</u><b>4.9</b></div>
+          </div>
+          <div class="feed">
+            <div class="feed-row live"><span class="pip g" aria-hidden="true"></span>After-hours call answered &mdash; booked<time>12:41</time></div>
+            <div class="feed-row live"><span class="pip b" aria-hidden="true"></span>Review request sent &mdash; 14 patients<time>11:02</time></div>
+            <div class="feed-row live"><span class="pip a" aria-hidden="true"></span>Patient flagged a problem &mdash; needs a call<time>10:18</time></div>
+            <div class="feed-row live"><span class="pip g" aria-hidden="true"></span>New 5-star review posted<time>09:47</time></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
-<!-- 1. HERO -->
-<section class="hero" id="hero">
-  <div class="hero-bg" aria-hidden="true"><svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" id="dotField"></svg></div>
-  <div class="hero-fade" aria-hidden="true"></div>
-  <div class="wrap hero-content">
-    <img class="hero-mark hero-lift" src="assets/logo.png" alt="Practera">
-    <div class="eyebrow hero-lift">For Dental &amp; Medical Practices Across Canada</div>
-    <h1 class="hero-lift">We Turn Your Happy Patients Into Your Next New Ones.</h1>
-    <p class="sub hero-lift">Before anyone books, they compare you to the practice down the road — and reviews are the comparison. Practera asks every patient for one after every visit, automatically, so the practice they choose is yours. Set up, written, and managed for you.</p>
-    <div class="hero-cta hero-lift">
-      <a class="btn btn-primary" href="#book">Book Your Free Assessment</a>
-    </div>
-    <div class="hero-note hero-lift">Free, no-obligation call · 30 minutes</div>
-  </div>
-</section>
+<!--
+  ============ WALKTHROUGH VIDEO ============
+  READY TO SWITCH ON. Record the walkthrough, then:
+    1. Delete this comment wrapper (this line and the closing one below)
+    2. Paste your Loom / YouTube embed URL into the iframe src
+    3. Change the CTA labels back: "Get the walkthrough" -> "See how it works"
+       and point them at #watch instead of #demo
 
-<!-- 2. SOLUTION -->
-<section class="band-white">
+<section class="watch" id="watch">
   <div class="wrap">
-    <h2 class="section-title reveal">Your Best Patients Are Leaving Happy —<br>And Leaving Silently.</h2>
-    <p class="lead-in reveal">Think about your last 30 patients. How many left a Google review? <strong>That gap is where your growth quietly leaks out</strong> — not because your care is lacking, but because no one owns the follow-up. You're not short on happy patients. You're short on happy patients who were asked.</p>
-
-    <div class="solution-grid">
-      <div class="sol-card reveal">
-        <div class="sol-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
-        </div>
-        <h3>We Reach Out Immediately</h3>
-        <p>The moment an appointment ends, Practera follows up with the patient automatically. No reminders, no manual tracking, no one falling through the cracks.</p>
-      </div>
-
-      <div class="sol-card reveal">
-        <div class="sol-icon sol-icon-teal">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7.5-3.8 7.5-9.4V5.4L12 2.6 4.5 5.4v6.2C4.5 17.2 12 21 12 21z"/><polyline points="9 11.5 11.2 13.7 15.2 9.7"/></svg>
-        </div>
-        <h3>You Hear It Before Google Does</h3>
-        <p>Alongside the invitation, every patient gets a private line to tell you how the visit really went. If something went wrong, you're alerted within hours — while you can still pick up the phone and fix it.</p>
-      </div>
-
-      <div class="sol-card reveal">
-        <div class="sol-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 3 14.6 8.6 20.5 9.4 16.2 13.6 17.3 19.5 12 16.7 6.7 19.5 7.8 13.6 3.5 9.4 9.4 8.6 12 3"/></svg>
-        </div>
-        <h3>We Remove the Friction</h3>
-        <p>Leaving a review takes seconds, not minutes. Every patient is invited the same way, so your rating reflects your whole practice — not just whoever felt strongly enough to go looking.</p>
-      </div>
+    <p class="eyebrow r">Two minutes</p>
+    <h2 class="h2 r">A call coming in, and what happens next.</h2>
+    <p class="lede r">No slides. A real call answered, a real review request going out, and what your inbox looks like when someone replies.</p>
+    <div class="vid r">
+      <iframe src="PASTE_EMBED_URL_HERE" title="Practera walkthrough" allowfullscreen loading="lazy"></iframe>
     </div>
-
-    <p class="closing-line reveal">New patients don't call the practice with the best care. <em>They call the one they trust most.</em></p>
+    <p class="vid-note r">Recorded on a demo account. Your version is set up with your name, your number and your wording.</p>
   </div>
 </section>
+-->
 
-<!-- 3. REPUTATION CALCULATOR -->
-<section class="calc-section">
+<!-- ============ CALCULATOR ============ -->
+<section class="calc-sec" id="cost">
   <div class="wrap">
-    <h2 class="section-title reveal">How Many Reviews Is Your Practice Missing Every Month?</h2>
-    <p class="calc-explainer reveal">Most practices capture only a fraction of the reviews their happy patients would gladly leave. Use the sliders to see what closing that gap looks like for you.</p>
+    <p class="eyebrow r">Do the maths</p>
+    <h2 class="h2 r">What is your phone costing you this month?</h2>
+    <p class="lede r">Your phone system already knows how many calls went unanswered. Put your own numbers in.</p>
 
-    <div class="calc-card reveal">
-      <div class="slider-group">
-        <div class="slider-label">
-          <span class="lbl">Patients you see per month</span>
-          <span class="slider-value" id="patientsVal">150</span>
+    <div class="calc-shell r">
+      <div class="calc-controls">
+        <div class="sl">
+          <div class="sl-top">
+            <label for="c1">Calls that ring out in a month</label>
+            <span class="sl-val" id="v1">40</span>
+          </div>
+          <input type="range" id="c1" min="5" max="200" step="5" value="40" aria-label="Calls that ring out in a month">
         </div>
-        <input type="range" id="patientsSlider" min="50" max="500" step="10" value="150" aria-label="Patients you see per month">
-      </div>
-
-      <div class="slider-group" style="margin-bottom:0;">
-        <div class="slider-label">
-          <span class="lbl">Patients who currently leave a review</span>
-          <span class="slider-value" id="rateVal">10%</span>
+        <div class="sl">
+          <div class="sl-top">
+            <label for="c2">Share of those who are new patients</label>
+            <span class="sl-val" id="v2">25%</span>
+          </div>
+          <input type="range" id="c2" min="5" max="60" step="5" value="25" aria-label="Share who are new patients">
         </div>
-        <input type="range" id="rateSlider" min="5" max="40" step="1" value="10" aria-label="Patients who currently leave a review">
+        <div class="sl">
+          <div class="sl-top">
+            <label for="c3">What a new patient is worth to you</label>
+            <span class="sl-val" id="v3">$1,200</span>
+          </div>
+          <input type="range" id="c3" min="200" max="6000" step="100" value="1200" aria-label="Value of a new patient">
+        </div>
       </div>
 
-      <div class="calc-result">
-        <div class="calc-result-label">Estimated Additional 5-Star Reviews Per Month</div>
-        <div class="calc-result-value" id="resultVal" aria-live="polite">+23 reviews/month</div>
-        <p class="calc-disclaimer">Directional estimate based on consistent automated follow-up after every visit. Actual results vary by practice, patient mix, and how reviews are handled today.</p>
+      <div class="calc-out">
+        <u>Walking out the door every month</u>
+        <div class="calc-money" id="out">$12,000<small>CAD</small></div>
+        <p class="calc-people"><b id="ppl">10</b> new patients a month who called someone else instead</p>
+        <p class="calc-fine">YOUR NUMBERS, NOT OURS &middot; SHOWS WHAT THOSE CALLS ARE WORTH IF THEY BOOK</p>
       </div>
     </div>
+
+    <p class="calc-note r">This is not a promise that every one of them comes back &mdash; nobody can claim that. It is what the calls are worth, so you can decide whether answering them is worth doing something about.</p>
   </div>
 </section>
 
-<!-- 4. WHAT'S INCLUDED -->
-<section class="band-white">
+<!-- ============ WHAT IT DOES ============ -->
+<section id="what">
   <div class="wrap">
-    <h2 class="section-title reveal">Your Complete Reputation Growth System</h2>
+    <p class="eyebrow r">What it does</p>
+    <h2 class="h2 r">Everything your front desk would do with unlimited time.</h2>
+    <p class="lede r">Three of these move money fastest. The rest run quietly underneath. All of it is set up, written and managed for you &mdash; there is nothing new for your staff to learn.</p>
 
-    <div class="included-grid">
-      <div class="inc-item reveal">
-        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>Done-For-You Automation Setup</h4><p>A complete follow-up workflow built around your practice's existing process.</p></div>
+    <!-- 1 -->
+    <div class="feat">
+      <div class="r">
+        <h3>Nobody gets a ringing phone</h3>
+        <p>When your desk can't pick up, an AI receptionist does &mdash; in a natural voice, on your number, at 9pm on a Sunday. It takes the reason for the call, answers the routine questions, and hands anything urgent straight to a person. If the caller would rather text, it texts.</p>
+        <ul>
+          <li>Answers after hours, at lunch, and mid-appointment</li>
+          <li>Emergencies handed straight to a person, never handled by software</li>
+          <li>Books into slots you hold back, or takes a callback for your desk</li>
+          <li>Every call transcribed, so you see exactly what was said</li>
+        </ul>
       </div>
-      <div class="inc-item reveal">
-        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>Automated Review Invitations</h4><p>A friendly, well-timed invitation after every appointment — sent to every patient, the same way.</p></div>
-      </div>
-      <div class="inc-item reveal">
-        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>Private Feedback Channel</h4><p>A direct line for patients to tell you what went wrong, so concerns reach you in hours rather than weeks.</p></div>
-      </div>
-      <div class="inc-item reveal">
-        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>Instant Problem Alerts</h4><p>You're notified the moment a patient flags something, while it's still early enough to make it right.</p></div>
-      </div>
-      <div class="inc-item reveal">
-        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>We Work With What You've Got</h4><p>Most practices already pay for a tool that could do this — it has just never been set up. If you don't have one, we'll get you on the right platform under your own account.</p></div>
-      </div>
-      <div class="inc-item reveal">
-        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>Managed Every Month</h4><p>We watch the responses, adjust the messages when they stop landing, and flag anything left unanswered. If it breaks, we notice before you do.</p></div>
-      </div>
-      <div class="inc-item reveal">
-        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>Performance Reporting</h4><p>Clear visibility into review activity and feedback trends.</p></div>
-      </div>
-      <div class="inc-item inc-item-wide reveal">
-        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>Review Responses, Drafted For You</h4><p>Every new review gets a reply written to stay on the right side of patient privacy rules. You approve it, we post it. Two minutes a week instead of an angry twenty.</p></div>
-      </div>
-      <div class="inc-item inc-item-wide reveal">
-        <div class="inc-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div><h4>Compliant By Design</h4><p>Every patient is invited the same way. No screening, no filtering, no incentives — nothing that puts your Google listing at risk.</p></div>
+      <div class="feat-art r">
+        <div class="catch">
+          <div class="ring" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          </div>
+          <div class="catch-flow">
+            <div class="catch-step"><b>ring 3</b> Desk hasn't picked up</div>
+            <div class="catch-step"><b>ring 4</b> AI answers, takes the reason</div>
+            <div class="catch-step"><b>done</b> Booked, texted, or escalated</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="center-cta reveal">
-      <a class="btn btn-primary" href="#book">Book Your Free Assessment</a>
+    <!-- 2 -->
+    <div class="feat flip">
+      <div class="r">
+        <h3>Ask every patient for a review</h3>
+        <p>A few hours after each appointment, every patient gets the same invitation. Nobody is skipped on a busy Tuesday, because remembering stopped being part of anyone's job.</p>
+        <ul>
+          <li>Every patient invited the same way &mdash; no screening</li>
+          <li>Patients can reply privately if something wasn't right</li>
+          <li>You hear about problems in hours, not weeks</li>
+        </ul>
+      </div>
+      <div class="feat-art r">
+        <div class="rev">
+          <div class="stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9.9-5 4.8 1.2 6.8L12 17.6 5.9 20.8 7.1 14l-5-4.8 6.9-.9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9.9-5 4.8 1.2 6.8L12 17.6 5.9 20.8 7.1 14l-5-4.8 6.9-.9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9.9-5 4.8 1.2 6.8L12 17.6 5.9 20.8 7.1 14l-5-4.8 6.9-.9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9.9-5 4.8 1.2 6.8L12 17.6 5.9 20.8 7.1 14l-5-4.8 6.9-.9z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9.9-5 4.8 1.2 6.8L12 17.6 5.9 20.8 7.1 14l-5-4.8 6.9-.9z"/></svg>
+          </div>
+          <div class="rev-num" data-count="118">31</div>
+          <div class="rev-lab">Google reviews</div>
+          <div class="rev-bar"><i></i></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="feat">
+      <div class="r">
+        <h3>Wake up the patients you already have</h3>
+        <p>Every practice is sitting on hundreds of people it hasn't seen in a year or more. They didn't leave &mdash; they just never got around to booking again. One well-written text brings a chunk of them back, and it costs nothing to send.</p>
+        <ul>
+          <li>Dormant patients contacted in batches, written for your practice</li>
+          <li>Hygiene recalls that don't depend on anyone remembering</li>
+          <li>Replies land in your inbox, not a voicemail nobody checks</li>
+        </ul>
+      </div>
+      <div class="feat-art r">
+        <div class="wake">
+          <div class="wake-head">
+            <span>Patients not seen in 18 months</span>
+            <b class="wake-num" data-count="812">0</b>
+          </div>
+          <div class="wake-dots" aria-hidden="true"></div>
+          <div class="wake-foot">
+            <span><i class="k g"></i> Booked back in</span>
+            <span><i class="k d"></i> Contacted</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="feat flip">
+      <div class="r">
+        <h3>Replies that won't get you fined</h3>
+        <p>Two dental practices have been fined $10,000 and $23,000 over what they wrote in public review replies. On a review you can thank someone or ask them to call the office &mdash; that's it. Even "thanks for coming in" confirms publicly that they're a patient.</p>
+        <ul>
+          <li>Every reply drafted to stay inside privacy rules</li>
+          <li>You approve before anything is posted</li>
+          <li>Two minutes a week instead of an angry twenty</li>
+        </ul>
+      </div>
+      <div class="feat-art r">
+        <div class="guard">
+          <div class="guard-card bad">
+            <div class="guard-lab">Risky reply</div>
+            "Sorry about the crown, Mrs Patel — come back Thursday and we'll adjust it."
+          </div>
+          <div class="guard-card good">
+            <div class="guard-lab">Safe reply</div>
+            "Thank you for the feedback. Please contact our office so we can help."
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 5. WHO YOU'RE BOOKING WITH -->
-<section class="founder-section">
+
+<!-- ============ FULL BUNDLE ============ -->
+<section class="bundle" id="everything">
   <div class="wrap">
-    <h2 class="section-title reveal">Who You're Booking the Call With</h2>
-    <div class="founder-card reveal" style="margin-top:44px;">
-      <img class="founder-photo" src="assets/founder-v2.jpg" alt="Mohammed Salih, founder of Practera">
-      <div class="founder-body">
-        <div class="founder-name">Mohammed Salih</div>
-        <div class="founder-role">Founder, Practera</div>
-        <p>I kept noticing the same pattern — good businesses held back by one small thing nobody had time to own. Here it's the few minutes after a patient leaves. It isn't hard to fix. It just has to happen every time, which is the part people can't do and software can.</p>
-        <p>The assessment is 30 minutes. We'll look at how your practice handles patient feedback today and whether this would actually help. If it wouldn't, I'll tell you.</p>
+    <p class="eyebrow r">Everything included</p>
+    <h2 class="h2 r">The rest of it, running underneath.</h2>
+    <p class="lede r">One login instead of seven subscriptions that don&rsquo;t talk to each other. None of it is a job for your staff.</p>
+
+    <div class="bundle-grid">
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>Your phone stops costing you patients</h4>
+        <ul>
+          <li>Someone calling at 9pm hears a voice, not a beep</li>
+          <li>You find out what they wanted even though nobody was there</li>
+          <li>No more &ldquo;did anyone ever ring them back?&rdquo;</li>
+          <li>Every conversation on record if a dispute ever comes up</li>
+        </ul>
       </div>
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg></span>Nothing gets lost between four apps</h4>
+        <ul>
+          <li>One place to look instead of four tabs and a phone</li>
+          <li>Nobody answers twice, and nobody assumes someone else did</li>
+          <li>&ldquo;Do you take my insurance?&rdquo; gets answered without a human</li>
+          <li>A message on Instagram doesn&rsquo;t sit unread for a week</li>
+        </ul>
+      </div>
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 8.6 22 9.5 17 14.3 18.2 21.1 12 17.8 5.8 21.1 7 14.3 2 9.5 9 8.6 12 2"/></svg></span>You stop losing the comparison</h4>
+        <ul>
+          <li>New patients find a practice that looks busy and liked</li>
+          <li>Your rating reflects everyone, not just whoever felt strongly</li>
+          <li>You hear about a bad visit before the internet does</li>
+          <li>Nobody on your team has to remember to ask</li>
+        </ul>
+      </div>
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Patients book while you&rsquo;re closed</h4>
+        <ul>
+          <li>Someone deciding at 11pm books instead of forgetting by morning</li>
+          <li>Separate calendars for hygiene, new patient exams and emergencies</li>
+          <li>Confirmation, then 48 hours, then 24, then a text with parking on the day</li>
+          <li>Online bookings arrive with everything your desk needs to enter them</li>
+        </ul>
+      </div>
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>Revenue from patients you already paid for</h4>
+        <ul>
+          <li>Hundreds of people who&rsquo;d come back if anyone asked them</li>
+          <li>One export from your practice software and we handle the rest</li>
+          <li>Recalls that happen whether the desk remembers or not</li>
+          <li>A check-in after bigger work: &ldquo;how&rsquo;s the crown feeling?&rdquo;</li>
+        </ul>
+      </div>
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></span>A site that turns looking into booking</h4>
+        <ul>
+          <li>Loads fast on the phone people are actually holding</li>
+          <li>One tap to call or book from anywhere on the page</li>
+          <li>Its own page for the treatments you want more of</li>
+          <li>Enquiries reach your inbox, not a form nobody checks</li>
+        </ul>
+      </div>
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="12" y2="17"/></svg></span>Patients remember you exist</h4>
+        <ul>
+          <li>You stay in mind between visits, not just when something hurts</li>
+          <li>Posts go out whether anyone had time this week or not</li>
+          <li>Enquiries followed up until they book or say no</li>
+          <li>One fewer tool and one fewer subscription to manage</li>
+        </ul>
+      </div>
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>You stop chasing balances</h4>
+        <ul>
+          <li>Send a link by text and get paid the same afternoon</li>
+          <li>No-shows cost less, because a deposit was taken at booking</li>
+          <li>No paper invoices and no awkward phone calls</li>
+          <li>Your front desk stops being a collections department</li>
+        </ul>
+      </div>
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>You know what&rsquo;s actually working</h4>
+        <ul>
+          <li>Where each new patient came from, not a guess</li>
+          <li>Your no-show recovery rate, checked every week</li>
+          <li>Where enquiries are dropping off, and what got changed about it</li>
+          <li>One plain-English report a month, not a dashboard to learn</li>
+        </ul>
+      </div>
+
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg></span>Patients arrive already checked in</h4>
+        <ul>
+          <li>History and intake done before they sit in the waiting room</li>
+          <li>A patient who flags anxiety gets noticed before they&rsquo;re in the chair</li>
+          <li>Consent signed on a phone instead of a clipboard</li>
+          <li>Nobody typing up someone else&rsquo;s handwriting, ever again</li>
+        </ul>
+      </div>
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9"/></svg></span>You never wonder what happened to someone</h4>
+        <ul>
+          <li>Every enquiry visible as new, booked, no-show, done or lapsed</li>
+          <li>Nobody forgotten between the first call and the first visit</li>
+          <li>No-shows get chased instead of quietly written off</li>
+          <li>The ones who said &ldquo;let me think about it&rdquo; hear from you again</li>
+        </ul>
+      </div>
+
+      <div class="bcard r">
+        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 0 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 0 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9A1.7 1.7 0 0 0 10 3.1V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 0 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>You never touch a settings page</h4>
+        <ul>
+          <li>All of it written and built around how you actually run</li>
+          <li>Booking flows tested monthly, messaging rotated seasonally</li>
+          <li>Call and chat logs reviewed weekly, wording fixed when it slips</li>
+          <li>If it breaks, we notice before you do</li>
+        </ul>
+      </div>
+
     </div>
+
+    <p class="bundle-note r">A note on reminders and booking: appointments made through your Practera booking page get confirmations and reminders automatically. Appointments booked by phone straight into your practice software are handled separately &mdash; we will walk through exactly how yours would work on the setup call.</p>
   </div>
 </section>
 
-<!-- 6. FAQ -->
-<section class="faq-section">
+<!-- ============ COMPARE ============ -->
+<section class="cmp-wrap" id="compare">
   <div class="wrap">
-    <h2 class="section-title reveal">Frequently Asked Questions</h2>
-    <div class="faq-list">
+    <p class="eyebrow r">Compare</p>
+    <h2 class="h2 r">Against a platform, an agency, or doing it yourself.</h2>
+    <table class="cmp r">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="us">Practera</th>
+          <th>Big platform</th>
+          <th>DIY</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th>Set up for you</th><td class="us yes">Yes</td><td class="no">You configure it</td><td class="no">You configure it</td></tr>
+        <tr><th>Messages written for your practice</th><td class="us yes">Yes</td><td class="no">Templates</td><td class="no">You write them</td></tr>
+        <tr><th>Someone watching it monthly</th><td class="us yes">Yes</td><td class="no">No</td><td class="no">No</td></tr>
+        <tr><th>Contract length</th><td class="us">Month to month</td><td class="no">12&ndash;24 months</td><td>—</td></tr>
+        <tr><th>Reviews asked of every patient</th><td class="us yes">Yes</td><td class="no">Often screened</td><td class="no">When remembered</td></tr>
+        <tr><th>You own the account and data</th><td class="us yes">Yes</td><td class="no">Varies</td><td class="us yes">Yes</td></tr>
+        <tr><th>Cost of your own time</th><td class="us">None</td><td class="no">Hours a month</td><td class="no">Hours a week</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
-      <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false"><span>How is this different from just asking patients for reviews myself?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Consistency. Your front desk is busy with scheduling, billing, and patient care, so follow-up gets missed. Practera never forgets, never skips a patient, and runs after every single visit.</div></div>
+<!-- ============ PRICING ============ -->
+<section id="pricing">
+  <div class="wrap">
+    <p class="eyebrow r">Pricing</p>
+    <h2 class="h2 r">One price. No minimum term.</h2>
+    <p class="lede r">Everything included, built for your practice, and nothing you have to cancel through a call centre.</p>
+    <div class="price-card r">
+      <h3>Practera</h3>
+      <p class="sub">Everything above, set up and managed.</p>
+      <div class="price-fig"><b>$997</b><span>CAD / month</span></div>
+      <p class="price-setup"><b>+ $997 one-time setup</b> &mdash; your messages written, your calendars built, and an hour with your front desk</p>
+      <p class="price-note">NO MINIMUM TERM · CANCEL ANY TIME · YOU KEEP YOUR NUMBER AND YOUR DATA</p>
+      <ul class="price-list">
+        <li>Phone, messaging and one shared inbox</li>
+        <li>Reviews asked, monitored and replied to</li>
+        <li>Online booking, reminders and reactivation</li>
+        <li>Website, landing pages and campaigns</li>
+        <li>Payments, reporting and a person to call</li>
+      </ul>
+      <a class="btn btn-primary" href="#demo">Get the walkthrough</a>
+    </div>
+
+    <div class="replaces r">
+      <p class="replaces-h">What practices usually pay for this separately</p>
+      <table class="rep-tbl">
+        <tr><th>Patient communication platform</th><td>$340&ndash;830</td></tr>
+        <tr><th>Reputation &amp; review tool</th><td>$270&ndash;410</td></tr>
+        <tr><th>AI phone answering</th><td>$270&ndash;690</td></tr>
+        <tr><th>Website &amp; landing pages</th><td>$140&ndash;410</td></tr>
+        <tr><th>Someone to set it up and run it</th><td>&mdash;</td></tr>
+        <tr class="tot"><th>Bought separately</th><td>$1,020&ndash;2,340</td></tr>
+      </table>
+      <p class="replaces-f">Typical published monthly rates in Canadian dollars. And none of those come with someone who actually sets it up, writes it, and watches it for you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT WE TOUCH ============ -->
+<section class="touch" id="privacy">
+  <div class="wrap">
+    <p class="eyebrow r">Straight answers</p>
+    <h2 class="h2 r">What this touches, and what it doesn&rsquo;t.</h2>
+    <p class="lede r">You have probably been told by somebody that their tool touches nothing. That is never true of anything that texts your patients. Here is the honest version.</p>
+
+    <div class="touch-grid">
+      <div class="tcard no r">
+        <h3><i>&mdash;</i>Never touched</h3>
+        <ul>
+          <li>Your practice management software &mdash; Dentrix, Open Dental, Eaglesoft, whatever you run</li>
+          <li>Clinical charts, treatment history, imaging, notes</li>
+          <li>Insurance and billing records</li>
+          <li>Nothing is exported, resold, or used to train anything</li>
+        </ul>
+      </div>
+      <div class="tcard yes r">
+        <h3><i>&#10003;</i>Handled, under a BAA</h3>
+        <ul>
+          <li>Patient names and phone numbers, so messages can be sent</li>
+          <li>What a caller said they were calling about</li>
+          <li>Replies patients send back to you</li>
+          <li>Appointment times for anything booked through your Practera page</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="touch-foot r"><b>Why we say it that way:</b> a text to a patient of a dental practice is protected health information, whatever anybody tells you. So there is a business associate agreement signed before anything is set up, the account is in your name, and you can revoke our access in two clicks. If you would rather see exactly how the data moves before you decide, ask and we will walk through it line by line.</p>
+  </div>
+</section>
+
+<!-- ============ WHO ============ -->
+<section class="who" id="who">
+  <div class="wrap">
+    <p class="eyebrow r">Who runs it</p>
+    <h2 class="h2 r">You&rsquo;ll be dealing with a person, not a ticket queue.</h2>
+    <div class="who-card r">
+      <img src="assets/founder-v2.jpg" alt="Mohammed Salih, founder of Practera">
+      <div class="who-body">
+        <div class="who-name">Mohammed Salih</div>
+        <div class="who-role">Founder &middot; Windsor, Ontario</div>
+        <p>I kept noticing the same pattern &mdash; good businesses held back by one small thing nobody had time to own. In a practice it&rsquo;s the phone nobody could reach, the patient who was never asked, the review that sat there unanswered. None of it is anyone&rsquo;s fault. It&rsquo;s one desk and one person and a waiting room full of people.</p>
+        <p>So I built something to hold all of that instead, and I run it myself. You get my number, not a support portal &mdash; and if this isn&rsquo;t the right fit for your practice, I&rsquo;ll tell you that too.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" style="background:var(--white);border-top:1px solid var(--line);">
+  <div class="wrap">
+    <p class="eyebrow r">Questions</p>
+    <h2 class="h2 r">The things practices ask first.</h2>
+    <div class="faq r">
+
+      <div class="q">
+        <button aria-expanded="false">How does it know who came in today?<i>+</i></button>
+        <div class="q-a"><div>Honestly &mdash; it doesn&rsquo;t connect to your practice software. Nothing does without an expensive middle layer, and anyone telling you otherwise is glossing over something. Most of what we run doesn&rsquo;t need to know: the phone, the AI receptionist, your inbox, your website and your forms all work on their own from day one. Review requests are the exception, because they have to follow a real visit. So once a week we pull the completed appointments ourselves, using the access you give us, and that week&rsquo;s patients get asked. Nobody at your practice does anything. If you later want it running same-day, there is a sync layer that connects properly to Dentrix, Open Dental and Eaglesoft, and we&rsquo;ll tell you when your volume makes it worth paying for.</div></div>
       </div>
 
-      <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false"><span>How do you protect my practice's reputation?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">By making sure you're never the last to know. Every patient gets a private way to tell you how their visit went, and you're alerted the moment someone raises a problem — usually within hours of them leaving. That's the window where a phone call still changes the outcome. Most practices don't find out until it's already on Google, weeks later.</div></div>
+      <div class="q">
+        <button aria-expanded="false">Can the AI actually book, and how does my desk find out?<i>+</i></button>
+        <div class="q-a"><div>It can, and you decide how far it goes. The cautious version: it takes the reason for the call and the times that suit, then sends your desk a callback task so a person books it properly in the morning. The fuller version: it books straight into a small set of slots you have deliberately held back for online and after-hours &mdash; two new patient appointments a day, say &mdash; so it can never land on top of something already in your book. Either way your team gets a notification the moment it happens, by text or in the app, and it&rsquo;s on the dashboard next morning with a transcript of what was said. Most practices start cautious and loosen it once they&rsquo;ve watched it work for a month.</div></div>
       </div>
 
-      <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false"><span>How long until I start seeing more reviews?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">The system goes live once setup is complete, so the first follow-ups go out after your very next appointment. From there it runs continuously, and every request, response, and posted review shows up in your reporting.</div></div>
+      <div class="q">
+        <button aria-expanded="false">What happens if someone calls with an emergency?<i>+</i></button>
+        <div class="q-a"><div>It doesn&rsquo;t try to handle it. Swelling, bleeding, trauma, severe pain &mdash; anything along those lines triggers an immediate handoff rather than a scheduling conversation. The caller gets your on-call number or is told plainly to go to emergency, and your team is alerted straight away. This is the first thing we build and the first thing we test, before anything else is switched on. Software should book cleanings. It should never be the thing standing between a patient in trouble and a person.</div></div>
       </div>
 
-      <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false"><span>Do you filter out the patients who might leave a bad review?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">No — and it's worth knowing why, because plenty of tools do. Screening patients and inviting only the happy ones is called review gating. Google's policy prohibits selectively soliciting positive reviews, and the FTC's 2024 rule covers review suppression. Listings have been penalised for it. Every one of your patients gets the same invitation. We also never write, generate, or incentivise a review — every one comes from a real patient after a real visit.</div></div>
+      <div class="q">
+        <button aria-expanded="false">Do you need access to our patient records?<i>+</i></button>
+        <div class="q-a"><div>No &mdash; your practice management software is never touched, and neither are clinical charts or billing. What is handled is patient contact details and the messages themselves, because that is what sending a text requires. That counts as protected health information, so a business associate agreement is signed before anything is set up. The account is in your name and our access can be revoked in two clicks.</div></div>
       </div>
 
-      <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false"><span>Can you handle replying to reviews as well?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Yes, and it's worth doing carefully. Two dental practices have been fined by the Office for Civil Rights over how they replied to online reviews &mdash; $10,000 and $23,000 &mdash; for mentioning patient names, treatment, or insurance in a public response. The safe reply is narrow: thank the person, or invite them to call the office. Even &ldquo;thanks for coming in&rdquo; is a problem, because it confirms publicly that someone is a patient. We draft each reply to stay inside that line, and you approve it before anything is posted.</div></div>
+      <div class="q">
+        <button aria-expanded="false">What happens after I fill in the form?<i>+</i></button>
+        <div class="q-a"><div>You get the walkthrough the same day &mdash; an actual call being answered, a review request going out, and what the inbox looks like when someone replies. If it looks useful we'll have a short call about your practice, and if you go ahead we build yours and you're live within a few days. Nothing is set up and nothing is charged before that.</div></div>
       </div>
 
-      <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false"><span>Will this annoy my patients?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">It's one short message after an appointment, sent in your practice's name and written to sound like your practice — not a marketing campaign. Patients can opt out in a single tap, and anyone who does is never contacted again.</div></div>
+      <div class="q">
+        <button aria-expanded="false">Why is there a setup fee?<i>+</i></button>
+        <div class="q-a"><div>Because the first two weeks are the real work. Your messages get written in your practice&rsquo;s voice, your calendars and forms get built, your phone gets configured, and I spend an hour with your front desk showing them the three things they actually need to know &mdash; mostly what happens on its own so they don&rsquo;t duplicate it. They get a one-page sheet to pin up and my number for when something looks odd. That&rsquo;s a one-time job and it&rsquo;s where these systems either work or quietly fail. Charging for it means it gets done properly rather than rushed to get you onto a subscription.</div></div>
       </div>
 
-      <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false"><span>What happens when a patient reports a problem?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Your team is alerted immediately, so you can reach out while the visit is still fresh. Patients are free to leave a public review either way — the difference is that you get the chance to make it right first. A practice that responds well to a problem often ends up looking better than one that never had a visible one.</div></div>
+      <div class="q">
+        <button aria-expanded="false">What is the monthly fee actually for?<i>+</i></button>
+        <div class="q-a"><div>The platform everything runs on, and a person actually working on it. Every week: call and chat logs reviewed, no-show recovery checked, anything sitting unanswered flagged. Every month: booking flows tested, messaging rotated, wording rewritten wherever responses have slipped, and a report you can read in two minutes. Software nobody watches stops working within a few months, and usually nobody notices until the numbers have already slid.</div></div>
       </div>
 
-      <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false"><span>What am I actually paying for each month?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Setting it up is the first part. After that it's the watching &mdash; checking messages are actually sending, that replies are being answered, and adjusting the wording when response rates drop. Software gets switched on and then forgotten about. The monthly work is what stops that, and you get a report each month showing exactly what went out and what came back.</div></div>
+      <div class="q">
+        <button aria-expanded="false">Do you screen patients before asking for a review?<i>+</i></button>
+        <div class="q-a"><div>No, and it matters. Screening patients so only the happy ones get a review link is called review gating. Google prohibits selectively soliciting positive reviews, and the FTC's 2024 rule covers review suppression &mdash; listings have been penalised for it. Every one of your patients gets the same invitation. We also never write, generate, or incentivise a review.</div></div>
       </div>
 
-      <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false"><span>Do I have to switch systems, and what happens to patient data?</span><span class="faq-icon">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner">Usually not. Most practices already pay for a patient communication tool that can do this, and we configure it inside what you've got &mdash; nothing changes about how your practice operates. If you don't have one, we'll recommend a platform and set it up under your own account, so you own it and you keep it. We never take patient records out of your systems, and we're happy to walk through exactly how data moves on your free assessment call.</div></div>
+      <div class="q">
+        <button aria-expanded="false">Will this annoy my patients?<i>+</i></button>
+        <div class="q-a"><div>It's one short message after an appointment, sent in your practice's name and written to sound like your practice. Patients opt out with one word, and anyone who does is never contacted again.</div></div>
+      </div>
+
+      <div class="q">
+        <button aria-expanded="false">Does the text back really help if we're too busy to reply?<i>+</i></button>
+        <div class="q-a"><div>It doesn't put someone on the phone instantly &mdash; if the desk was too busy to answer, they may not reply straight away either. What changes is that the caller knows they were seen, so they stop dialling down the list, and you have their number when previously that call left no trace at all.</div></div>
+      </div>
+
+      <div class="q">
+        <button aria-expanded="false">Does the AI receptionist handle patient information?<i>+</i></button>
+        <div class="q-a"><div>Yes, and it would be strange to claim otherwise &mdash; someone ringing a dental practice to say what hurts is giving you protected health information. So the voice side runs under its own business associate agreement, calls are transcribed into your account rather than anywhere else, and anything urgent is handed to a person rather than handled by software. We would rather walk you through exactly how that flows than ask you to take it on trust.</div></div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- 7. FINAL CTA -->
-<div class="final-wrap" id="book">
-  <div class="final-cta reveal">
-    <h2>Stop Losing Growth to Silence.</h2>
-    <p>Every day without a follow-up system is another batch of happy patients who said nothing, and another problem you heard about too late. The assessment is free. If it's a fit, you'll get a proposal built around your practice — you decide from there.</p>
-    <div class="cal-shell">
-      <div id="cal-inline" aria-label="Booking calendar"></div>
-      <div class="cal-state" id="calLoading">
-        <div class="cal-spinner" aria-hidden="true"></div>
-        <p>Loading available times…</p>
+<!-- ============ DEMO FORM ============ -->
+<section class="demo-wrap" id="demo">
+  <div class="wrap">
+    <div class="demo-grid">
+      <div>
+        <p class="eyebrow r">See it first</p>
+        <h2 class="h2 r">Watch it work, then decide.</h2>
+        <p class="lede r">Tell us about your practice and we'll send the walkthrough &mdash; a real call answered, a real review request, a real inbox. Then a short conversation about whether it fits.</p>
+        <ul class="demo-list r">
+          <li>The walkthrough in your inbox the same day</li>
+          <li>A 30-minute call only if you want one</li>
+          <li>Live within a few days of getting started</li>
+        </ul>
       </div>
-      <div class="cal-state" id="calError" hidden>
-        <p>The calendar couldn't load in this browser — an extension or network setting may be blocking it.</p>
-        <a class="btn btn-primary" href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Book Your Free Assessment</a>
-      </div>
+
+      <form name="demo" method="POST" data-netlify="true" action="/thanks.html" class="r">
+        <input type="hidden" name="form-name" value="demo">
+        <p style="display:none;"><label>Leave blank<input name="bot-field"></label></p>
+
+        <div class="fld-row">
+          <div class="fld">
+            <label for="fn">Your name</label>
+            <input id="fn" name="name" type="text" required placeholder="Dr. Sarah Chen">
+          </div>
+          <div class="fld">
+            <label for="pr">Practice name</label>
+            <input id="pr" name="practice" type="text" required placeholder="Your Practice">
+          </div>
+        </div>
+
+        <div class="fld-row">
+          <div class="fld">
+            <label for="em">Email</label>
+            <input id="em" name="email" type="email" required placeholder="you@practice.com">
+          </div>
+          <div class="fld">
+            <label for="ph">Practice phone</label>
+            <input id="ph" name="phone" type="tel" required placeholder="(519) 555-0100">
+          </div>
+        </div>
+
+        <div class="fld">
+          <label for="pat">Patients you see in a month</label>
+          <select id="pat" name="patients" required>
+            <option value="">Select one</option>
+            <option>Under 100</option>
+            <option>100–250</option>
+            <option>250–500</option>
+            <option>500+</option>
+          </select>
+        </div>
+
+        <div class="fld">
+          <label for="cur">How do you ask for reviews today?</label>
+          <select id="cur" name="current" required>
+            <option value="">Select one</option>
+            <option>We don't, really</option>
+            <option>Front desk asks when they remember</option>
+            <option>We already use a tool for it</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+
+        <div class="fld">
+          <label for="msg">Anything we should know? (optional)</label>
+          <textarea id="msg" name="notes" placeholder="What you'd most like fixed"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Send me the walkthrough</button>
+        <p class="form-fine">No card required. Nothing is set up until you decide to go ahead.</p>
+
+        <div class="or">Would rather talk first? <a href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Book a 30-minute call</a></div>
+      </form>
     </div>
-    <p class="cal-fallback">Calendar not loading? <a href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Open the booking page</a></p>
   </div>
-</div>
+</section>
 
 <footer>
-  <img class="footer-mark" src="assets/logo.png" alt="">
-  <div>© <span id="year">2026</span> Practera. All Rights Reserved.</div>
-  <div class="footer-legal">
-    <a href="privacy.html">Privacy Policy</a>
-    <span aria-hidden="true">·</span>
-    <a href="terms.html">Terms</a>
+  <div class="wrap">
+    <div class="foot">
+      <a class="brand" href="#top">
+        <img src="assets/logo.png" alt="">
+        <span>Practera</span>
+      </a>
+      <div class="foot-links">
+        <a href="#what">What it does</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="foot-fine">
+      <span>Front desk software for dental &amp; medical practices across Canada · Based in Windsor, Ontario</span>
+      <span>© <b id="yr">2026</b> Practera. All rights reserved.</span>
+    </div>
   </div>
 </footer>
 
 <script>
-// Hero dot field — pale outlines (patients who said nothing) vs filled blue (reviews actually left)
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* scroll reveal */
 (function(){
-  const svg=document.getElementById('dotField');
-  const cols=24,rows=8,W=1200,H=420;
-  const sx=W/cols, sy=H/rows;
-  let seed=11, out='';
-  const rand=()=>{seed=(seed*9301+49297)%233280;return seed/233280;};
-  for(let r=0;r<rows;r++){
-    for(let c=0;c<cols;c++){
-      const x=(sx*c+sx/2).toFixed(1), y=(sy*r+sy/2).toFixed(1);
-      const filled=rand()<0.15;
-      const teal=rand()<0.42;
-      out+=filled
-        ? `<circle cx="${x}" cy="${y}" r="5" fill="${teal?'#299A94':'#2C5894'}" opacity="0.82"/>`
-        : `<circle cx="${x}" cy="${y}" r="3.4" fill="none" stroke="#BAC8DC" stroke-width="1.4" opacity="0.55"/>`;
+  const els = document.querySelectorAll('.r');
+  if(!('IntersectionObserver' in window)){ els.forEach(e=>e.classList.add('in')); return; }
+  const io = new IntersectionObserver(en=>{
+    en.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.14, rootMargin:'0px 0px -5% 0px'});
+  els.forEach(e=>io.observe(e));
+})();
+
+/* review counter + stars + bar, fired once on scroll */
+(function(){
+  const num = document.querySelector('.rev-num');
+  const bar = document.querySelector('.rev-bar');
+  const stars = document.querySelectorAll('.stars svg');
+  if(!num) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const target = parseInt(num.dataset.count,10);
+  const start = parseInt(num.textContent,10);
+
+  function run(){
+    stars.forEach(s=>s.classList.add('on'));
+    if(bar) bar.classList.add('go');
+    if(reduce){ num.textContent = target; return; }
+    const t0 = performance.now(), dur = 1700;
+    function step(t){
+      const p = Math.min(1,(t-t0)/dur);
+      const e = 1-Math.pow(1-p,3);
+      num.textContent = Math.round(start + (target-start)*e);
+      if(p<1) requestAnimationFrame(step);
     }
+    requestAnimationFrame(step);
   }
-  svg.innerHTML=out;
+
+  if(!('IntersectionObserver' in window)){ run(); return; }
+  const io = new IntersectionObserver(en=>{
+    if(en[0].isIntersecting){ run(); io.disconnect(); }
+  },{threshold:.45});
+  io.observe(num);
 })();
 
-// Sticky header appears 100px past the hero
+/* reactivation dots + counter */
 (function(){
-  const header=document.getElementById('siteHeader');
-  const hero=document.getElementById('hero');
-  function onScroll(){
-    // Reveal once the hero CTA has scrolled out of reach.
-    header.classList.toggle('visible', window.scrollY > hero.offsetHeight * 0.7);
+  const dots = document.querySelector('.wake-dots');
+  const num  = document.querySelector('.wake-num');
+  if(!dots || !num) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const TOTAL = 84, ON = 23;
+  const onSet = new Set();
+  while(onSet.size < ON) onSet.add(Math.floor(Math.random()*TOTAL));
+  for(let i=0;i<TOTAL;i++){
+    const d = document.createElement('i');
+    if(onSet.has(i)) d.className = 'on';
+    d.style.animationDelay = (i*0.012).toFixed(3)+'s';
+    dots.appendChild(d);
   }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',onScroll);
-  onScroll();
+  const target = parseInt(num.dataset.count,10);
+  function run(){
+    dots.classList.add('go');
+    if(reduce){ num.textContent = target; return; }
+    const t0 = performance.now(), dur = 1500;
+    (function step(t){
+      const p = Math.min(1,(t-t0)/dur);
+      num.textContent = Math.round(target*(1-Math.pow(1-p,3)));
+      if(p<1) requestAnimationFrame(step);
+    })(t0);
+  }
+  if(!('IntersectionObserver' in window)){ run(); return; }
+  const io = new IntersectionObserver(e=>{ if(e[0].isIntersecting){ run(); io.disconnect(); } },{threshold:.4});
+  io.observe(dots);
 })();
 
-// Reputation calculator
+/* cost calculator — tweened so the number rolls rather than jumps */
 (function(){
-  const p=document.getElementById('patientsSlider'),
-        r=document.getElementById('rateSlider'),
-        pv=document.getElementById('patientsVal'),
-        rv=document.getElementById('rateVal'),
-        res=document.getElementById('resultVal');
-  function update(){
-    const patients=parseInt(p.value,10), rate=parseInt(r.value,10);
-    pv.textContent=patients;
-    rv.textContent=rate+'%';
-    // Practera lifts the review rate by up to 15 percentage points, capped at a
-    // realistic 45% ceiling. Always yields a positive (and smaller) lift for
-    // practices that already collect reviews well.
-    const current=rate/100;
-    const improved=Math.min(0.45, current+0.15);
-    const est=Math.max(1,Math.round(patients*(improved-current)));
-    res.textContent='+'+est+(est===1?' review/month':' reviews/month');
+  const c1=document.getElementById('c1'), c2=document.getElementById('c2'), c3=document.getElementById('c3');
+  const v1=document.getElementById('v1'), v2=document.getElementById('v2'), v3=document.getElementById('v3');
+  const out=document.getElementById('out'), ppl=document.getElementById('ppl');
+  if(!c1) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const money = n => '$' + n.toLocaleString('en-CA');
+  let shown = 0, raf = null, seen = false;
+
+  function track(el){
+    const p = (el.value - el.min) / (el.max - el.min) * 100;
+    el.style.setProperty('--p', p.toFixed(1)+'%');
   }
-  p.addEventListener('input',update);
-  r.addEventListener('input',update);
-  update();
+  [c1,c2,c3].forEach(track);
+
+  function target(){
+    const calls=+c1.value, share=+c2.value, val=+c3.value;
+    const people = Math.max(1, Math.round(calls*(share/100)));
+    return { total: people*val, people };
+  }
+
+  function paint(total, people){
+    out.innerHTML = money(Math.round(total)) + '<small>CAD</small>';
+    ppl.textContent = people;
+  }
+
+  function tween(){
+    const {total, people} = target();
+    v1.textContent = c1.value;
+    v2.textContent = c2.value + '%';
+    v3.textContent = money(+c3.value);
+    ppl.textContent = people;
+    if(reduce || !seen){ shown = total; paint(total, people); return; }
+    if(raf) cancelAnimationFrame(raf);
+    const from = shown, t0 = performance.now(), dur = 420;
+    (function step(t){
+      const p = Math.min(1,(t-t0)/dur);
+      const e = 1-Math.pow(1-p,3);
+      shown = from + (total-from)*e;
+      paint(shown, people);
+      if(p<1) raf = requestAnimationFrame(step);
+    })(t0);
+  }
+
+  [c1,c2,c3].forEach(el=>el.addEventListener('input',()=>{ track(el); tween(); }));
+  tween();
+
+  /* count up from zero the first time it scrolls into view */
+  if('IntersectionObserver' in window && !reduce){
+    shown = 0; paint(0, target().people);
+    const io = new IntersectionObserver(e=>{
+      if(e[0].isIntersecting){ seen = true; tween(); io.disconnect(); }
+    },{threshold:.4});
+    io.observe(out);
+  } else { seen = true; }
 })();
 
-// Scroll reveal
-(function(){
-  const items=document.querySelectorAll('.reveal');
-  if(!('IntersectionObserver' in window)){
-    items.forEach(el=>el.classList.add('in'));
-    return;
-  }
-  const io=new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-      }
-    });
-  },{threshold:0.12, rootMargin:'0px 0px -6% 0px'});
-  items.forEach(el=>io.observe(el));
-})();
-
-// Footer year
-document.getElementById('year').textContent=new Date().getFullYear();
-
-// FAQ accordion
-document.querySelectorAll('.faq-item').forEach(item=>{
-  const q=item.querySelector('.faq-q'), a=item.querySelector('.faq-a');
-  q.addEventListener('click',()=>{
-    const open=item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(o=>{
-      if(o!==item){
+/* faq */
+document.querySelectorAll('.q').forEach(q=>{
+  const btn = q.querySelector('button'), a = q.querySelector('.q-a');
+  btn.addEventListener('click',()=>{
+    const open = q.classList.contains('open');
+    document.querySelectorAll('.q.open').forEach(o=>{
+      if(o!==q){
         o.classList.remove('open');
-        o.querySelector('.faq-a').style.maxHeight=null;
-        o.querySelector('.faq-q').setAttribute('aria-expanded','false');
+        o.querySelector('.q-a').style.maxHeight = null;
+        o.querySelector('button').setAttribute('aria-expanded','false');
       }
     });
     if(open){
-      item.classList.remove('open');
-      a.style.maxHeight=null;
-      q.setAttribute('aria-expanded','false');
-    }else{
-      item.classList.add('open');
-      a.style.maxHeight=a.scrollHeight+'px';
-      q.setAttribute('aria-expanded','true');
+      q.classList.remove('open'); a.style.maxHeight = null;
+      btn.setAttribute('aria-expanded','false');
+    } else {
+      q.classList.add('open'); a.style.maxHeight = a.scrollHeight+'px';
+      btn.setAttribute('aria-expanded','true');
     }
   });
 });
 </script>
-
-<!-- Cal.com embed -->
-<script type="text/javascript">
-(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-
-Cal("init", { origin: "https://cal.com" });
-
-Cal("inline", {
-  elementOrSelector: "#cal-inline",
-  calLink: "mosalih/free-assessment",
-  layout: "month_view"
-});
-
-Cal("ui", {
-  theme: "light",
-  hideEventTypeDetails: false,
-  layout: "month_view",
-  styles: { branding: { brandColor: "#2C5894" } }
-});
-
-// Layered fallback: official embed -> plain iframe -> direct link.
-// The booking step is the whole point of this page, so it must never look broken.
-(function(){
-  const host    = document.getElementById('cal-inline');
-  const loading = document.getElementById('calLoading');
-  const error   = document.getElementById('calError');
-  if(!host || !loading || !error) return;
-
-  let settled = false;
-  const hasFrame = () => !!host.querySelector('iframe');
-
-  function succeed(){
-    if(settled) return;
-    settled = true;
-    loading.hidden = true;
-    error.hidden = true;
-  }
-  function fail(){
-    if(settled) return;
-    settled = true;
-    loading.hidden = true;
-    error.hidden = false;
-  }
-
-  // Watch for the embed script injecting its iframe
-  const mo = new MutationObserver(() => { if(hasFrame()){ succeed(); mo.disconnect(); } });
-  mo.observe(host, { childList:true, subtree:true });
-  if(hasFrame()) succeed();
-
-  // Tier 2 — if the embed script hasn't rendered in 5s, drop in a plain iframe
-  setTimeout(() => {
-    if(settled || hasFrame()) return;
-    const frame = document.createElement('iframe');
-    frame.src = 'https://cal.com/mosalih/free-assessment?embed=true&layout=month_view&theme=light';
-    frame.title = 'Book your free assessment';
-    frame.loading = 'lazy';
-    frame.setAttribute('frameborder','0');
-    frame.addEventListener('load', succeed);
-    frame.addEventListener('error', fail);
-    host.appendChild(frame);
-  }, 5000);
-
-  // Tier 3 — if nothing has rendered at all by 11s, show the direct link
-  setTimeout(() => { if(!settled && !hasFrame()) fail(); }, 11000);
-})();
-</script>
-
 </body>
 </html>
