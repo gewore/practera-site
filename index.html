@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Practera — Stop Losing Patients to a Ringing Phone</title>
-<meta name="description" content="Practera answers the calls your front desk can't, asks every patient for a review, and puts every message in one inbox. Built for dental and medical practices. Start a walkthrough.">
+<title>Practera — More Patients From the Leads You Already Have</title>
+<meta name="description" content="Practera answers every missed call, brings back patients who've gone quiet, and gets every visit reviewed — turning the leads you already have into more booked patients. Built for dental and medical practices.">
 <link rel="icon" type="image/png" href="assets/logo.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Your Phone Is the Most Expensive Thing in Your Practice">
-<meta property="og:description" content="Every call that rings out is a patient who booked somewhere else. Practera answers them, brings dormant patients back, and builds your reviews. One login, run for you.">
+<meta property="og:title" content="More Patients From the Leads You Already Have">
+<meta property="og:description" content="Practera answers every missed call, brings back patients who've gone quiet, and gets every visit reviewed — turning the leads you already have into more booked patients.">
 <meta property="og:image" content="assets/logo.png">
 <meta name="theme-color" content="#0A1A2B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,21 +69,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;}
 .btn:focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
 
 /* ---------------- nav ---------------- */
+/* fixed, not sticky-in-flow: it overlaps the hero so "transparent" shows the hero's own gradient, not the page background behind it */
 .nav{
-  position:sticky;top:0;z-index:80;
-  background:rgba(10,26,43,.55);
-  backdrop-filter:blur(14px);
+  position:fixed;top:0;left:0;right:0;z-index:80;
+  background:transparent;
   border-bottom:1px solid transparent;
-  transition:background .25s ease, border-color .25s ease, box-shadow .25s ease, padding .25s ease;
+  transition:background .25s ease, border-color .25s ease, box-shadow .25s ease, padding .25s ease, backdrop-filter .25s ease;
 }
 /* once past the hero it sits over light content — go solid so it stays legible */
 .nav.stuck{
   background:rgba(8,22,37,.94);
+  backdrop-filter:blur(14px);
   border-bottom-color:rgba(255,255,255,.1);
   box-shadow:0 10px 30px -18px rgba(10,26,43,.55);
 }
 .nav.stuck .nav-in{padding-top:11px;padding-bottom:11px;}
-.nav.stuck .nav-cta .btn{min-height:38px;padding:9px 17px;}
+.nav.stuck .nav-cta .btn{min-height:44px;padding:8px 17px;}
 .nav-in{
   max-width:1140px;margin:0 auto;padding:15px 28px;
   display:flex;align-items:center;gap:32px;
@@ -91,20 +92,19 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;}
 .brand{display:flex;align-items:center;gap:9px;}
 .brand img{height:25px;width:auto;display:block;}
 .brand span{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:-0.035em;}
-.nav-links{display:flex;gap:26px;margin-left:8px;}
+.nav-links{display:flex;gap:18px;margin-left:8px;}
 .nav-links a{
   font-size:14.5px;font-weight:500;color:rgba(255,255,255,.66);
-  transition:color .15s ease;
+  white-space:nowrap;transition:color .15s ease;
 }
 .nav-links a:hover{color:#fff;}
-.nav-cta{margin-left:auto;display:flex;gap:10px;align-items:center;}
-.nav-cta .btn{min-height:42px;padding:10px 18px;font-size:14.5px;}
-@media(max-width:860px){.nav-links{display:none;}}
+.nav-cta{margin-left:auto;display:flex;align-items:center;}
+.nav-cta .btn{min-height:42px;padding:12px 22px;font-size:14.5px;white-space:nowrap;}
+@media(max-width:700px){.nav-links{display:none;}}
 @media(max-width:480px){
   .nav-in{padding:13px 16px;gap:10px;}
   .brand span{display:none;}
-  .nav-cta .btn-ghost{display:none;}
-  .nav-cta .btn-primary{padding:10px 16px;font-size:14px;}
+  .nav-cta .btn{padding:10px 16px;font-size:14px;}
 }
 
 /* mobile action bar — the CTA never leaves the screen */
@@ -119,11 +119,63 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;}
 }
 .dock.up{transform:translateY(0);}
 .dock .btn{flex:1;min-height:46px;padding:12px 14px;font-size:14.5px;}
-.dock .btn-ghost{flex:0 0 auto;padding:12px 18px;}
 @media(max-width:700px){
   .dock{display:flex;}
   body{padding-bottom:0;}
 }
+
+/* ---------------- voice demo widget ---------------- */
+.voice-widget{position:fixed;left:20px;bottom:20px;z-index:95;}
+@media(max-width:700px){.voice-widget{bottom:calc(78px + env(safe-area-inset-bottom));}}
+.voice-fab{
+  position:relative;display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
+  color:#fff;border:1px solid rgba(255,255,255,.14);
+  padding:13px 20px 13px 16px;border-radius:999px;
+  font-family:var(--body);font-weight:600;font-size:14.5px;white-space:nowrap;
+  box-shadow:0 20px 40px -20px rgba(0,0,0,.6);
+  transition:transform .16s ease, box-shadow .16s ease;
+}
+.voice-fab:hover{transform:translateY(-1px);box-shadow:0 24px 48px -20px rgba(0,0,0,.65), 0 0 0 6px rgba(47,187,173,.12);}
+.voice-fab svg{width:19px;height:19px;color:var(--teal);flex-shrink:0;}
+.voice-fab-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0;
+  box-shadow:0 0 0 0 rgba(47,187,173,.7);animation:blip 2.4s ease-out infinite;
+}
+@media(max-width:560px){.voice-fab span:last-child{display:none;}.voice-fab{padding:14px;}}
+.voice-panel{
+  position:absolute;left:0;bottom:calc(100% + 12px);width:320px;max-width:calc(100vw - 40px);
+  background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
+  border:1px solid rgba(255,255,255,.12);border-radius:20px;
+  box-shadow:0 30px 60px -28px rgba(0,0,0,.65);
+  overflow:hidden;
+}
+.voice-panel[hidden]{display:none;}
+.voice-panel-head{
+  display:flex;align-items:center;gap:9px;padding:14px 16px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);
+}
+.voice-panel-head .voice-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0;
+  box-shadow:0 0 0 0 rgba(47,187,173,.7);animation:blip 2.4s ease-out infinite;
+}
+.voice-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.5);font-size:18px;line-height:1;cursor:pointer;padding:2px 4px;}
+.voice-close:hover{color:#fff;}
+.voice-body{padding:18px 16px 20px;}
+.voice-copy{font-size:14.5px;line-height:1.6;color:rgba(255,255,255,.82);margin-bottom:16px;}
+.voice-fine{margin-top:12px;font-family:var(--mono);font-size:10.5px;line-height:1.6;color:rgba(255,255,255,.45);}
+.voice-body .btn{width:100%;}
+.voice-error{color:#F0A38C;}
+.voice-timer{font-family:var(--mono);font-size:13px;color:var(--teal);margin-bottom:12px;}
+.voice-live-indicator{display:flex;align-items:center;gap:9px;margin-bottom:16px;color:rgba(255,255,255,.82);font-size:13.5px;}
+.voice-live-indicator .voice-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;
+  box-shadow:0 0 0 0 rgba(47,187,173,.7);animation:blip 1.2s ease-out infinite;
+}
+.voice-again{background:none;border:none;color:rgba(255,255,255,.6);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;font-family:inherit;font-size:inherit;}
+.voice-again:hover{color:#fff;}
 
 /* ---------------- hero ---------------- */
 .hero{
@@ -222,7 +274,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;}
   align-self:center;max-width:100%;text-align:center;
   background:none;padding:2px 0;
   font-family:var(--mono);font-size:10px;letter-spacing:.06em;
-  text-transform:uppercase;color:rgba(255,255,255,.34);
+  text-transform:uppercase;color:rgba(255,255,255,.6);
 }
 .bub:nth-child(1){animation-delay:0s;}
 .bub:nth-child(2){animation-delay:1.6s;}
@@ -262,7 +314,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;}
 .stat u{
   display:block;text-decoration:none;
   font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;
-  text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:7px;
+  text-transform:uppercase;color:rgba(255,255,255,.58);margin-bottom:7px;
 }
 .stat b{
   font-family:var(--display);font-size:27px;font-weight:700;
@@ -281,7 +333,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;}
 .feed-row .pip.g{background:var(--teal);}
 .feed-row .pip.b{background:var(--blue);}
 .feed-row .pip.a{background:#E0A33C;}
-.feed-row time{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.36);}
+.feed-row time{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.58);}
 .feed-row.live{animation:rowIn .6s cubic-bezier(.22,.61,.36,1) both;}
 .feed-row:nth-child(1).live{animation-delay:.5s;}
 .feed-row:nth-child(2).live{animation-delay:.75s;}
@@ -291,11 +343,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;}
 @media(max-width:520px){.stat-row{grid-template-columns:1fr 1fr;}.stat-row .stat:last-child{display:none;}}
 
 /* ---------------- sections ---------------- */
-section{padding:96px 0;position:relative;}
+/* nav is fixed and overlaps everything, so anchor jumps need this clearance or the fixed bar covers the target's heading */
+section{padding:96px 0;position:relative;scroll-margin-top:76px;}
 @media(max-width:640px){section{padding:64px 0;}}
 .eyebrow{
   font-family:var(--mono);font-size:11.5px;font-weight:500;
-  letter-spacing:.13em;text-transform:uppercase;color:var(--teal-deep);
+  letter-spacing:.13em;text-transform:uppercase;color:#146054; /* darker than --teal-deep: 7.4:1 on white / 6.8:1 on sea-mist, WCAG AA */
   margin-bottom:16px;
 }
 .h2{font-size:clamp(28px,3.8vw,44px);font-weight:700;max-width:22ch;}
@@ -382,16 +435,16 @@ section{padding:96px 0;position:relative;}
   border:1px solid var(--line);border-radius:16px;padding:24px;
   box-shadow:0 1px 2px rgba(10,26,43,.03);
 }
-.bcard h4{
+.bcard h3{
   font-family:var(--display);font-size:17.5px;font-weight:700;
   letter-spacing:-0.02em;margin-bottom:14px;display:flex;align-items:center;gap:10px;
 }
-.bcard h4 span{
+.bcard h3 span{
   width:28px;height:28px;border-radius:8px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
   background:rgba(47,187,173,.13);color:var(--teal-deep);
 }
-.bcard h4 svg{width:15px;height:15px;}
+.bcard h3 svg{width:15px;height:15px;}
 .bcard ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;}
 .bcard li{
   position:relative;padding-left:18px;
@@ -493,38 +546,9 @@ section{padding:96px 0;position:relative;}
   .cmp th,.cmp td{padding:12px 10px;}
 }
 
-/* pricing */
-.price-card{
-  margin-top:44px;max-width:520px;
-  background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
-  border-radius:22px;padding:40px;color:#fff;
-  box-shadow:0 30px 60px -30px rgba(10,26,43,.55);
-}
-.price-card h3{font-size:24px;font-weight:700;margin-bottom:6px;}
-.price-card .sub{font-size:15px;color:rgba(255,255,255,.6);margin-bottom:26px;}
-.price-fig{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;}
-.price-fig b{font-family:var(--display);font-size:52px;font-weight:800;letter-spacing:-0.04em;line-height:1;}
-.price-fig span{font-family:var(--mono);font-size:13px;color:rgba(255,255,255,.55);}
-.price-setup{
-  font-size:14.5px;line-height:1.6;color:rgba(255,255,255,.72);
-  padding:14px 16px;margin:18px 0 16px;
-  background:rgba(47,187,173,.1);
-  border:1px solid rgba(47,187,173,.24);
-  border-radius:11px;
-}
-.price-setup b{color:#8FD6CD;font-weight:600;}
-.price-note{font-family:var(--mono);font-size:11px;line-height:1.7;color:rgba(255,255,255,.45);margin-bottom:28px;}
-.price-list{list-style:none;padding:0;margin:0 0 30px;display:flex;flex-direction:column;gap:11px;}
-.price-list li{position:relative;padding-left:26px;font-size:15px;color:rgba(255,255,255,.86);}
-.price-list li::before{
-  content:"";position:absolute;left:0;top:7px;width:13px;height:13px;border-radius:50%;
-  background:rgba(47,187,173,.2);box-shadow:inset 0 0 0 2px var(--teal);
-}
-
 
 
 /* ---------------- booking calendar ---------------- */
-#call{scroll-margin-top:76px;}
 .callsec{
   background:
     radial-gradient(ellipse 60% 55% at 18% 0%, rgba(61,130,220,.24) 0%, rgba(61,130,220,0) 62%),
@@ -568,7 +592,7 @@ section{padding:96px 0;position:relative;}
 .cal-state p{font-size:14.5px;color:rgba(255,255,255,.72);max-width:340px;line-height:1.6;}
 .call-fine{
   margin-top:18px;font-family:var(--mono);font-size:11px;line-height:1.7;
-  color:rgba(255,255,255,.45);
+  color:rgba(255,255,255,.58);
 }
 .call-fine a{color:var(--teal);text-decoration:underline;text-underline-offset:3px;}
 @media(max-width:820px){
@@ -620,21 +644,6 @@ section{padding:96px 0;position:relative;}
   font-size:15.5px;line-height:1.7;max-width:74ch;
 }
 .touch-foot b{color:#8FD6CD;font-weight:600;}
-
-/* ---------------- walkthrough video ---------------- */
-.watch{background:linear-gradient(180deg,var(--paper) 0%,#fff 100%);}
-.vid{
-  margin-top:40px;position:relative;
-  aspect-ratio:16/9;width:100%;
-  background:var(--ink);
-  border:1px solid var(--line);border-radius:20px;overflow:hidden;
-  box-shadow:0 1px 2px rgba(10,26,43,.04),0 34px 66px -34px rgba(10,26,43,.4);
-}
-.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
-.vid-note{
-  margin-top:16px;font-family:var(--mono);font-size:11px;line-height:1.7;
-  color:var(--slate-light);
-}
 
 /* ---------------- calculator ---------------- */
 .calc-sec{
@@ -724,15 +733,6 @@ input[type=range]:focus-visible{outline:2px solid var(--teal-deep);outline-offse
 }
 .calc-note{margin-top:20px;font-size:13px;line-height:1.65;color:var(--slate-light);max-width:64ch;}
 
-/* what it replaces */
-.replaces{margin-top:44px;max-width:560px;}
-.replaces-h{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-light);margin-bottom:14px;}
-.rep-tbl{width:100%;border-collapse:collapse;font-size:15px;}
-.rep-tbl th{text-align:left;font-weight:500;color:var(--slate);padding:11px 0;border-bottom:1px solid var(--line);}
-.rep-tbl td{text-align:right;font-family:var(--mono);font-size:13.5px;color:var(--slate);padding:11px 0;border-bottom:1px solid var(--line);}
-.rep-tbl tr.tot th,.rep-tbl tr.tot td{color:var(--ink);font-weight:700;border-bottom:0;padding-top:15px;}
-.replaces-f{margin-top:14px;font-size:12.5px;line-height:1.65;color:var(--slate-light);}
-
 /* founder */
 .who{background:linear-gradient(180deg,#fff 0%,#F3F8FB 100%);border-top:1px solid var(--line);}
 .who-card{
@@ -741,7 +741,7 @@ input[type=range]:focus-visible{outline:2px solid var(--teal-deep);outline-offse
   background:#fff;border:1px solid var(--line);border-radius:20px;padding:38px;
   box-shadow:0 1px 2px rgba(10,26,43,.04),0 22px 44px -30px rgba(10,26,43,.26);
 }
-@media(max-width:700px){.who-card{grid-template-columns:1fr;gap:24px;text-align:center;padding:30px 24px;}}
+@media(max-width:700px){.who-card{grid-template-columns:1fr;gap:24px;text-align:center;padding:30px 24px;}.who-card .who-body{text-align:left;}}
 .who-card img{
   width:190px;height:190px;border-radius:18px;object-fit:cover;display:block;
   background:#E9F0F6;border:1px solid var(--line);
@@ -771,64 +771,10 @@ input[type=range]:focus-visible{outline:2px solid var(--teal-deep);outline-offse
   transition:transform .22s ease,background .22s ease,color .22s ease,border-color .22s ease;
 }
 .q.open i{background:var(--teal-deep);color:#fff;border-color:var(--teal-deep);transform:rotate(45deg);}
-.q-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
-.q-a div{padding:0 2px 24px;font-size:15.5px;line-height:1.72;color:var(--slate);max-width:68ch;}
-
-/* form */
-.demo-wrap{
-  background:
-    radial-gradient(ellipse 60% 60% at 20% 0%, rgba(61,130,220,.28) 0%, rgba(61,130,220,0) 60%),
-    radial-gradient(ellipse 50% 50% at 85% 10%, rgba(47,187,173,.22) 0%, rgba(47,187,173,0) 60%),
-    linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
-  color:#fff;
-}
-.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
-@media(max-width:880px){.demo-grid{grid-template-columns:1fr;gap:36px;}}
-.demo-wrap .h2{color:#fff;}
-.demo-wrap .lede{color:rgba(255,255,255,.68);}
-.demo-wrap .eyebrow{color:#8FD6CD;}
-.demo-list{list-style:none;padding:0;margin:26px 0 0;display:flex;flex-direction:column;gap:12px;}
-.demo-list li{position:relative;padding-left:28px;font-size:15.5px;color:rgba(255,255,255,.84);}
-.demo-list li::before{
-  content:"";position:absolute;left:0;top:7px;width:14px;height:14px;border-radius:50%;
-  background:rgba(47,187,173,.22);box-shadow:inset 0 0 0 2px var(--teal);
-}
-form{
-  background:rgba(255,255,255,.055);
-  border:1px solid rgba(255,255,255,.13);
-  border-radius:20px;padding:30px;
-  backdrop-filter:blur(8px);
-}
-.fld{margin-bottom:17px;}
-.fld label{
-  display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;
-  text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:8px;
-}
-.fld input,.fld select,.fld textarea{
-  width:100%;padding:13px 15px;border-radius:11px;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.16);
-  color:#fff;font-family:var(--body);font-size:15px;
-  transition:border-color .15s ease,background .15s ease;
-}
-.fld textarea{min-height:88px;resize:vertical;}
-.fld input::placeholder,.fld textarea::placeholder{color:rgba(255,255,255,.32);}
-.fld input:focus,.fld select:focus,.fld textarea:focus{
-  outline:none;border-color:var(--teal);background:rgba(255,255,255,.1);
-}
-.fld select option{background:var(--ink);color:#fff;}
-.fld-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media(max-width:520px){.fld-row{grid-template-columns:1fr;gap:0;}}
-form .btn{width:100%;margin-top:6px;}
-.form-fine{
-  margin-top:15px;font-family:var(--mono);font-size:11px;line-height:1.6;
-  color:rgba(255,255,255,.42);text-align:center;
-}
-.or{
-  margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);
-  text-align:center;font-size:14.5px;color:rgba(255,255,255,.6);
-}
-.or a{color:var(--teal);text-decoration:underline;text-underline-offset:3px;font-weight:600;}
+.q-a{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .3s ease;}
+.q.open .q-a{grid-template-rows:1fr;}
+.q-a div{padding:0 2px 0;font-size:15.5px;line-height:1.72;color:var(--slate);max-width:68ch;min-height:0;overflow:hidden;}
+.q.open .q-a div{padding:0 2px 24px;}
 
 /* footer */
 footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
@@ -866,18 +812,10 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
       <span>Practera</span>
     </a>
     <div class="nav-links">
-      <a href="#cost">The cost</a>
-      <a href="#what">What it does</a>
-      <a href="#everything">Everything included</a>
-      <a href="#compare">Compare</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#privacy">Privacy</a>
-      <a href="#who">Who runs it</a>
       <a href="#faq">FAQ</a>
     </div>
     <div class="nav-cta">
-      <a class="btn btn-ghost" href="#call">Book a call</a>
-      <a class="btn btn-primary" href="#demo">Get the walkthrough</a>
+      <a class="btn btn-primary" href="#call">Book your free assessment</a>
     </div>
   </div>
 </nav>
@@ -887,13 +825,12 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="wrap hero-in">
     <div class="tag"><i aria-hidden="true"></i>For dental &amp; medical practices across Canada</div>
-    <h1>Your phone is the most <em>expensive thing</em> in your practice.</h1>
-    <p class="hero-sub">Every call that rings out is a patient who booked somewhere else &mdash; and you never find out it happened. Practera answers them, brings back the patients you stopped hearing from, and asks every visit for a review. One login, run for you.</p>
+    <h1>Turn the patients you already have into <em>more booked visits</em>.</h1>
+    <p class="hero-sub">Practera answers every call your desk misses, brings back patients who&rsquo;ve gone quiet, and gets every visit reviewed &mdash; so your practice ranks higher and turns more of the people already calling you into booked patients. One system, running every month, that keeps compounding.</p>
     <div class="hero-btns">
-      <a class="btn btn-primary" href="#demo">Get the walkthrough</a>
-      <a class="btn btn-ghost" href="#call">Book a call instead</a>
+      <a class="btn btn-primary" href="#call">Book your free assessment</a>
     </div>
-    <p class="hero-fine">2-minute walkthrough · No card · No obligation</p>
+    <p class="hero-fine">Free 30-minute assessment · No card · No obligation</p>
 
     <!-- SIGNATURE -->
     <div class="stage">
@@ -937,33 +874,14 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   </div>
 </header>
 
-<!--
-  ============ WALKTHROUGH VIDEO ============
-  READY TO SWITCH ON. Record the walkthrough, then:
-    1. Delete this comment wrapper (this line and the closing one below)
-    2. Paste your Loom / YouTube embed URL into the iframe src
-    3. Change the CTA labels back: "Get the walkthrough" -> "See how it works"
-       and point them at #watch instead of #demo
-
-<section class="watch" id="watch">
-  <div class="wrap">
-    <p class="eyebrow r">Two minutes</p>
-    <h2 class="h2 r">A call coming in, and what happens next.</h2>
-    <p class="lede r">No slides. A real call answered, a real review request going out, and what your inbox looks like when someone replies.</p>
-    <div class="vid r">
-      <iframe src="PASTE_EMBED_URL_HERE" title="Practera walkthrough" allowfullscreen loading="lazy"></iframe>
-    </div>
-    <p class="vid-note r">Recorded on a demo account. Your version is set up with your name, your number and your wording.</p>
-  </div>
-</section>
--->
+<main>
 
 <!-- ============ CALCULATOR ============ -->
 <section class="calc-sec" id="cost">
   <div class="wrap">
     <p class="eyebrow r">Do the maths</p>
-    <h2 class="h2 r">What is your phone costing you this month?</h2>
-    <p class="lede r">Your phone system already knows how many calls went unanswered. Put your own numbers in.</p>
+    <h2 class="h2 r">How much revenue are missed calls costing you every month?</h2>
+    <p class="lede r">Every call that rings out is a patient who called someone else instead. Put your own numbers in and see what that's actually worth.</p>
 
     <div class="calc-shell r">
       <div class="calc-controls">
@@ -1065,7 +983,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
     <!-- 3 -->
     <div class="feat">
       <div class="r">
-        <h3>Wake up the patients you already have</h3>
+        <h3>Reactivate the leads you already have</h3>
         <p>Every practice is sitting on hundreds of people it hasn't seen in a year or more. They didn't leave &mdash; they just never got around to booking again. One well-written text brings a chunk of them back, and it costs nothing to send.</p>
         <ul>
           <li>Dormant patients contacted in batches, written for your practice</li>
@@ -1091,7 +1009,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
     <!-- 4 -->
     <div class="feat flip">
       <div class="r">
-        <h3>Replies that won't get you fined</h3>
+        <h3>Respond to reviews without the risk</h3>
         <p>Two dental practices have been fined $10,000 and $23,000 over what they wrote in public review replies. On a review you can thank someone or ask them to call the office &mdash; that's it. Even "thanks for coming in" confirms publicly that they're a patient.</p>
         <ul>
           <li>Every reply drafted to stay inside privacy rules</li>
@@ -1126,122 +1044,55 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
     <div class="bundle-grid">
 
       <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>Your phone stops costing you patients</h4>
+        <h3><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>Every conversation lands in one place</h3>
         <ul>
           <li>Someone calling at 9pm hears a voice, not a beep</li>
-          <li>You find out what they wanted even though nobody was there</li>
-          <li>No more &ldquo;did anyone ever ring them back?&rdquo;</li>
-          <li>Every conversation on record if a dispute ever comes up</li>
-        </ul>
-      </div>
-
-      <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg></span>Nothing gets lost between four apps</h4>
-        <ul>
           <li>One place to look instead of four tabs and a phone</li>
-          <li>Nobody answers twice, and nobody assumes someone else did</li>
-          <li>&ldquo;Do you take my insurance?&rdquo; gets answered without a human</li>
           <li>A message on Instagram doesn&rsquo;t sit unread for a week</li>
         </ul>
       </div>
 
       <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 8.6 22 9.5 17 14.3 18.2 21.1 12 17.8 5.8 21.1 7 14.3 2 9.5 9 8.6 12 2"/></svg></span>You stop losing the comparison</h4>
+        <h3><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 8.6 22 9.5 17 14.3 18.2 21.1 12 17.8 5.8 21.1 7 14.3 2 9.5 9 8.6 12 2"/></svg></span>Your reputation does the selling for you</h3>
         <ul>
           <li>New patients find a practice that looks busy and liked</li>
-          <li>Your rating reflects everyone, not just whoever felt strongly</li>
-          <li>You hear about a bad visit before the internet does</li>
-          <li>Nobody on your team has to remember to ask</li>
+          <li>You stay in mind between visits, not just when something hurts</li>
+          <li>Enquiries followed up until they book or say no</li>
         </ul>
       </div>
 
       <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Patients book while you&rsquo;re closed</h4>
+        <h3><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Every visitor becomes a booked appointment</h3>
         <ul>
           <li>Someone deciding at 11pm books instead of forgetting by morning</li>
-          <li>Separate calendars for hygiene, new patient exams and emergencies</li>
-          <li>Confirmation, then 48 hours, then 24, then a text with parking on the day</li>
+          <li>One tap to call or book from anywhere on the page</li>
           <li>Online bookings arrive with everything your desk needs to enter them</li>
         </ul>
       </div>
 
       <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>Revenue from patients you already paid for</h4>
+        <h3><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>More revenue from patients you already have</h3>
         <ul>
           <li>Hundreds of people who&rsquo;d come back if anyone asked them</li>
-          <li>One export from your practice software and we handle the rest</li>
-          <li>Recalls that happen whether the desk remembers or not</li>
-          <li>A check-in after bigger work: &ldquo;how&rsquo;s the crown feeling?&rdquo;</li>
-        </ul>
-      </div>
-
-      <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></span>A site that turns looking into booking</h4>
-        <ul>
-          <li>Loads fast on the phone people are actually holding</li>
-          <li>One tap to call or book from anywhere on the page</li>
-          <li>Its own page for the treatments you want more of</li>
-          <li>Enquiries reach your inbox, not a form nobody checks</li>
-        </ul>
-      </div>
-
-      <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="12" y2="17"/></svg></span>Patients remember you exist</h4>
-        <ul>
-          <li>You stay in mind between visits, not just when something hurts</li>
-          <li>Posts go out whether anyone had time this week or not</li>
-          <li>Enquiries followed up until they book or say no</li>
-          <li>One fewer tool and one fewer subscription to manage</li>
-        </ul>
-      </div>
-
-      <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>You stop chasing balances</h4>
-        <ul>
           <li>Send a link by text and get paid the same afternoon</li>
-          <li>No-shows cost less, because a deposit was taken at booking</li>
-          <li>No paper invoices and no awkward phone calls</li>
           <li>Your front desk stops being a collections department</li>
         </ul>
       </div>
 
       <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>You know what&rsquo;s actually working</h4>
-        <ul>
-          <li>Where each new patient came from, not a guess</li>
-          <li>Your no-show recovery rate, checked every week</li>
-          <li>Where enquiries are dropping off, and what got changed about it</li>
-          <li>One plain-English report a month, not a dashboard to learn</li>
-        </ul>
-      </div>
-
-
-      <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg></span>Patients arrive already checked in</h4>
+        <h3><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg></span>Every patient tracked from first call to visit</h3>
         <ul>
           <li>History and intake done before they sit in the waiting room</li>
-          <li>A patient who flags anxiety gets noticed before they&rsquo;re in the chair</li>
-          <li>Consent signed on a phone instead of a clipboard</li>
-          <li>Nobody typing up someone else&rsquo;s handwriting, ever again</li>
-        </ul>
-      </div>
-
-      <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9"/></svg></span>You never wonder what happened to someone</h4>
-        <ul>
-          <li>Every enquiry visible as new, booked, no-show, done or lapsed</li>
           <li>Nobody forgotten between the first call and the first visit</li>
-          <li>No-shows get chased instead of quietly written off</li>
           <li>The ones who said &ldquo;let me think about it&rdquo; hear from you again</li>
         </ul>
       </div>
 
       <div class="bcard r">
-        <h4><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 0 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 0 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9A1.7 1.7 0 0 0 10 3.1V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 0 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>You never touch a settings page</h4>
+        <h3><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>A system that runs and reports itself</h3>
         <ul>
-          <li>All of it written and built around how you actually run</li>
-          <li>Booking flows tested monthly, messaging rotated seasonally</li>
-          <li>Call and chat logs reviewed weekly, wording fixed when it slips</li>
+          <li>Where each new patient came from, not a guess</li>
+          <li>One plain-English report a month, not a dashboard to learn</li>
           <li>If it breaks, we notice before you do</li>
         </ul>
       </div>
@@ -1276,43 +1127,6 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
         <tr><th>Cost of your own time</th><td class="us">None</td><td class="no">Hours a month</td><td class="no">Hours a week</td></tr>
       </tbody>
     </table>
-  </div>
-</section>
-
-<!-- ============ PRICING ============ -->
-<section id="pricing">
-  <div class="wrap">
-    <p class="eyebrow r">Pricing</p>
-    <h2 class="h2 r">One price. No minimum term.</h2>
-    <p class="lede r">Everything included, built for your practice, and nothing you have to cancel through a call centre.</p>
-    <div class="price-card r">
-      <h3>Practera</h3>
-      <p class="sub">Everything above, set up and managed.</p>
-      <div class="price-fig"><b>$997</b><span>CAD / month</span></div>
-      <p class="price-setup"><b>+ $997 one-time setup</b> &mdash; your messages written, your calendars built, and an hour with your front desk</p>
-      <p class="price-note">NO MINIMUM TERM · CANCEL ANY TIME · YOU KEEP YOUR NUMBER AND YOUR DATA</p>
-      <ul class="price-list">
-        <li>Phone, messaging and one shared inbox</li>
-        <li>Reviews asked, monitored and replied to</li>
-        <li>Online booking, reminders and reactivation</li>
-        <li>Website, landing pages and campaigns</li>
-        <li>Payments, reporting and a person to call</li>
-      </ul>
-      <a class="btn btn-primary" href="#demo">Get the walkthrough</a>
-    </div>
-
-    <div class="replaces r">
-      <p class="replaces-h">What practices usually pay for this separately</p>
-      <table class="rep-tbl">
-        <tr><th>Patient communication platform</th><td>$340&ndash;830</td></tr>
-        <tr><th>Reputation &amp; review tool</th><td>$270&ndash;410</td></tr>
-        <tr><th>AI phone answering</th><td>$270&ndash;690</td></tr>
-        <tr><th>Website &amp; landing pages</th><td>$140&ndash;410</td></tr>
-        <tr><th>Someone to set it up and run it</th><td>&mdash;</td></tr>
-        <tr class="tot"><th>Bought separately</th><td>$1,020&ndash;2,340</td></tr>
-      </table>
-      <p class="replaces-f">Typical published monthly rates in Canadian dollars. And none of those come with someone who actually sets it up, writes it, and watches it for you.</p>
-    </div>
   </div>
 </section>
 
@@ -1354,12 +1168,12 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
     <p class="eyebrow r">Who runs it</p>
     <h2 class="h2 r">You&rsquo;ll be dealing with a person, not a ticket queue.</h2>
     <div class="who-card r">
-      <img src="assets/founder-v2.jpg" alt="Mohammed Salih, founder of Practera">
+      <img src="assets/founder-v2.jpg" alt="Mohammed Salih, founder of Practera" loading="lazy">
       <div class="who-body">
         <div class="who-name">Mohammed Salih</div>
         <div class="who-role">Founder &middot; Windsor, Ontario</div>
         <p>I kept noticing the same pattern &mdash; good businesses held back by one small thing nobody had time to own. In a practice it&rsquo;s the phone nobody could reach, the patient who was never asked, the review that sat there unanswered. None of it is anyone&rsquo;s fault. It&rsquo;s one desk and one person and a waiting room full of people.</p>
-        <p>So I built something to hold all of that instead, and I run it myself. You get my number, not a support portal &mdash; and if this isn&rsquo;t the right fit for your practice, I&rsquo;ll tell you that too.</p>
+        <p>So I built something to hold all of that instead. You get my number, not a support portal &mdash; and if this isn&rsquo;t the right fit for your practice, I&rsquo;ll tell you that too.</p>
       </div>
     </div>
   </div>
@@ -1393,8 +1207,8 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
       </div>
 
       <div class="q">
-        <button aria-expanded="false">What happens after I fill in the form?<i>+</i></button>
-        <div class="q-a"><div>You get the walkthrough the same day &mdash; an actual call being answered, a review request going out, and what the inbox looks like when someone replies. If it looks useful we'll have a short call about your practice, and if you go ahead we build yours and you're live within a few days. Nothing is set up and nothing is charged before that.</div></div>
+        <button aria-expanded="false">What happens after I book the call?<i>+</i></button>
+        <div class="q-a"><div>We spend thirty minutes on your numbers and your practice specifically &mdash; what unanswered calls and unasked reviews are actually costing you, and whether Practera is a fit. If it looks useful, we build yours and you're live within a few days. Nothing is set up and nothing is charged before that call.</div></div>
       </div>
 
       <div class="q">
@@ -1431,87 +1245,10 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   </div>
 </section>
 
-<!-- ============ DEMO FORM ============ -->
-<section class="demo-wrap" id="demo">
-  <div class="wrap">
-    <div class="demo-grid">
-      <div>
-        <p class="eyebrow r">See it first</p>
-        <h2 class="h2 r">Watch it work, then decide.</h2>
-        <p class="lede r">Tell us about your practice and we'll send the walkthrough &mdash; a real call answered, a real review request, a real inbox. Then a short conversation about whether it fits.</p>
-        <ul class="demo-list r">
-          <li>The walkthrough in your inbox the same day</li>
-          <li>A 30-minute call only if you want one</li>
-          <li>Live within a few days of getting started</li>
-        </ul>
-      </div>
-
-      <form name="demo" method="POST" data-netlify="true" action="/thanks.html" class="r">
-        <input type="hidden" name="form-name" value="demo">
-        <p style="display:none;"><label>Leave blank<input name="bot-field"></label></p>
-
-        <div class="fld-row">
-          <div class="fld">
-            <label for="fn">Your name</label>
-            <input id="fn" name="name" type="text" required placeholder="Dr. Sarah Chen">
-          </div>
-          <div class="fld">
-            <label for="pr">Practice name</label>
-            <input id="pr" name="practice" type="text" required placeholder="Your Practice">
-          </div>
-        </div>
-
-        <div class="fld-row">
-          <div class="fld">
-            <label for="em">Email</label>
-            <input id="em" name="email" type="email" required placeholder="you@practice.com">
-          </div>
-          <div class="fld">
-            <label for="ph">Practice phone</label>
-            <input id="ph" name="phone" type="tel" required placeholder="(519) 555-0100">
-          </div>
-        </div>
-
-        <div class="fld">
-          <label for="pat">Patients you see in a month</label>
-          <select id="pat" name="patients" required>
-            <option value="">Select one</option>
-            <option>Under 100</option>
-            <option>100–250</option>
-            <option>250–500</option>
-            <option>500+</option>
-          </select>
-        </div>
-
-        <div class="fld">
-          <label for="cur">How do you ask for reviews today?</label>
-          <select id="cur" name="current" required>
-            <option value="">Select one</option>
-            <option>We don't, really</option>
-            <option>Front desk asks when they remember</option>
-            <option>We already use a tool for it</option>
-            <option>Not sure</option>
-          </select>
-        </div>
-
-        <div class="fld">
-          <label for="msg">Anything we should know? (optional)</label>
-          <textarea id="msg" name="notes" placeholder="What you'd most like fixed"></textarea>
-        </div>
-
-        <button class="btn btn-primary" type="submit">Send me the walkthrough</button>
-        <p class="form-fine">No card required. Nothing is set up until you decide to go ahead.</p>
-
-        <div class="or">Would rather talk first? <a href="#call">Book a 30-minute call</a></div>
-      </form>
-    </div>
-  </div>
-</section>
-
 <!-- ============ BOOK A CALL ============ -->
 <section class="callsec" id="call">
   <div class="wrap">
-    <p class="eyebrow r">Rather talk first</p>
+    <p class="eyebrow r">Book your free assessment</p>
     <h2 class="h2 r">Thirty minutes, and I&rsquo;ll bring your numbers.</h2>
     <p class="lede r">I&rsquo;ll have looked at your Google listing before we speak &mdash; your review count, how recent the last one is, and the three practices ranking above you. Yours to keep either way. If it&rsquo;s not a fit for your practice, I&rsquo;ll tell you.</p>
     <div class="call-shell r">
@@ -1528,10 +1265,27 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
     <p class="call-fine r">No charge, no obligation. Prefer email? <a href="mailto:salih@practera.ai">salih@practera.ai</a></p>
   </div>
 </section>
+</main>
 
 <div class="dock" id="dock" aria-hidden="false">
-  <a class="btn btn-ghost" href="#call">Book a call</a>
-  <a class="btn btn-primary" href="#demo">Get the walkthrough</a>
+  <a class="btn btn-primary" href="#call">Book your free assessment</a>
+</div>
+
+<!-- ============ VOICE DEMO WIDGET ============ -->
+<div class="voice-widget" id="voiceWidget">
+  <button class="voice-fab" id="voiceFab" aria-expanded="false" aria-controls="voicePanel">
+    <span class="voice-fab-dot" aria-hidden="true"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    <span>Talk to our AI receptionist</span>
+  </button>
+  <div class="voice-panel" id="voicePanel" hidden>
+    <div class="voice-panel-head">
+      <span class="voice-dot" aria-hidden="true"></span>
+      <span>AI receptionist demo</span>
+      <button class="voice-close" id="voiceClose" aria-label="Close demo panel">&times;</button>
+    </div>
+    <div class="voice-body" id="voiceBody"></div>
+  </div>
 </div>
 
 <footer>
@@ -1543,7 +1297,6 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
       </a>
       <div class="foot-links">
         <a href="#what">What it does</a>
-        <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
@@ -1715,25 +1468,144 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 /* faq */
 document.querySelectorAll('.q').forEach(q=>{
   const btn = q.querySelector('button'), a = q.querySelector('.q-a');
+  a.setAttribute('aria-hidden','true');
   btn.addEventListener('click',()=>{
     const open = q.classList.contains('open');
     document.querySelectorAll('.q.open').forEach(o=>{
       if(o!==q){
         o.classList.remove('open');
-        o.querySelector('.q-a').style.maxHeight = null;
+        o.querySelector('.q-a').setAttribute('aria-hidden','true');
         o.querySelector('button').setAttribute('aria-expanded','false');
       }
     });
     if(open){
-      q.classList.remove('open'); a.style.maxHeight = null;
+      q.classList.remove('open');
+      a.setAttribute('aria-hidden','true');
       btn.setAttribute('aria-expanded','false');
     } else {
-      q.classList.add('open'); a.style.maxHeight = a.scrollHeight+'px';
+      q.classList.add('open');
+      a.setAttribute('aria-hidden','false');
       btn.setAttribute('aria-expanded','true');
     }
   });
 });
+
+/* voice demo widget — talks to voice-agent-server, which talks to Retell */
+(function(){
+  // Set this to your voice-agent-server's deployed Coolify domain once it's live.
+  const VOICE_AGENT_API_BASE = 'https://voice-api.practera.ai';
+
+  const widget = document.getElementById('voiceWidget');
+  if(!widget) return;
+  const fab = document.getElementById('voiceFab');
+  const panel = document.getElementById('voicePanel');
+  const closeBtn = document.getElementById('voiceClose');
+  const body = document.getElementById('voiceBody');
+
+  let client = null;
+  let durationTimer = null;
+  let callTimeout = null;
+
+  function render(state, data){
+    if(state==='connecting'){
+      body.innerHTML = '<p class="voice-copy">Connecting&hellip;</p>';
+    } else if(state==='live'){
+      body.innerHTML =
+        '<div class="voice-live-indicator"><span class="voice-dot" aria-hidden="true"></span><span>Live &mdash; say something</span></div>' +
+        '<div class="voice-timer" id="voiceTimer">0:00</div>' +
+        '<button class="btn btn-dark voice-end">End call</button>';
+      body.querySelector('.voice-end').addEventListener('click', ()=>endCall('ended'));
+    } else if(state==='ended'){
+      body.innerHTML =
+        '<p class="voice-copy">That\'s the demo. Want your own version, built for your practice?</p>' +
+        '<a class="btn btn-primary" href="#call">Book your free assessment</a>' +
+        '<p class="voice-fine"><button class="voice-again">Try the demo again</button></p>';
+      body.querySelector('.voice-again').addEventListener('click', ()=>render('idle'));
+    } else if(state==='error'){
+      body.innerHTML =
+        '<p class="voice-copy voice-error">' + ((data && data.message) || 'Something went wrong starting the demo call.') + '</p>' +
+        '<a class="btn btn-primary" href="#call">Book your free assessment instead</a>';
+    } else {
+      body.innerHTML =
+        '<p class="voice-copy">Hear exactly what your patients would &mdash; try asking about booking, hours, or say you\'re in pain.</p>' +
+        '<button class="btn btn-primary voice-start">Start the demo call</button>' +
+        '<p class="voice-fine">Live AI voice, about 90 seconds, nothing recorded.</p>';
+      body.querySelector('.voice-start').addEventListener('click', startCall);
+    }
+  }
+
+  function startTimer(maxSeconds){
+    let elapsed = 0;
+    durationTimer = setInterval(()=>{
+      elapsed++;
+      const el = document.getElementById('voiceTimer');
+      if(el){
+        const m = Math.floor(elapsed/60), s = elapsed%60;
+        el.textContent = m + ':' + String(s).padStart(2,'0');
+      }
+      if(elapsed >= maxSeconds) clearInterval(durationTimer);
+    },1000);
+  }
+
+  function endCall(nextState){
+    if(client){ try{ client.stopCall(); }catch(e){} client = null; }
+    if(durationTimer){ clearInterval(durationTimer); durationTimer = null; }
+    if(callTimeout){ clearTimeout(callTimeout); callTimeout = null; }
+    render(nextState || 'idle');
+  }
+
+  async function startCall(){
+    render('connecting');
+    let data;
+    try {
+      const resp = await fetch(VOICE_AGENT_API_BASE + '/api/create-web-call', { method:'POST' });
+      data = await resp.json();
+      if(!resp.ok){ render('error', { message: data.error }); return; }
+    } catch(err){
+      render('error', { message: 'Could not reach the demo service. Please book a call instead.' });
+      return;
+    }
+    // Requires the Retell Web SDK script (see the tag above the Cal.com embed below)
+    // to have loaded and exposed a RetellWebClient constructor on window.
+    if(typeof RetellWebClient === 'undefined'){
+      render('error', { message: 'Voice demo could not load. Please book a call instead.' });
+      return;
+    }
+    try {
+      client = new RetellWebClient();
+      client.on('call_started', ()=>{
+        render('live');
+        const maxSeconds = data.max_duration_seconds || 90;
+        startTimer(maxSeconds);
+        callTimeout = setTimeout(()=>endCall('ended'), maxSeconds * 1000);
+      });
+      client.on('call_ended', ()=>endCall('ended'));
+      client.on('error', ()=>render('error'));
+      await client.startCall({ accessToken: data.access_token });
+    } catch(err){
+      render('error');
+    }
+  }
+
+  fab.addEventListener('click', ()=>{
+    const willOpen = panel.hidden;
+    panel.hidden = !willOpen;
+    fab.setAttribute('aria-expanded', String(willOpen));
+    if(willOpen && !body.innerHTML.trim()) render('idle');
+  });
+  closeBtn.addEventListener('click', ()=>{
+    panel.hidden = true;
+    fab.setAttribute('aria-expanded','false');
+    if(client) endCall('idle');
+  });
+})();
 </script>
+<!-- Retell Web SDK, pre-bundled (see assets/README-retell-bundle.md for why: the
+     published UMD build isn't standalone — it expects eventemitter3 and livekit-client
+     as separate globals with mismatched names, and just throws if you script-tag it
+     directly). This is our own esbuild output of retell-client-js-sdk, exposing
+     `window.RetellWebClient` with zero external runtime dependencies. -->
+<script src="assets/retell-web-client.bundle.js" defer></script>
 <!-- Cal.com embed -->
 <script type="text/javascript">
 (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
