@@ -788,6 +788,121 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between;
 }
 
+/* ---------------- LIVE CALL DEMO ---------------- */
+/* Prefixed cd- throughout: the original standalone player used unscoped names
+   (.stage, .eyebrow, .dot, .who, .cta, --ink, --line, --paper) that collide
+   directly with names already used elsewhere on this page. Colors reuse the
+   site's own --teal/--blue/--ink tokens instead of the player's own purple/
+   orange, per DESIGN.md's one-signal-color rule. */
+.cd-stage{
+  position:relative;width:100%;max-width:1080px;margin:0 auto;
+  background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
+  border:1px solid var(--line-dark);border-radius:22px;overflow:hidden;
+  box-shadow:0 40px 90px -30px rgba(10,26,43,.55);
+}
+.cd-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:18px 24px;border-bottom:1px solid var(--line-dark);
+  background:rgba(255,255,255,.03);
+}
+.cd-brand{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em;color:#fff;}
+.cd-brand span{color:var(--teal);}
+.cd-status{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.58);}
+.cd-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);transition:background .3s;}
+.cd-stage.cd-playing .cd-dot{background:var(--teal);box-shadow:0 0 0 0 rgba(47,187,173,.6);animation:cdPulse 2s infinite;}
+@keyframes cdPulse{70%{box-shadow:0 0 0 9px rgba(47,187,173,0);}100%{box-shadow:0 0 0 0 rgba(47,187,173,0);}}
+
+.cd-grid{display:grid;grid-template-columns:1fr 1.05fr;min-height:460px;}
+
+.cd-left{padding:34px 30px;border-right:1px solid var(--line-dark);display:flex;flex-direction:column;}
+.cd-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.58);margin-bottom:14px;}
+.cd-headline{font-family:var(--display);font-weight:600;font-size:clamp(23px,2.8vw,30px);line-height:1.14;letter-spacing:-.03em;margin-bottom:10px;color:#fff;}
+.cd-sub{font-size:14px;line-height:1.55;color:rgba(255,255,255,.62);max-width:36ch;}
+
+.cd-canvas{width:100%;height:132px;margin:28px 0 22px;display:block;}
+
+.cd-controls{display:flex;align-items:center;gap:16px;margin-top:auto;}
+.cd-play{
+  width:56px;height:56px;border-radius:50%;border:0;flex-shrink:0;cursor:pointer;
+  display:grid;place-items:center;
+  background:linear-gradient(180deg,var(--teal) 0%,var(--teal-deep) 100%);color:#04211E;
+  transition:transform .18s ease, box-shadow .18s ease;
+  box-shadow:0 8px 22px -10px rgba(47,187,173,.75);
+}
+.cd-play:hover{transform:scale(1.06);}
+.cd-play:focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
+.cd-play svg{width:20px;height:20px;fill:currentColor;}
+
+.cd-track{flex:1;min-width:0;}
+.cd-scrub{height:4px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;cursor:pointer;}
+.cd-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:99px;}
+.cd-times{display:flex;justify-content:space-between;margin-top:9px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.58);}
+
+.cd-right{position:relative;padding:26px 8px 26px 26px;display:flex;flex-direction:column;min-height:0;}
+.cd-tlabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.58);margin-bottom:16px;}
+.cd-scroll{
+  flex:1;overflow-y:auto;padding-right:18px;scroll-behavior:smooth;max-height:390px;
+  mask-image:linear-gradient(180deg,transparent,#000 22px,#000 calc(100% - 34px),transparent);
+}
+.cd-scroll::-webkit-scrollbar{width:4px;}
+.cd-scroll::-webkit-scrollbar-thumb{background:var(--line-dark);border-radius:99px;}
+
+.cd-line{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:9px 0;opacity:.3;transition:opacity .45s ease;cursor:pointer;}
+.cd-line.cd-seen{opacity:.62;}
+.cd-line.cd-active{opacity:1;}
+.cd-ts{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.5);padding-top:4px;}
+.cd-bubble{border-left:2px solid var(--line-dark);padding:2px 0 2px 14px;transition:border-color .45s ease;}
+.cd-who{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;color:rgba(255,255,255,.58);transition:color .45s ease;}
+.cd-text{font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.86);}
+
+.cd-line.cd-agent.cd-active .cd-bubble{border-color:var(--teal);}
+.cd-line.cd-agent.cd-active .cd-who{color:var(--teal);}
+.cd-line.cd-caller.cd-active .cd-bubble{border-color:var(--blue);}
+.cd-line.cd-caller.cd-active .cd-who{color:var(--blue);}
+
+.cd-end{
+  position:absolute;inset:0;
+  background:linear-gradient(165deg,var(--ink-2),var(--ink) 65%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:48px 40px;opacity:0;visibility:hidden;transition:opacity .8s ease, visibility .8s;z-index:5;
+}
+.cd-end.cd-show{opacity:1;visibility:visible;}
+.cd-end .cd-mark{font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,42px);letter-spacing:-.035em;margin-bottom:14px;color:#fff;}
+.cd-end .cd-mark span{color:var(--teal);}
+.cd-end .cd-pitch{font-size:clamp(15px,1.7vw,18px);line-height:1.6;color:rgba(255,255,255,.62);max-width:44ch;margin-bottom:32px;}
+
+.cd-cta{
+  display:inline-block;font-weight:600;font-size:15.5px;padding:15px 34px;border-radius:12px;
+  text-decoration:none;color:#04211E;
+  background:linear-gradient(180deg,var(--teal) 0%,var(--teal-deep) 100%);
+  transition:transform .18s ease, box-shadow .18s ease;
+  box-shadow:0 8px 22px -10px rgba(47,187,173,.75);
+}
+.cd-cta:hover{transform:translateY(-1px);box-shadow:0 12px 28px -10px rgba(47,187,173,.85);}
+.cd-cta:focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
+
+.cd-replay{
+  margin-top:26px;background:none;border:1px solid var(--line-dark);color:rgba(255,255,255,.58);
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  padding:10px 20px;border-radius:99px;cursor:pointer;transition:color .2s,border-color .2s;
+}
+.cd-replay:hover{color:#fff;border-color:rgba(255,255,255,.4);}
+.cd-replay:focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
+
+@media(max-width:900px){.cd-stage{max-width:640px;}}
+@media(max-width:840px){
+  .cd-stage{margin-left:-28px;margin-right:-28px;max-width:none;border-radius:0;}
+  .cd-grid{grid-template-columns:1fr;}
+  .cd-left{border-right:0;border-bottom:1px solid var(--line-dark);padding:28px 22px;}
+  .cd-right{padding:22px 8px 22px 22px;}
+  .cd-scroll{max-height:270px;}
+  .cd-canvas{height:100px;margin:22px 0 18px;}
+}
+@media(max-width:600px){.cd-stage{margin-left:-20px;margin-right:-20px;}}
+@media(prefers-reduced-motion:reduce){
+  .cd-stage.cd-playing .cd-dot{animation:none;}
+}
+
 /* reveal */
 .r{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1);}
 .r.in{opacity:1;transform:none;}
@@ -812,6 +927,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
       <span>Practera</span>
     </a>
     <div class="nav-links">
+      <a href="#live-call">Hear it handle a booking</a>
       <a href="#faq">FAQ</a>
     </div>
     <div class="nav-cta">
@@ -875,6 +991,56 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
 </header>
 
 <main>
+
+<!-- ============ LIVE CALL DEMO ============ -->
+<section id="live-call">
+  <div class="wrap">
+    <p class="eyebrow r">Hear it work</p>
+    <h2 class="h2 r">Press play. Hear it answer, book, and confirm.</h2>
+    <p class="lede r">A sample call handled start to finish by Practera's AI receptionist, with sample patient details and a transcript that scrolls in sync. This is what it sounds like when nobody's at the desk.</p>
+
+    <div class="cd-stage r" id="cdStage">
+      <div class="cd-bar" id="cdBar">
+        <div class="cd-brand">practera<span>.</span></div>
+        <div class="cd-status"><span class="cd-dot" aria-hidden="true"></span><span id="cdStatusText">Sample call</span></div>
+      </div>
+
+      <div class="cd-grid">
+        <div class="cd-left">
+          <div class="cd-eyebrow">Demo call &middot; after hours</div>
+          <h3 class="cd-headline">Nobody was at the desk.<br>The appointment still got booked.</h3>
+          <p class="cd-sub">A sample call, handled start to finish by Practera's AI receptionist &mdash; no staff, no voicemail, no missed patient.</p>
+
+          <canvas class="cd-canvas" id="cdWave" aria-hidden="true"></canvas>
+
+          <div class="cd-controls">
+            <button class="cd-play" id="cdPlayBtn" aria-label="Play call recording">
+              <svg id="cdIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="cd-track">
+              <div class="cd-scrub" id="cdScrub"><div class="cd-fill" id="cdFill"></div></div>
+              <div class="cd-times"><span id="cdCur">0:00</span><span id="cdDur">0:00</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cd-right">
+          <div class="cd-tlabel">Live transcript</div>
+          <div class="cd-scroll" id="cdScroll"></div>
+        </div>
+      </div>
+
+      <div class="cd-end" id="cdEnd">
+        <div class="cd-mark">practera<span>.</span></div>
+        <p class="cd-pitch">Your front desk, answering every call &mdash; nights, weekends, and the hours nobody's there to pick up.</p>
+        <a class="cd-cta" href="https://cal.com/mosalih/free-assessment" id="cdCta">Book a 30-minute assessment</a>
+        <button class="cd-replay" id="cdReplay">Replay call</button>
+      </div>
+
+      <audio id="cdAudio" preload="metadata" src="assets/call-recording.mp3"></audio>
+    </div>
+  </div>
+</section>
 
 <!-- ============ CALCULATOR ============ -->
 <section class="calc-sec" id="cost">
@@ -1616,6 +1782,265 @@ document.querySelectorAll('.q').forEach(q=>{
     panel.hidden = true;
     fab.setAttribute('aria-expanded','false');
     if(client) endCall('idle');
+  });
+})();
+
+/* live call demo — sample call recording with synced waveform + transcript */
+(function(){
+  const stage = document.getElementById('cdStage');
+  if(!stage) return;
+
+  /* ============================================================
+     CONFIG — edit transcript timings and the CTA here.
+     ============================================================ */
+  const CONFIG = {
+    ctaText: 'Book a 30-minute assessment',
+    ctaLink: 'https://cal.com/mosalih/free-assessment',
+    pitch: "Your front desk, answering every call — nights, weekends, and the hours nobody's there to pick up.",
+
+    // t = seconds from start. who = 'agent' | 'caller'
+    transcript: [
+      { t:0,   who:'agent',  text:"Practera Demo Dental, this is Jennifer, the AI receptionist. How can I help you today?" },
+      { t:6,   who:'caller', text:"Hey, Jennifer. What are your office hours?" },
+      { t:10,  who:'agent',  text:"We're open Monday through Friday from eight AM to five PM. I'm on this line anytime though, so you can always reach me here. What can I do for you today?" },
+      { t:20,  who:'caller', text:"I'd like to book a cleaning, please." },
+      { t:23,  who:'agent',  text:"I'd be happy to help with that. Could I get your full name?" },
+      { t:26,  who:'caller', text:"Yeah. John Doe." },
+      { t:29,  who:'agent',  text:"Thanks, John. How do you spell your last name for me?" },
+      { t:32,  who:'caller', text:"D-O-E." },
+      { t:35,  who:'agent',  text:"Got it, D-O-E. And are you a new patient with us, or have you been in before?" },
+      { t:41,  who:'caller', text:"This will be my first time in." },
+      { t:46,  who:'agent',  text:"Welcome, we're glad to have you. Do you have dental insurance you'll be using, or will you be paying out of pocket?" },
+      { t:52,  who:'caller', text:"I do, yes." },
+      { t:55,  who:'agent',  text:"Great. Who is your insurance provider?" },
+      { t:59,  who:'caller', text:"Manulife." },
+      { t:61,  who:'agent',  text:"Got it, Manulife. What's a good phone number for you?" },
+      { t:66,  who:'caller', text:"One one one, two two two, two three four five." },
+      { t:72,  who:'agent',  text:"I have one one one, two two two, two three four five. What day were you hoping to come in for your cleaning?" },
+      { t:80,  who:'caller', text:"As soon as possible." },
+      { t:82,  who:'agent',  text:"Ah, same-day and next-day slots are actually filled up right now. I could get you in next Wednesday at eleven fifteen AM, or Thursday at two PM. Would either of those work for you?" },
+      { t:96,  who:'caller', text:"Do you have Wednesday at ten AM?" },
+      { t:99,  who:'agent',  text:"That ten AM slot's actually booked up. I do have that Wednesday at eleven fifteen, or I could do Thursday at two PM instead. Would one of those work?" },
+      { t:109, who:'caller', text:"You know what? We can do eleven fifteen." },
+      { t:113, who:'agent',  text:"Perfect, I've got you down for your new patient visit and cleaning on Wednesday at eleven fifteen AM. We look forward to meeting you, John!" },
+      { t:122, who:'caller', text:"Awesome, thank you so much." },
+      { t:125, who:'agent',  text:"You're very welcome! Have a great day." }
+    ]
+  };
+  /* ========================= end config ========================= */
+
+  const audio    = document.getElementById('cdAudio');
+  const playBtn  = document.getElementById('cdPlayBtn');
+  const icon     = document.getElementById('cdIcon');
+  const scrollEl = document.getElementById('cdScroll');
+  const fill     = document.getElementById('cdFill');
+  const scrub    = document.getElementById('cdScrub');
+  const curEl    = document.getElementById('cdCur');
+  const durEl    = document.getElementById('cdDur');
+  const endCard  = document.getElementById('cdEnd');
+  const bar      = document.getElementById('cdBar');
+  const canvas   = document.getElementById('cdWave');
+  const ctx      = canvas.getContext('2d');
+  const statusText = document.getElementById('cdStatusText');
+  const ctaEl    = document.getElementById('cdCta');
+  const replayBtn = document.getElementById('cdReplay');
+
+  const PLAY_ICON  = 'M8 5v14l11-7z';
+  const PAUSE_ICON = 'M6 4h4v16H6zM14 4h4v16h-4z';
+
+  ctaEl.textContent = CONFIG.ctaText;
+  ctaEl.href = CONFIG.ctaLink;
+  document.querySelector('.cd-pitch').textContent = CONFIG.pitch;
+
+  const lines = CONFIG.transcript.map((row, i) => {
+    const el = document.createElement('div');
+    el.className = 'cd-line ' + row.who;
+    el.innerHTML =
+      `<div class="cd-ts">${fmt(row.t)}</div>
+       <div class="cd-bubble">
+         <div class="cd-who">${row.who === 'agent' ? 'Jennifer &middot; AI' : 'Caller'}</div>
+         <div class="cd-text"></div>
+       </div>`;
+    el.querySelector('.cd-text').textContent = row.text;
+    el.addEventListener('click', () => { audio.currentTime = row.t; });
+    scrollEl.appendChild(el);
+    return { ...row, el, i };
+  });
+
+  function fmt(s){
+    s = Math.max(0, Math.floor(s || 0));
+    return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0');
+  }
+
+  /* web audio analyser — degrades to idle bars if unavailable */
+  let actx, analyser, data, srcNode, ready = false;
+  function initAudioGraph(){
+    if (ready) return;
+    try{
+      actx = new (window.AudioContext || window.webkitAudioContext)();
+      srcNode = actx.createMediaElementSource(audio);
+      analyser = actx.createAnalyser();
+      analyser.fftSize = 128;
+      analyser.smoothingTimeConstant = 0.75;
+      srcNode.connect(analyser);
+      analyser.connect(actx.destination);
+      data = new Uint8Array(analyser.frequencyBinCount);
+      ready = true;
+    }catch(e){ /* analyser unavailable — fall back to idle bars */ }
+  }
+
+  function sizeCanvas(){
+    const r = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width  = r.width  * dpr;
+    canvas.height = r.height * dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', sizeCanvas);
+
+  function currentSpeaker(){
+    const t = audio.currentTime;
+    let who = 'agent';
+    for (const l of lines) if (t >= l.t) who = l.who;
+    return who;
+  }
+
+  const BARS = 56;
+  let idle = new Array(BARS).fill(0);
+  let rafId = null;
+
+  function draw(){
+    rafId = requestAnimationFrame(draw);
+    const w = canvas.getBoundingClientRect().width;
+    const h = canvas.getBoundingClientRect().height;
+    ctx.clearRect(0,0,w,h);
+
+    const speaking = !audio.paused && !audio.ended;
+    const cssVar = currentSpeaker() === 'agent' ? '--teal' : '--blue';
+    const colour = getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
+
+    if (ready && speaking) analyser.getByteFrequencyData(data);
+
+    const gap = 3;
+    const bw  = (w - gap*(BARS-1)) / BARS;
+    const mid = h/2;
+
+    for (let i=0;i<BARS;i++){
+      let v;
+      if (ready && speaking){
+        const idx = Math.floor(i / BARS * data.length * 0.7);
+        v = (data[idx] || 0) / 255;
+        v *= 0.35 + 0.65 * Math.sin(Math.PI * (i/(BARS-1)));
+      } else {
+        idle[i] += (Math.random()*0.06 - 0.03);
+        idle[i] = Math.max(0, Math.min(0.09, idle[i]));
+        v = idle[i];
+      }
+      const bh = Math.max(2, v * h * 0.92);
+      const x  = i*(bw+gap);
+      ctx.fillStyle = colour;
+      ctx.globalAlpha = speaking ? 0.55 + v*0.45 : 0.22;
+      roundRect(x, mid-bh/2, bw, bh, Math.min(bw/2, 3));
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function roundRect(x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+
+  let activeIdx = -1;
+  audio.addEventListener('timeupdate', () => {
+    const t = audio.currentTime;
+    const d = audio.duration || 0;
+
+    fill.style.width = d ? (t/d*100) + '%' : '0%';
+    curEl.textContent = fmt(t);
+
+    let idx = -1;
+    for (let i=0;i<lines.length;i++) if (t >= lines[i].t) idx = i;
+
+    if (idx !== activeIdx){
+      activeIdx = idx;
+      lines.forEach((l,i) => {
+        l.el.classList.toggle('cd-active', i === idx);
+        l.el.classList.toggle('cd-seen',  i <  idx);
+      });
+      if (idx >= 0){
+        const el = lines[idx].el;
+        scrollEl.scrollTo({
+          top: el.offsetTop - scrollEl.clientHeight/2 + el.clientHeight/2,
+          behavior: 'smooth'
+        });
+      }
+    }
+  });
+
+  audio.addEventListener('loadedmetadata', () => {
+    durEl.textContent = fmt(audio.duration);
+    sizeCanvas();
+  });
+
+  audio.addEventListener('ended', () => {
+    endCard.classList.add('cd-show');
+    setIcon(false);
+    stage.classList.remove('cd-playing');
+    statusText.textContent = 'Call ended';
+  });
+
+  function setIcon(playing){
+    icon.querySelector('path').setAttribute('d', playing ? PAUSE_ICON : PLAY_ICON);
+    playBtn.setAttribute('aria-label', playing ? 'Pause call recording' : 'Play call recording');
+  }
+
+  playBtn.addEventListener('click', async () => {
+    initAudioGraph();
+    if (actx && actx.state === 'suspended') await actx.resume();
+
+    if (audio.paused){
+      endCard.classList.remove('cd-show');
+      try{ await audio.play(); }
+      catch(e){ statusText.textContent = 'No audio loaded'; return; }
+      setIcon(true);
+      stage.classList.add('cd-playing');
+      bar.classList.add('cd-playing');
+      statusText.textContent = 'Call in progress';
+    } else {
+      audio.pause();
+      setIcon(false);
+      stage.classList.remove('cd-playing');
+      bar.classList.remove('cd-playing');
+      statusText.textContent = 'Paused';
+    }
+  });
+
+  scrub.addEventListener('click', e => {
+    const r = scrub.getBoundingClientRect();
+    if (audio.duration) audio.currentTime = ((e.clientX - r.left)/r.width) * audio.duration;
+  });
+
+  replayBtn.addEventListener('click', () => {
+    endCard.classList.remove('cd-show');
+    audio.currentTime = 0;
+    playBtn.click();
+  });
+
+  sizeCanvas();
+  draw();
+
+  /* clean up the rAF loop and audio context if this ever needs to be torn
+     down (this is a static page with no client-side routing, but this keeps
+     the module well-behaved if that ever changes) */
+  window.addEventListener('pagehide', () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    if (actx) actx.close().catch(()=>{});
   });
 })();
 </script>
