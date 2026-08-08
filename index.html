@@ -795,7 +795,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
    site's own --teal/--blue/--ink tokens instead of the player's own purple/
    orange, per DESIGN.md's one-signal-color rule. */
 .cd-stage{
-  position:relative;width:100%;max-width:1080px;margin:0 auto;
+  position:relative;width:100%;max-width:1080px;margin:44px auto 0;
   background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
   border:1px solid var(--line-dark);border-radius:22px;overflow:hidden;
   box-shadow:0 40px 90px -30px rgba(10,26,43,.55);
@@ -805,8 +805,9 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   padding:18px 24px;border-bottom:1px solid var(--line-dark);
   background:rgba(255,255,255,.03);
 }
-.cd-brand{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em;color:#fff;}
-.cd-brand span{color:var(--teal);}
+.cd-brand{display:flex;align-items:center;gap:9px;}
+.cd-brand img{height:25px;width:auto;display:block;}
+.cd-brand span{font-family:var(--display);font-weight:700;font-size:19px;color:#fff;letter-spacing:-0.035em;}
 .cd-status{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.58);}
 .cd-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);transition:background .3s;}
 .cd-stage.cd-playing .cd-dot{background:var(--teal);box-shadow:0 0 0 0 rgba(47,187,173,.6);animation:cdPulse 2s infinite;}
@@ -867,8 +868,9 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   padding:48px 40px;opacity:0;visibility:hidden;transition:opacity .8s ease, visibility .8s;z-index:5;
 }
 .cd-end.cd-show{opacity:1;visibility:visible;}
-.cd-end .cd-mark{font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,42px);letter-spacing:-.035em;margin-bottom:14px;color:#fff;}
-.cd-end .cd-mark span{color:var(--teal);}
+.cd-end .cd-mark{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.cd-end .cd-mark img{height:clamp(28px,4vw,38px);width:auto;display:block;}
+.cd-end .cd-mark span{font-family:var(--display);font-weight:700;font-size:clamp(24px,3.4vw,32px);color:#fff;letter-spacing:-0.035em;}
 .cd-end .cd-pitch{font-size:clamp(15px,1.7vw,18px);line-height:1.6;color:rgba(255,255,255,.62);max-width:44ch;margin-bottom:32px;}
 
 .cd-cta{
@@ -1001,7 +1003,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
 
     <div class="cd-stage r" id="cdStage">
       <div class="cd-bar" id="cdBar">
-        <div class="cd-brand">practera<span>.</span></div>
+        <div class="cd-brand"><img src="assets/logo.png" alt=""><span>Practera</span></div>
         <div class="cd-status"><span class="cd-dot" aria-hidden="true"></span><span id="cdStatusText">Sample call</span></div>
       </div>
 
@@ -1031,7 +1033,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
       </div>
 
       <div class="cd-end" id="cdEnd">
-        <div class="cd-mark">practera<span>.</span></div>
+        <div class="cd-mark"><img src="assets/logo.png" alt=""><span>Practera</span></div>
         <p class="cd-pitch">Your front desk, answering every call &mdash; nights, weekends, and the hours nobody's there to pick up.</p>
         <a class="cd-cta" href="https://cal.com/mosalih/free-assessment" id="cdCta">Book a 30-minute assessment</a>
         <button class="cd-replay" id="cdReplay">Replay call</button>
