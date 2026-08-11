@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Practera — More Patients From the Leads You Already Have</title>
-<meta name="description" content="Practera answers every missed call, brings back patients who've gone quiet, and gets every visit reviewed — turning the leads you already have into more booked patients. Built for dental practices.">
+<title>Practera: More Patients From the Leads You Already Have</title>
+<meta name="description" content="Practera answers every missed call, brings back patients who've gone quiet, and gets every visit reviewed, turning the leads you already have into more booked patients. Built for dental practices.">
 <link rel="icon" type="image/png" href="assets/logo.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="More Patients From the Leads You Already Have">
-<meta property="og:description" content="Practera answers every missed call, brings back patients who've gone quiet, and gets every visit reviewed — turning the leads you already have into more booked patients.">
+<meta property="og:description" content="Practera answers every missed call, brings back patients who've gone quiet, and gets every visit reviewed, turning the leads you already have into more booked patients.">
 <meta property="og:image" content="assets/logo.png">
 <meta name="theme-color" content="#0A1A2B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -233,10 +233,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;}
   font-size:18px;line-height:1.62;color:rgba(255,255,255,.7);
 }
 .hero-btns{margin-top:36px;display:flex;gap:12px;flex-wrap:wrap;}
-.hero-fine{
-  margin-top:18px;font-family:var(--mono);font-size:12px;
-  color:rgba(255,255,255,.42);letter-spacing:.02em;
+.trust-row{
+  display:flex;flex-wrap:wrap;row-gap:9px;column-gap:22px;
+  margin-top:20px;
 }
+.trust-item{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:500;color:rgba(255,255,255,.78);white-space:nowrap;}
+.trust-item svg{width:15px;height:15px;color:var(--teal);flex-shrink:0;}
+@media(max-width:480px){.trust-row{column-gap:16px;}.trust-item{font-size:13px;}}
 
 /* ---------------- SIGNATURE: live thread ---------------- */
 .stage{
@@ -943,12 +946,16 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="wrap hero-in">
     <div class="tag"><i aria-hidden="true"></i>For dental practices across Canada</div>
-    <h1>Turn the patients you already have into <em>more booked visits</em>.</h1>
-    <p class="hero-sub">Practera answers every call your desk misses, brings back patients who&rsquo;ve gone quiet, and gets every visit reviewed &mdash; so your practice ranks higher and turns more of the people already calling you into booked patients. One system, running every month, that keeps compounding.</p>
+    <h1>Every call that rings out is <em>a patient calling someone else</em>.</h1>
+    <p class="hero-sub">Practera answers every call your desk misses, brings back patients who&rsquo;ve gone quiet, and gets every visit reviewed. That&rsquo;s how the leads you already have turn into more booked patients, automatically, every month.</p>
     <div class="hero-btns">
       <a class="btn btn-primary" href="#call">Book your free assessment</a>
     </div>
-    <p class="hero-fine">Free 30-minute assessment · No card · No obligation</p>
+    <div class="trust-row">
+      <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>HIPAA-aligned &middot; BAA signed</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free 30-minute assessment</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No card, no obligation</span>
+    </div>
 
     <!-- SIGNATURE -->
     <div class="stage">
@@ -961,8 +968,8 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
           </div>
         </div>
         <div class="thread">
-          <div class="bub sys">Call answered by Practera &mdash; 12:41 pm</div>
-          <div class="bub them">Hi, it's [Your Practice] following up on your call. Sending this so you have it in writing &mdash; what can we help with?<span class="t">12:41 pm</span></div>
+          <div class="bub sys">Call answered by Practera &middot; 12:41 pm</div>
+          <div class="bub them">Hi, it's [Your Practice] following up on your call. Sending this so you have it in writing. What can we help with?<span class="t">12:41 pm</span></div>
           <div class="bub us">Hi, I chipped a tooth. Do you have anything today?<span class="t">12:43 pm</span></div>
           <div class="bub them">We can fit you in at 4:15 today. Shall I hold it for you?<span class="t">12:44 pm</span></div>
           <div class="bub us">Yes please<span class="t">12:44 pm</span></div>
@@ -981,9 +988,9 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
             <div class="stat"><u>Avg rating</u><b>4.9</b></div>
           </div>
           <div class="feed">
-            <div class="feed-row live"><span class="pip g" aria-hidden="true"></span>After-hours call answered &mdash; booked<time>12:41</time></div>
-            <div class="feed-row live"><span class="pip b" aria-hidden="true"></span>Review request sent &mdash; 14 patients<time>11:02</time></div>
-            <div class="feed-row live"><span class="pip a" aria-hidden="true"></span>Patient flagged a problem &mdash; needs a call<time>10:18</time></div>
+            <div class="feed-row live"><span class="pip g" aria-hidden="true"></span>After-hours call answered &middot; booked<time>12:41</time></div>
+            <div class="feed-row live"><span class="pip b" aria-hidden="true"></span>Review request sent &middot; 14 patients<time>11:02</time></div>
+            <div class="feed-row live"><span class="pip a" aria-hidden="true"></span>Patient flagged a problem &middot; needs a call<time>10:18</time></div>
             <div class="feed-row live"><span class="pip g" aria-hidden="true"></span>New 5-star review posted<time>09:47</time></div>
           </div>
         </div>
@@ -1011,7 +1018,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
         <div class="cd-left">
           <div class="cd-eyebrow">Demo call &middot; after hours</div>
           <h3 class="cd-headline">Nobody was at the desk.<br>The appointment still got booked.</h3>
-          <p class="cd-sub">A sample call, handled start to finish by Practera's AI receptionist &mdash; no staff, no voicemail, no missed patient.</p>
+          <p class="cd-sub">A sample call, handled start to finish by Practera's AI receptionist. No staff, no voicemail, no missed patient.</p>
 
           <canvas class="cd-canvas" id="cdWave" aria-hidden="true"></canvas>
 
@@ -1034,12 +1041,12 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
 
       <div class="cd-end" id="cdEnd">
         <div class="cd-mark"><img src="assets/logo.png" alt=""><span>Practera</span></div>
-        <p class="cd-pitch">Your front desk, answering every call &mdash; nights, weekends, and the hours nobody's there to pick up.</p>
+        <p class="cd-pitch">Your front desk, answering every call: nights, weekends, and the hours nobody's there to pick up.</p>
         <a class="cd-cta" href="https://cal.com/mosalih/free-assessment" id="cdCta">Book a 30-minute assessment</a>
         <button class="cd-replay" id="cdReplay">Replay call</button>
       </div>
 
-      <audio id="cdAudio" preload="metadata" src="assets/call-recording.mp3"></audio>
+      <audio id="cdAudio" preload="auto" src="assets/call-recording.mp3"></audio>
     </div>
   </div>
 </section>
@@ -1049,7 +1056,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   <div class="wrap">
     <p class="eyebrow r">Do the maths</p>
     <h2 class="h2 r">How much revenue are missed calls costing you every month?</h2>
-    <p class="lede r">Every call that rings out is a patient who called someone else instead. Put your own numbers in and see what that's actually worth.</p>
+    <p class="lede r">That's not just a missed ring, it's a real number. Put your own figures in and see what those calls are actually worth.</p>
 
     <div class="calc-shell r">
       <div class="calc-controls">
@@ -1084,7 +1091,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
       </div>
     </div>
 
-    <p class="calc-note r">This is not a promise that every one of them comes back &mdash; nobody can claim that. It is what the calls are worth, so you can decide whether answering them is worth doing something about.</p>
+    <p class="calc-note r">This is not a promise that every one of them comes back. Nobody can claim that. It is what the calls are worth, so you can decide whether answering them is worth doing something about.</p>
   </div>
 </section>
 
@@ -1093,13 +1100,13 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   <div class="wrap">
     <p class="eyebrow r">What it does</p>
     <h2 class="h2 r">Everything your front desk would do with unlimited time.</h2>
-    <p class="lede r">Three of these move money fastest. The rest run quietly underneath. All of it is set up, written and managed for you &mdash; there is nothing new for your staff to learn.</p>
+    <p class="lede r">Three of these move money fastest. The rest run quietly underneath. All of it is set up, written and managed for you. There is nothing new for your staff to learn.</p>
 
     <!-- 1 -->
     <div class="feat">
       <div class="r">
         <h3>Nobody gets a ringing phone</h3>
-        <p>When your desk can't pick up, an AI receptionist does &mdash; in a natural voice, on your number, at 9pm on a Sunday. It takes the reason for the call, answers the routine questions, and hands anything urgent straight to a person. If the caller would rather text, it texts.</p>
+        <p>When your desk can't pick up, an AI receptionist does, in a natural voice, on your number, at 9pm on a Sunday. It takes the reason for the call, answers the routine questions, and hands anything urgent straight to a person. If the caller would rather text, it texts.</p>
         <ul>
           <li>Answers after hours, at lunch, and mid-appointment</li>
           <li>Emergencies handed straight to a person, never handled by software</li>
@@ -1127,7 +1134,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
         <h3>Ask every patient for a review</h3>
         <p>A few hours after each appointment, every patient gets the same invitation. Nobody is skipped on a busy Tuesday, because remembering stopped being part of anyone's job.</p>
         <ul>
-          <li>Every patient invited the same way &mdash; no screening</li>
+          <li>Every patient invited the same way: no screening</li>
           <li>Patients can reply privately if something wasn't right</li>
           <li>You hear about problems in hours, not weeks</li>
         </ul>
@@ -1152,7 +1159,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
     <div class="feat">
       <div class="r">
         <h3>Reactivate the leads you already have</h3>
-        <p>Every practice is sitting on hundreds of people it hasn't seen in a year or more. They didn't leave &mdash; they just never got around to booking again. One well-written text brings a chunk of them back, and it costs nothing to send.</p>
+        <p>Every practice is sitting on hundreds of people it hasn't seen in a year or more. They didn't leave. They just never got around to booking again. One well-written text brings a chunk of them back, and it costs nothing to send.</p>
         <ul>
           <li>Dormant patients contacted in batches, written for your practice</li>
           <li>Hygiene recalls that don't depend on anyone remembering</li>
@@ -1178,7 +1185,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
     <div class="feat flip">
       <div class="r">
         <h3>Respond to reviews without the risk</h3>
-        <p>Two dental practices have been fined $10,000 and $23,000 over what they wrote in public review replies. On a review you can thank someone or ask them to call the office &mdash; that's it. Even "thanks for coming in" confirms publicly that they're a patient.</p>
+        <p>Two dental practices have been fined $10,000 and $23,000 over what they wrote in public review replies. On a review you can thank someone or ask them to call the office. That's it. Even "thanks for coming in" confirms publicly that they're a patient.</p>
         <ul>
           <li>Every reply drafted to stay inside privacy rules</li>
           <li>You approve before anything is posted</li>
@@ -1189,7 +1196,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
         <div class="guard">
           <div class="guard-card bad">
             <div class="guard-lab">Risky reply</div>
-            "Sorry about the crown, Mrs Patel — come back Thursday and we'll adjust it."
+            "Sorry about the crown, Mrs Patel, come back Thursday and we'll adjust it."
           </div>
           <div class="guard-card good">
             <div class="guard-lab">Safe reply</div>
@@ -1267,7 +1274,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
 
     </div>
 
-    <p class="bundle-note r">A note on reminders and booking: appointments made through your Practera booking page get confirmations and reminders automatically. Appointments booked by phone straight into your practice software are handled separately &mdash; we will walk through exactly how yours would work on the setup call.</p>
+    <p class="bundle-note r">A note on reminders and booking: appointments made through your Practera booking page get confirmations and reminders automatically. Appointments booked by phone straight into your practice software are handled separately. We will walk through exactly how yours would work on the setup call.</p>
   </div>
 </section>
 
@@ -1289,7 +1296,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
         <tr><th>Set up for you</th><td class="us yes">Yes</td><td class="no">You configure it</td><td class="no">You configure it</td></tr>
         <tr><th>Messages written for your practice</th><td class="us yes">Yes</td><td class="no">Templates</td><td class="no">You write them</td></tr>
         <tr><th>Someone watching it monthly</th><td class="us yes">Yes</td><td class="no">No</td><td class="no">No</td></tr>
-        <tr><th>Contract length</th><td class="us">Month to month</td><td class="no">12&ndash;24 months</td><td>—</td></tr>
+        <tr><th>Contract length</th><td class="us">Month to month</td><td class="no">12&ndash;24 months</td><td class="no">N/A</td></tr>
         <tr><th>Reviews asked of every patient</th><td class="us yes">Yes</td><td class="no">Often screened</td><td class="no">When remembered</td></tr>
         <tr><th>Your data is yours to take</th><td class="us yes">Yes</td><td class="no">Varies</td><td class="us yes">Yes</td></tr>
         <tr><th>Cost of your own time</th><td class="us">None</td><td class="no">Hours a month</td><td class="no">Hours a week</td></tr>
@@ -1303,13 +1310,13 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   <div class="wrap">
     <p class="eyebrow r">Straight answers</p>
     <h2 class="h2 r">What this touches, and what it doesn&rsquo;t.</h2>
-    <p class="lede r">You have probably been told by somebody that their tool touches nothing. That is never true of anything that texts your patients. Here is the honest version.</p>
+    <p class="lede r">You have been told by somebody that their tool touches nothing. That is never true of anything that texts your patients. Here is the honest version.</p>
 
     <div class="touch-grid">
       <div class="tcard no r">
-        <h3><i>&mdash;</i>Never touched</h3>
+        <h3><i>&#10005;</i>Never touched</h3>
         <ul>
-          <li>Clinical charts, treatment history, imaging and notes &mdash; we never open those, connected or not</li>
+          <li>Clinical charts, treatment history, imaging and notes: we never open those, connected or not</li>
           <li>Insurance and billing records</li>
           <li>Nothing is exported, resold, or used to train anything</li>
         </ul>
@@ -1321,12 +1328,12 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
           <li>What a caller said they were calling about</li>
           <li>Replies patients send back to you</li>
           <li>Appointment times for anything booked through your Practera page</li>
-          <li>Which appointments were completed &mdash; names and numbers only, so review requests follow real visits</li>
+          <li>Which appointments were completed: names and numbers only, so review requests follow real visits</li>
         </ul>
       </div>
     </div>
 
-    <p class="touch-foot r"><b>Why we say it that way:</b> a text to a patient of a dental practice is protected health information, whatever anybody tells you. So there is a business associate agreement signed before anything is set up, your own login where you can see everything that goes out, and no minimum term &mdash; you can end this whenever you like. If you would rather see exactly how the data moves before you decide, ask and we will walk through it line by line.</p>
+    <p class="touch-foot r"><b>Why we say it that way:</b> a text to a patient of a dental practice is protected health information, whatever anybody tells you. So there is a business associate agreement signed before anything is set up, your own login where you can see everything that goes out, and no minimum term. You can end this whenever you like. If you would rather see exactly how the data moves before you decide, ask and we will walk through it line by line.</p>
   </div>
 </section>
 
@@ -1340,8 +1347,8 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
       <div class="who-body">
         <div class="who-name">Mohammed Salih</div>
         <div class="who-role">Founder &middot; Windsor, Ontario</div>
-        <p>I kept noticing the same pattern &mdash; good businesses held back by one small thing nobody had time to own. In a practice it&rsquo;s the phone nobody could reach, the patient who was never asked, the review that sat there unanswered. None of it is anyone&rsquo;s fault. It&rsquo;s one desk and one person and a waiting room full of people.</p>
-        <p>So I built something to hold all of that instead. You get my number, not a support portal &mdash; and if this isn&rsquo;t the right fit for your practice, I&rsquo;ll tell you that too.</p>
+        <p>I kept noticing the same pattern: good businesses held back by one small thing nobody had time to own. In a practice it&rsquo;s the phone nobody could reach, the patient who was never asked, the review that sat there unanswered. None of it is anyone&rsquo;s fault. It&rsquo;s one desk and one person and a waiting room full of people.</p>
+        <p>So I built something to hold all of that instead. You get my number, not a support portal. And if this isn&rsquo;t the right fit for your practice, I&rsquo;ll tell you that too.</p>
       </div>
     </div>
   </div>
@@ -1356,42 +1363,42 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
 
       <div class="q">
         <button aria-expanded="false">How does it know who came in today?<i>+</i></button>
-        <div class="q-a"><div>Honestly &mdash; it doesn&rsquo;t connect to your practice software. Nothing does without an expensive middle layer, and anyone telling you otherwise is glossing over something. Most of what we run doesn&rsquo;t need to know: the phone, the AI receptionist, your inbox, your website and your forms all work on their own from day one. Review requests are the exception, because they have to follow a real visit. So once a week we pull the completed appointments ourselves, using the access you give us, and that week&rsquo;s patients get asked. Nobody at your practice does anything. If you later want it running same-day, there is a sync layer that connects properly to Dentrix, Open Dental and Eaglesoft, and we&rsquo;ll tell you when your volume makes it worth paying for.</div></div>
+        <div class="q-a"><div>It doesn&rsquo;t connect to your practice software. Nothing does without an expensive middle layer, and anyone telling you otherwise is glossing over something. Most of what we run doesn&rsquo;t need to know: the phone, the AI receptionist, your inbox, your website and your forms all work on their own from day one. Review requests are the exception, because they have to follow a real visit. So once a week we pull the completed appointments ourselves, using the access you give us, and that week&rsquo;s patients get asked. Nobody at your practice does anything. If you later want it running same-day, there is a sync layer that connects properly to Dentrix, Open Dental and Eaglesoft, and we&rsquo;ll tell you when your volume makes it worth paying for.</div></div>
       </div>
 
       <div class="q">
         <button aria-expanded="false">Can the AI actually book, and how does my desk find out?<i>+</i></button>
-        <div class="q-a"><div>It can, and you decide how far it goes. The cautious version: it takes the reason for the call and the times that suit, then sends your desk a callback task so a person books it properly in the morning. The fuller version: it books straight into a small set of slots you have deliberately held back for online and after-hours &mdash; two new patient appointments a day, say &mdash; so it can never land on top of something already in your book. Either way your team gets a notification the moment it happens, by text or in the app, and it&rsquo;s on the dashboard next morning with a transcript of what was said. Most practices start cautious and loosen it once they&rsquo;ve watched it work for a month.</div></div>
+        <div class="q-a"><div>It can, and you decide how far it goes. The cautious version: it takes the reason for the call and the times that suit, then sends your desk a callback task so a person books it properly in the morning. The fuller version: it books straight into a small set of slots you have deliberately held back for online and after-hours (two new patient appointments a day, say) so it can never land on top of something already in your book. Either way your team gets a notification the moment it happens, by text or in the app, and it&rsquo;s on the dashboard next morning with a transcript of what was said. Most practices start cautious and loosen it once they&rsquo;ve watched it work for a month.</div></div>
       </div>
 
       <div class="q">
         <button aria-expanded="false">What happens if someone calls with an emergency?<i>+</i></button>
-        <div class="q-a"><div>It doesn&rsquo;t try to handle it. Swelling, bleeding, trauma, severe pain &mdash; anything along those lines triggers an immediate handoff rather than a scheduling conversation. The caller gets your on-call number or is told plainly to go to emergency, and your team is alerted straight away. This is the first thing we build and the first thing we test, before anything else is switched on. Software should book cleanings. It should never be the thing standing between a patient in trouble and a person.</div></div>
+        <div class="q-a"><div>It doesn&rsquo;t try to handle it. Swelling, bleeding, trauma, severe pain: anything along those lines triggers an immediate handoff rather than a scheduling conversation. The caller gets your on-call number or is told plainly to go to emergency, and your team is alerted straight away. This is the first thing we build and the first thing we test, before anything else is switched on. Software should book cleanings. It should never be the thing standing between a patient in trouble and a person.</div></div>
       </div>
 
       <div class="q">
         <button aria-expanded="false">Do you need access to our patient records?<i>+</i></button>
-        <div class="q-a"><div>No &mdash; your practice management software is never touched, and neither are clinical charts or billing. What is handled is patient contact details and the messages themselves, because that is what sending a text requires. That counts as protected health information, so a business associate agreement is signed before anything is set up. You get your own login, and our access can be revoked in two clicks.</div></div>
+        <div class="q-a"><div>No. Your practice management software is never touched, and neither are clinical charts or billing. What is handled is patient contact details and the messages themselves, because that is what sending a text requires. That counts as protected health information, so a business associate agreement is signed before anything is set up. You get your own login, and our access can be revoked in two clicks.</div></div>
       </div>
 
       <div class="q">
         <button aria-expanded="false">What happens after I book the call?<i>+</i></button>
-        <div class="q-a"><div>We spend thirty minutes on your numbers and your practice specifically &mdash; what unanswered calls and unasked reviews are actually costing you, and whether Practera is a fit. If it looks useful, we build yours and you're live within a few days. Nothing is set up and nothing is charged before that call.</div></div>
+        <div class="q-a"><div>We spend thirty minutes on your numbers and your practice specifically: what unanswered calls and unasked reviews are actually costing you, and whether Practera is a fit. If it looks useful, we build yours and you're live within a few days. Nothing is set up and nothing is charged before that call.</div></div>
       </div>
 
       <div class="q">
         <button aria-expanded="false">What does getting started actually involve?<i>+</i></button>
-        <div class="q-a"><div>The first two weeks are the real work. Your messages get written in your practice&rsquo;s voice, your calendars and forms get built, your phone gets configured, and I spend an hour with your front desk showing them the three things they actually need to know &mdash; mostly what happens on its own so they don&rsquo;t duplicate it. They get a one-page sheet to pin up and my number for when something looks odd. That&rsquo;s a one-time job and it&rsquo;s where these systems either work or quietly fail. Charging for it means it gets done properly rather than rushed to get you onto a subscription.</div></div>
+        <div class="q-a"><div>The first two weeks are the real work. Your messages get written in your practice&rsquo;s voice, your calendars and forms get built, your phone gets configured, and I spend an hour with your front desk showing them the three things they actually need to know: mostly what happens on its own so they don&rsquo;t duplicate it. They get a one-page sheet to pin up and my number for when something looks odd. That&rsquo;s a one-time job and it&rsquo;s where these systems either work or quietly fail. Charging for it means it gets done properly rather than rushed to get you onto a subscription.</div></div>
       </div>
 
       <div class="q">
         <button aria-expanded="false">What is the monthly fee actually for?<i>+</i></button>
-        <div class="q-a"><div>The platform everything runs on, and a person actually working on it. Every week: call and chat logs reviewed, no-show recovery checked, anything sitting unanswered flagged. Every month: booking flows tested, messaging rotated, wording rewritten wherever responses have slipped, and a report you can read in two minutes. Software nobody watches stops working within a few months, and usually nobody notices until the numbers have already slid.</div></div>
+        <div class="q-a"><div>The platform everything runs on, and a person actually working on it. Every week: call and chat logs reviewed, no-show recovery checked, anything sitting unanswered flagged. Every month: booking flows tested, messaging rotated, wording rewritten wherever responses have slipped, and a report you can read in two minutes. Software nobody watches stops working within a few months, and nobody notices until the numbers have already slid.</div></div>
       </div>
 
       <div class="q">
         <button aria-expanded="false">Do you screen patients before asking for a review?<i>+</i></button>
-        <div class="q-a"><div>No, and it matters. Screening patients so only the happy ones get a review link is called review gating. Google prohibits selectively soliciting positive reviews, and the FTC's 2024 rule covers review suppression &mdash; listings have been penalised for it. Every one of your patients gets the same invitation. We also never write, generate, or incentivise a review.</div></div>
+        <div class="q-a"><div>No, and it matters. Screening patients so only the happy ones get a review link is called review gating. Google prohibits selectively soliciting positive reviews, and the FTC's 2024 rule covers review suppression. Listings have been penalised for it. Every one of your patients gets the same invitation. We also never write, generate, or incentivise a review.</div></div>
       </div>
 
       <div class="q">
@@ -1401,12 +1408,12 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
 
       <div class="q">
         <button aria-expanded="false">Does the text back really help if we're too busy to reply?<i>+</i></button>
-        <div class="q-a"><div>It doesn't put someone on the phone instantly &mdash; if the desk was too busy to answer, they may not reply straight away either. What changes is that the caller knows they were seen, so they stop dialling down the list, and you have their number when previously that call left no trace at all.</div></div>
+        <div class="q-a"><div>It doesn't put someone on the phone instantly. If the desk was too busy to answer, the reply comes later too. What changes is that the caller knows they were seen, so they stop dialling down the list, and you have their number when previously that call left no trace at all.</div></div>
       </div>
 
       <div class="q">
         <button aria-expanded="false">Does the AI receptionist handle patient information?<i>+</i></button>
-        <div class="q-a"><div>Yes, and it would be strange to claim otherwise &mdash; someone ringing a dental practice to say what hurts is giving you protected health information. So the voice side runs under its own business associate agreement, calls are transcribed into your account rather than anywhere else, and anything urgent is handed to a person rather than handled by software. We would rather walk you through exactly how that flows than ask you to take it on trust.</div></div>
+        <div class="q-a"><div>Yes, and it would be strange to claim otherwise. Someone ringing a dental practice to say what hurts is giving you protected health information. So the voice side runs under its own business associate agreement, calls are transcribed into your account rather than anywhere else, and anything urgent is handed to a person rather than handled by software. We would rather walk you through exactly how that flows than ask you to take it on trust.</div></div>
       </div>
 
     </div>
@@ -1418,7 +1425,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   <div class="wrap">
     <p class="eyebrow r">Book your free assessment</p>
     <h2 class="h2 r">Thirty minutes, and I&rsquo;ll bring your numbers.</h2>
-    <p class="lede r">I&rsquo;ll have looked at your Google listing before we speak &mdash; your review count, how recent the last one is, and the three practices ranking above you. Yours to keep either way. If it&rsquo;s not a fit for your practice, I&rsquo;ll tell you.</p>
+    <p class="lede r">I&rsquo;ll have looked at your Google listing before we speak: your review count, how recent the last one is, and the three practices ranking above you. Yours to keep either way. If it&rsquo;s not a fit for your practice, I&rsquo;ll tell you.</p>
     <div class="call-shell r">
       <div id="cal-embed" aria-label="Booking calendar"></div>
       <div class="cal-state" id="calLoad">
@@ -1426,7 +1433,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
         <p>Loading available times&hellip;</p>
       </div>
       <div class="cal-state" id="calErr" hidden>
-        <p>The calendar couldn&rsquo;t load in this browser &mdash; an extension or network setting may be blocking it.</p>
+        <p>The calendar couldn&rsquo;t load in this browser. An extension or network setting may be blocking it.</p>
         <a class="btn btn-primary" href="https://cal.com/mosalih/free-assessment" target="_blank" rel="noopener">Open the booking page</a>
       </div>
     </div>
@@ -1693,7 +1700,7 @@ document.querySelectorAll('.q').forEach(q=>{
       body.innerHTML = '<p class="voice-copy">Connecting&hellip;</p>';
     } else if(state==='live'){
       body.innerHTML =
-        '<div class="voice-live-indicator"><span class="voice-dot" aria-hidden="true"></span><span>Live &mdash; say something</span></div>' +
+        '<div class="voice-live-indicator"><span class="voice-dot" aria-hidden="true"></span><span>Live &middot; say something</span></div>' +
         '<div class="voice-timer" id="voiceTimer">0:00</div>' +
         '<button class="btn btn-dark voice-end">End call</button>';
       body.querySelector('.voice-end').addEventListener('click', ()=>endCall('ended'));
@@ -1709,7 +1716,7 @@ document.querySelectorAll('.q').forEach(q=>{
         '<a class="btn btn-primary" href="#call">Book your free assessment instead</a>';
     } else {
       body.innerHTML =
-        '<p class="voice-copy">Hear exactly what your patients would &mdash; try asking about booking, hours, or say you\'re in pain.</p>' +
+        '<p class="voice-copy">Hear exactly what your patients would. Try asking about booking, hours, or say you\'re in pain.</p>' +
         '<button class="btn btn-primary voice-start">Start the demo call</button>' +
         '<p class="voice-fine">Live AI voice, about 90 seconds, nothing recorded.</p>';
       body.querySelector('.voice-start').addEventListener('click', startCall);
@@ -1798,7 +1805,7 @@ document.querySelectorAll('.q').forEach(q=>{
   const CONFIG = {
     ctaText: 'Book a 30-minute assessment',
     ctaLink: 'https://cal.com/mosalih/free-assessment',
-    pitch: "Your front desk, answering every call — nights, weekends, and the hours nobody's there to pick up.",
+    pitch: "Your front desk, answering every call: nights, weekends, and the hours nobody's there to pick up.",
 
     // t = seconds from start. who = 'agent' | 'caller'
     transcript: [
@@ -1990,7 +1997,19 @@ document.querySelectorAll('.q').forEach(q=>{
     sizeCanvas();
   });
 
+  // Some browsers fire 'ended' after a network stall drops the buffered
+  // range, not just at a genuine finish. Give it one resume attempt before
+  // treating it as the real end, so a slow connection doesn't cut the
+  // demo short and show the "call ended" card partway through.
+  let resumedAfterStall = false;
   audio.addEventListener('ended', () => {
+    const finished = audio.duration && audio.currentTime >= audio.duration - 1;
+    if (!finished && !resumedAfterStall){
+      resumedAfterStall = true;
+      audio.play().catch(() => {});
+      return;
+    }
+    resumedAfterStall = false;
     endCard.classList.add('cd-show');
     setIcon(false);
     stage.classList.remove('cd-playing');
