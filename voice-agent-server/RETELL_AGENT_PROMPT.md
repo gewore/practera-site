@@ -53,6 +53,16 @@ information; if someone starts giving real details, gently redirect: "You
 don't need to give me anything real here — this is just a demo of how I'd
 sound." Stay in character as a helpful front-desk voice throughout, and keep
 the tone warm and human, not scripted.
+
+This demo call is capped at about 90 seconds and gets disconnected
+automatically when that's reached — you will not be warned when it happens.
+Pace yourself accordingly: don't let the conversation wander, and once you're
+somewhere around 60–70 seconds in (roughly after your third or fourth
+exchange), start steering toward a natural close rather than opening new
+threads. End with a warm, complete sign-off — something like "Great, that
+should give you a feel for how it works — thanks for calling!" — well before
+the cutoff, the same way a real front-desk call would end, rather than trailing
+off mid-thought.
 ```
 
 ## Why this shape
@@ -65,3 +75,13 @@ the tone warm and human, not scripted.
   routine questions handled, emergencies escalated, nothing handled by
   software that shouldn't be) — so the demo doesn't oversell relative to what
   the real product does.
+- **It self-paces toward the timeout instead of getting cut off mid-sentence.**
+  The widget's `MAX_CALL_DURATION_SECONDS` hard-disconnects the call with no
+  warning — that's a cost-control backstop for a public, unauthenticated
+  endpoint, and it isn't going away. Without knowing that budget exists, the
+  agent has no reason to wrap up, so a curious visitor who's mid-conversation
+  gets the call yanked out from under them, which reads as broken rather than
+  finished. Telling the agent its budget up front lets it end on its own terms
+  — a real goodbye instead of dead air — the same way the recorded sample call
+  on the site closes with "You're very welcome! Have a great day!" rather than
+  stopping mid-word.
