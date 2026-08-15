@@ -66,6 +66,10 @@ app.post('/api/create-web-call', async (req, res) => {
       body: JSON.stringify({
         agent_id: RETELL_AGENT_ID,
         metadata: { source: 'practera-site-demo-widget' },
+        retell_llm_dynamic_variables: {
+          demo_time_notice:
+            "This call is capped at about ninety seconds. Right after your introduction, before the caller responds, say: \"Quick heads up, this demo runs about ninety seconds, so I'll keep us moving!\" Then pace the conversation so you reach a natural, warm close by around the 60 to 70 second mark rather than opening new topics.",
+        },
       }),
     });
 

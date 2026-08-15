@@ -816,16 +816,27 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
 .cd-stage.cd-playing .cd-dot{background:var(--teal);box-shadow:0 0 0 0 rgba(47,187,173,.6);animation:cdPulse 2s infinite;}
 @keyframes cdPulse{70%{box-shadow:0 0 0 9px rgba(47,187,173,0);}100%{box-shadow:0 0 0 0 rgba(47,187,173,0);}}
 
-.cd-grid{display:grid;grid-template-columns:1fr 1.05fr;min-height:460px;}
-
-.cd-left{padding:34px 30px;border-right:1px solid var(--line-dark);display:flex;flex-direction:column;}
+.cd-body{padding:34px 30px 38px;display:flex;flex-direction:column;align-items:center;text-align:center;}
 .cd-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.58);margin-bottom:14px;}
-.cd-headline{font-family:var(--display);font-weight:600;font-size:clamp(23px,2.8vw,30px);line-height:1.14;letter-spacing:-.03em;margin-bottom:10px;color:#fff;}
-.cd-sub{font-size:14px;line-height:1.55;color:rgba(255,255,255,.62);max-width:36ch;}
+.cd-headline{font-family:var(--display);font-weight:600;font-size:clamp(23px,2.8vw,30px);line-height:1.14;letter-spacing:-.03em;margin-bottom:10px;color:#fff;max-width:34ch;}
+.cd-sub{font-size:14px;line-height:1.55;color:rgba(255,255,255,.62);max-width:44ch;}
 
-.cd-canvas{width:100%;height:132px;margin:28px 0 22px;display:block;}
+.cd-video-wrap{
+  position:relative;width:100%;max-width:640px;aspect-ratio:16/9;margin:30px auto 0;
+  border-radius:18px;overflow:hidden;background:#04141f;
+  box-shadow:0 30px 60px -24px rgba(3,12,20,.7);
+}
+.cd-video-wrap video{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .7s ease;}
+.cd-video-wrap.cd-fade-out video{opacity:0;}
 
-.cd-controls{display:flex;align-items:center;gap:16px;margin-top:auto;}
+.cd-play-video{
+  position:absolute;inset:0;margin:auto;width:68px;height:68px;
+  opacity:1;transition:opacity .25s ease, transform .18s ease;
+}
+#cdStage.cd-playing .cd-play-video{opacity:0;pointer-events:none;}
+.cd-video-wrap:hover .cd-play-video{opacity:1;pointer-events:auto;}
+
+.cd-controls{width:100%;max-width:640px;margin:20px auto 0;}
 .cd-play{
   width:56px;height:56px;border-radius:50%;border:0;flex-shrink:0;cursor:pointer;
   display:grid;place-items:center;
@@ -841,28 +852,6 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
 .cd-scrub{height:4px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;cursor:pointer;}
 .cd-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:99px;}
 .cd-times{display:flex;justify-content:space-between;margin-top:9px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.58);}
-
-.cd-right{position:relative;padding:26px 8px 26px 26px;display:flex;flex-direction:column;min-height:0;}
-.cd-tlabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.58);margin-bottom:16px;}
-.cd-scroll{
-  flex:1;overflow-y:auto;padding-right:18px;scroll-behavior:smooth;max-height:390px;
-  mask-image:linear-gradient(180deg,transparent,#000 22px,#000 calc(100% - 34px),transparent);
-}
-.cd-scroll::-webkit-scrollbar{width:4px;}
-.cd-scroll::-webkit-scrollbar-thumb{background:var(--line-dark);border-radius:99px;}
-
-.cd-line{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:9px 0;opacity:.3;transition:opacity .45s ease;cursor:pointer;}
-.cd-line.cd-seen{opacity:.62;}
-.cd-line.cd-active{opacity:1;}
-.cd-ts{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.5);padding-top:4px;}
-.cd-bubble{border-left:2px solid var(--line-dark);padding:2px 0 2px 14px;transition:border-color .45s ease;}
-.cd-who{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;color:rgba(255,255,255,.58);transition:color .45s ease;}
-.cd-text{font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.86);}
-
-.cd-line.cd-agent.cd-active .cd-bubble{border-color:var(--teal);}
-.cd-line.cd-agent.cd-active .cd-who{color:var(--teal);}
-.cd-line.cd-caller.cd-active .cd-bubble{border-color:var(--blue);}
-.cd-line.cd-caller.cd-active .cd-who{color:var(--blue);}
 
 .cd-end{
   position:absolute;inset:0;
@@ -897,11 +886,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
 @media(max-width:900px){.cd-stage{max-width:640px;}}
 @media(max-width:840px){
   .cd-stage{margin-left:-28px;margin-right:-28px;max-width:none;border-radius:0;}
-  .cd-grid{grid-template-columns:1fr;}
-  .cd-left{border-right:0;border-bottom:1px solid var(--line-dark);padding:28px 22px;}
-  .cd-right{padding:22px 8px 22px 22px;}
-  .cd-scroll{max-height:270px;}
-  .cd-canvas{height:100px;margin:22px 0 18px;}
+  .cd-body{padding:28px 22px 32px;}
 }
 @media(max-width:600px){.cd-stage{margin-left:-20px;margin-right:-20px;}}
 @media(prefers-reduced-motion:reduce){
@@ -946,13 +931,13 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="wrap hero-in">
     <div class="tag"><i aria-hidden="true"></i>For dental practices across Canada</div>
-    <h1>Every call that rings out is <em>a patient calling someone else</em>.</h1>
-    <p class="hero-sub">Practera answers every call your desk misses, brings back patients who&rsquo;ve gone quiet, and gets every visit reviewed. That&rsquo;s how the leads you already have turn into more booked patients, automatically, every month.</p>
+    <h1>Every call answered. <em>Every patient booked.</em></h1>
+    <p class="hero-sub">Practera is the done-for-you system that answers every call, wins back patients who&rsquo;ve gone quiet, and gets every visit reviewed, all day and night, without anyone at your desk lifting a finger. That&rsquo;s how the leads you already have turn into more booked patients, automatically, every month.</p>
     <div class="hero-btns">
       <a class="btn btn-primary" href="#call">Book your free assessment</a>
     </div>
     <div class="trust-row">
-      <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>HIPAA-aligned &middot; BAA available</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>HIPAA-aligned &middot; BAA before setup</span>
       <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free 30-minute assessment</span>
       <span class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No card, no obligation</span>
     </div>
@@ -1006,7 +991,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
   <div class="wrap">
     <p class="eyebrow r">Hear it work</p>
     <h2 class="h2 r">Press play. Hear it answer, book, and confirm.</h2>
-    <p class="lede r">A sample call handled start to finish by Practera's AI receptionist, with sample patient details and a transcript that scrolls in sync. This is what it sounds like when nobody's at the desk.</p>
+    <p class="lede r">A sample call handled start to finish by Practera's AI receptionist, with sample patient details. This is what it sounds like when nobody's at the desk.</p>
 
     <div class="cd-stage r" id="cdStage">
       <div class="cd-bar" id="cdBar">
@@ -1014,28 +999,23 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
         <div class="cd-status"><span class="cd-dot" aria-hidden="true"></span><span id="cdStatusText">Sample call</span></div>
       </div>
 
-      <div class="cd-grid">
-        <div class="cd-left">
-          <div class="cd-eyebrow">Demo call &middot; after hours</div>
-          <h3 class="cd-headline">Nobody was at the desk.<br>The appointment still got booked.</h3>
-          <p class="cd-sub">A sample call, handled start to finish by Practera's AI receptionist. No staff, no voicemail, no missed patient.</p>
+      <div class="cd-body">
+        <div class="cd-eyebrow">Demo call &middot; after hours</div>
+        <h3 class="cd-headline">Nobody was at the desk.<br>The appointment still got booked.</h3>
+        <p class="cd-sub">A sample call, handled start to finish by Practera's AI receptionist. No staff, no voicemail, no missed patient.</p>
 
-          <canvas class="cd-canvas" id="cdWave" aria-hidden="true"></canvas>
-
-          <div class="cd-controls">
-            <button class="cd-play" id="cdPlayBtn" aria-label="Play call recording">
-              <svg id="cdIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="cd-track">
-              <div class="cd-scrub" id="cdScrub"><div class="cd-fill" id="cdFill"></div></div>
-              <div class="cd-times"><span id="cdCur">0:00</span><span id="cdDur">0:00</span></div>
-            </div>
-          </div>
+        <div class="cd-video-wrap" id="cdVideoWrap">
+          <video id="cdVideo" playsinline preload="metadata" poster="assets/call-demo-poster.jpg" src="assets/call-demo.mp4"></video>
+          <button class="cd-play cd-play-video" id="cdPlayBtn" aria-label="Play call recording">
+            <svg id="cdIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
         </div>
 
-        <div class="cd-right">
-          <div class="cd-tlabel">Live transcript</div>
-          <div class="cd-scroll" id="cdScroll"></div>
+        <div class="cd-controls">
+          <div class="cd-track">
+            <div class="cd-scrub" id="cdScrub"><div class="cd-fill" id="cdFill"></div></div>
+            <div class="cd-times"><span id="cdCur">0:00</span><span id="cdDur">0:00</span></div>
+          </div>
         </div>
       </div>
 
@@ -1045,8 +1025,6 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
         <a class="cd-cta" href="https://cal.com/mosalih/free-assessment" id="cdCta">Book a 30-minute assessment</a>
         <button class="cd-replay" id="cdReplay">Replay call</button>
       </div>
-
-      <audio id="cdAudio" preload="auto" src="assets/call-recording.mp3"></audio>
     </div>
   </div>
 </section>
@@ -1322,7 +1300,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.5);padding:52px 0 40px;}
         </ul>
       </div>
       <div class="tcard yes r">
-        <h3><i>&#10003;</i>Handled, BAA available</h3>
+        <h3><i>&#10003;</i>Handled, BAA before setup</h3>
         <ul>
           <li>Patient names and phone numbers, so messages can be sent</li>
           <li>What a caller said they were calling about</li>
@@ -1794,64 +1772,29 @@ document.querySelectorAll('.q').forEach(q=>{
   });
 })();
 
-/* live call demo — sample call recording with synced waveform + transcript */
+/* live call demo — sample call recording video */
 (function(){
   const stage = document.getElementById('cdStage');
   if(!stage) return;
 
-  /* ============================================================
-     CONFIG — edit transcript timings and the CTA here.
-     ============================================================ */
   const CONFIG = {
     ctaText: 'Book a 30-minute assessment',
     ctaLink: 'https://cal.com/mosalih/free-assessment',
     pitch: "Your front desk, answering every call: nights, weekends, and the hours nobody's there to pick up.",
-
-    // t = seconds from start. who = 'agent' | 'caller'
-    transcript: [
-      { t:0,   who:'agent',  text:"Practera Demo Dental, this is Jennifer, the AI receptionist. How can I help you today?" },
-      { t:6,   who:'caller', text:"Hey, Jennifer. What are your office hours?" },
-      { t:10,  who:'agent',  text:"We're open Monday through Friday from eight AM to five PM. I'm on this line anytime though, so you can always reach me here. What can I do for you today?" },
-      { t:20,  who:'caller', text:"I'd like to book a cleaning, please." },
-      { t:23,  who:'agent',  text:"I'd be happy to help with that. Could I get your full name?" },
-      { t:26,  who:'caller', text:"Yeah. John Doe." },
-      { t:29,  who:'agent',  text:"Thanks, John. How do you spell your last name for me?" },
-      { t:32,  who:'caller', text:"D-O-E." },
-      { t:35,  who:'agent',  text:"Got it, D-O-E. And are you a new patient with us, or have you been in before?" },
-      { t:41,  who:'caller', text:"This will be my first time in." },
-      { t:46,  who:'agent',  text:"Welcome, we're glad to have you. Do you have dental insurance you'll be using, or will you be paying out of pocket?" },
-      { t:52,  who:'caller', text:"I do, yes." },
-      { t:55,  who:'agent',  text:"Great. Who is your insurance provider?" },
-      { t:59,  who:'caller', text:"Manulife." },
-      { t:61,  who:'agent',  text:"Got it, Manulife. What's a good phone number for you?" },
-      { t:66,  who:'caller', text:"One one one, two two two, two three four five." },
-      { t:72,  who:'agent',  text:"I have one one one, two two two, two three four five. What day were you hoping to come in for your cleaning?" },
-      { t:80,  who:'caller', text:"As soon as possible." },
-      { t:82,  who:'agent',  text:"Ah, same-day and next-day slots are actually filled up right now. I could get you in next Wednesday at eleven fifteen AM, or Thursday at two PM. Would either of those work for you?" },
-      { t:96,  who:'caller', text:"Do you have Wednesday at ten AM?" },
-      { t:99,  who:'agent',  text:"That ten AM slot's actually booked up. I do have that Wednesday at eleven fifteen, or I could do Thursday at two PM instead. Would one of those work?" },
-      { t:109, who:'caller', text:"You know what? We can do eleven fifteen." },
-      { t:113, who:'agent',  text:"Perfect, I've got you down for your new patient visit and cleaning on Wednesday at eleven fifteen AM. We look forward to meeting you, John!" },
-      { t:122, who:'caller', text:"Awesome, thank you so much." },
-      { t:125, who:'agent',  text:"You're very welcome! Have a great day." }
-    ]
   };
-  /* ========================= end config ========================= */
 
-  const audio    = document.getElementById('cdAudio');
-  const playBtn  = document.getElementById('cdPlayBtn');
-  const icon     = document.getElementById('cdIcon');
-  const scrollEl = document.getElementById('cdScroll');
-  const fill     = document.getElementById('cdFill');
-  const scrub    = document.getElementById('cdScrub');
-  const curEl    = document.getElementById('cdCur');
-  const durEl    = document.getElementById('cdDur');
-  const endCard  = document.getElementById('cdEnd');
-  const bar      = document.getElementById('cdBar');
-  const canvas   = document.getElementById('cdWave');
-  const ctx      = canvas.getContext('2d');
+  const video     = document.getElementById('cdVideo');
+  const videoWrap = document.getElementById('cdVideoWrap');
+  const playBtn   = document.getElementById('cdPlayBtn');
+  const icon      = document.getElementById('cdIcon');
+  const fill      = document.getElementById('cdFill');
+  const scrub     = document.getElementById('cdScrub');
+  const curEl     = document.getElementById('cdCur');
+  const durEl     = document.getElementById('cdDur');
+  const endCard   = document.getElementById('cdEnd');
+  const bar       = document.getElementById('cdBar');
   const statusText = document.getElementById('cdStatusText');
-  const ctaEl    = document.getElementById('cdCta');
+  const ctaEl     = document.getElementById('cdCta');
   const replayBtn = document.getElementById('cdReplay');
 
   const PLAY_ICON  = 'M8 5v14l11-7z';
@@ -1861,207 +1804,79 @@ document.querySelectorAll('.q').forEach(q=>{
   ctaEl.href = CONFIG.ctaLink;
   document.querySelector('.cd-pitch').textContent = CONFIG.pitch;
 
-  const lines = CONFIG.transcript.map((row, i) => {
-    const el = document.createElement('div');
-    el.className = 'cd-line ' + row.who;
-    el.innerHTML =
-      `<div class="cd-ts">${fmt(row.t)}</div>
-       <div class="cd-bubble">
-         <div class="cd-who">${row.who === 'agent' ? 'Jennifer &middot; AI' : 'Caller'}</div>
-         <div class="cd-text"></div>
-       </div>`;
-    el.querySelector('.cd-text').textContent = row.text;
-    el.addEventListener('click', () => { audio.currentTime = row.t; });
-    scrollEl.appendChild(el);
-    return { ...row, el, i };
-  });
-
   function fmt(s){
     s = Math.max(0, Math.floor(s || 0));
     return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0');
   }
-
-  /* web audio analyser — degrades to idle bars if unavailable */
-  let actx, analyser, data, srcNode, ready = false;
-  function initAudioGraph(){
-    if (ready) return;
-    try{
-      actx = new (window.AudioContext || window.webkitAudioContext)();
-      srcNode = actx.createMediaElementSource(audio);
-      analyser = actx.createAnalyser();
-      analyser.fftSize = 128;
-      analyser.smoothingTimeConstant = 0.75;
-      srcNode.connect(analyser);
-      analyser.connect(actx.destination);
-      data = new Uint8Array(analyser.frequencyBinCount);
-      ready = true;
-    }catch(e){ /* analyser unavailable — fall back to idle bars */ }
-  }
-
-  function sizeCanvas(){
-    const r = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width  = r.width  * dpr;
-    canvas.height = r.height * dpr;
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  window.addEventListener('resize', sizeCanvas);
-
-  function currentSpeaker(){
-    const t = audio.currentTime;
-    let who = 'agent';
-    for (const l of lines) if (t >= l.t) who = l.who;
-    return who;
-  }
-
-  const BARS = 56;
-  let idle = new Array(BARS).fill(0);
-  let rafId = null;
-
-  function draw(){
-    rafId = requestAnimationFrame(draw);
-    const w = canvas.getBoundingClientRect().width;
-    const h = canvas.getBoundingClientRect().height;
-    ctx.clearRect(0,0,w,h);
-
-    const speaking = !audio.paused && !audio.ended;
-    const cssVar = currentSpeaker() === 'agent' ? '--teal' : '--blue';
-    const colour = getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
-
-    if (ready && speaking) analyser.getByteFrequencyData(data);
-
-    const gap = 3;
-    const bw  = (w - gap*(BARS-1)) / BARS;
-    const mid = h/2;
-
-    for (let i=0;i<BARS;i++){
-      let v;
-      if (ready && speaking){
-        const idx = Math.floor(i / BARS * data.length * 0.7);
-        v = (data[idx] || 0) / 255;
-        v *= 0.35 + 0.65 * Math.sin(Math.PI * (i/(BARS-1)));
-      } else {
-        idle[i] += (Math.random()*0.06 - 0.03);
-        idle[i] = Math.max(0, Math.min(0.09, idle[i]));
-        v = idle[i];
-      }
-      const bh = Math.max(2, v * h * 0.92);
-      const x  = i*(bw+gap);
-      ctx.fillStyle = colour;
-      ctx.globalAlpha = speaking ? 0.55 + v*0.45 : 0.22;
-      roundRect(x, mid-bh/2, bw, bh, Math.min(bw/2, 3));
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-  }
-
-  function roundRect(x,y,w,h,r){
-    ctx.beginPath();
-    ctx.moveTo(x+r,y);
-    ctx.arcTo(x+w,y,x+w,y+h,r);
-    ctx.arcTo(x+w,y+h,x,y+h,r);
-    ctx.arcTo(x,y+h,x,y,r);
-    ctx.arcTo(x,y,x+w,y,r);
-    ctx.closePath();
-  }
-
-  let activeIdx = -1;
-  audio.addEventListener('timeupdate', () => {
-    const t = audio.currentTime;
-    const d = audio.duration || 0;
-
-    fill.style.width = d ? (t/d*100) + '%' : '0%';
-    curEl.textContent = fmt(t);
-
-    let idx = -1;
-    for (let i=0;i<lines.length;i++) if (t >= lines[i].t) idx = i;
-
-    if (idx !== activeIdx){
-      activeIdx = idx;
-      lines.forEach((l,i) => {
-        l.el.classList.toggle('cd-active', i === idx);
-        l.el.classList.toggle('cd-seen',  i <  idx);
-      });
-      if (idx >= 0){
-        const el = lines[idx].el;
-        scrollEl.scrollTo({
-          top: el.offsetTop - scrollEl.clientHeight/2 + el.clientHeight/2,
-          behavior: 'smooth'
-        });
-      }
-    }
-  });
-
-  audio.addEventListener('loadedmetadata', () => {
-    durEl.textContent = fmt(audio.duration);
-    sizeCanvas();
-  });
-
-  // Some browsers fire 'ended' after a network stall drops the buffered
-  // range, not just at a genuine finish. Give it one resume attempt before
-  // treating it as the real end, so a slow connection doesn't cut the
-  // demo short and show the "call ended" card partway through.
-  let resumedAfterStall = false;
-  audio.addEventListener('ended', () => {
-    const finished = audio.duration && audio.currentTime >= audio.duration - 1;
-    if (!finished && !resumedAfterStall){
-      resumedAfterStall = true;
-      audio.play().catch(() => {});
-      return;
-    }
-    resumedAfterStall = false;
-    endCard.classList.add('cd-show');
-    setIcon(false);
-    stage.classList.remove('cd-playing');
-    statusText.textContent = 'Call ended';
-  });
 
   function setIcon(playing){
     icon.querySelector('path').setAttribute('d', playing ? PAUSE_ICON : PLAY_ICON);
     playBtn.setAttribute('aria-label', playing ? 'Pause call recording' : 'Play call recording');
   }
 
-  playBtn.addEventListener('click', async () => {
-    initAudioGraph();
-    if (actx && actx.state === 'suspended') await actx.resume();
+  // The source clip's black end-frame was trimmed at encode time, but we
+  // still cross into the branded end card slightly before the reported
+  // duration so the transition reads as an intentional fade, not a stop.
+  const END_CUTOFF = 0.35;
+  let ended = false;
 
-    if (audio.paused){
-      endCard.classList.remove('cd-show');
-      try{ await audio.play(); }
-      catch(e){ statusText.textContent = 'No audio loaded'; return; }
-      setIcon(true);
-      stage.classList.add('cd-playing');
-      bar.classList.add('cd-playing');
-      statusText.textContent = 'Call in progress';
-    } else {
-      audio.pause();
-      setIcon(false);
-      stage.classList.remove('cd-playing');
-      bar.classList.remove('cd-playing');
-      statusText.textContent = 'Paused';
-    }
+  function showEnd(){
+    if (ended) return;
+    ended = true;
+    video.pause();
+    videoWrap.classList.add('cd-fade-out');
+    endCard.classList.add('cd-show');
+    setIcon(false);
+    stage.classList.remove('cd-playing');
+    bar.classList.remove('cd-playing');
+    statusText.textContent = 'Call ended';
+  }
+
+  video.addEventListener('timeupdate', () => {
+    const t = video.currentTime;
+    const d = video.duration || 0;
+    fill.style.width = d ? (t/d*100) + '%' : '0%';
+    curEl.textContent = fmt(t);
+    if (d && t >= d - END_CUTOFF) showEnd();
   });
+
+  video.addEventListener('ended', showEnd);
+
+  video.addEventListener('loadedmetadata', () => {
+    durEl.textContent = fmt(video.duration);
+  });
+
+  async function play(){
+    ended = false;
+    endCard.classList.remove('cd-show');
+    videoWrap.classList.remove('cd-fade-out');
+    try{ await video.play(); }
+    catch(e){ statusText.textContent = 'No video loaded'; return; }
+    setIcon(true);
+    stage.classList.add('cd-playing');
+    bar.classList.add('cd-playing');
+    statusText.textContent = 'Call in progress';
+  }
+
+  function pause(){
+    video.pause();
+    setIcon(false);
+    stage.classList.remove('cd-playing');
+    bar.classList.remove('cd-playing');
+    statusText.textContent = 'Paused';
+  }
+
+  playBtn.addEventListener('click', () => { video.paused ? play() : pause(); });
+  video.addEventListener('click', () => { video.paused ? play() : pause(); });
 
   scrub.addEventListener('click', e => {
     const r = scrub.getBoundingClientRect();
-    if (audio.duration) audio.currentTime = ((e.clientX - r.left)/r.width) * audio.duration;
+    if (video.duration) video.currentTime = ((e.clientX - r.left)/r.width) * video.duration;
   });
 
   replayBtn.addEventListener('click', () => {
-    endCard.classList.remove('cd-show');
-    audio.currentTime = 0;
-    playBtn.click();
-  });
-
-  sizeCanvas();
-  draw();
-
-  /* clean up the rAF loop and audio context if this ever needs to be torn
-     down (this is a static page with no client-side routing, but this keeps
-     the module well-behaved if that ever changes) */
-  window.addEventListener('pagehide', () => {
-    if (rafId) cancelAnimationFrame(rafId);
-    if (actx) actx.close().catch(()=>{});
+    video.currentTime = 0;
+    play();
   });
 })();
 </script>
